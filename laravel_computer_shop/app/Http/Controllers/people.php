@@ -41,7 +41,7 @@ class people extends Controller
 
 		$people_exists = DB::table('people')->where('mobile', $req->mobile)->count();
 
-		if($people_exists > 0 ){
+		if($people_exists > 1 ){
 			return 'people_exists';
 		}else{
 
