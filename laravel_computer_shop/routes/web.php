@@ -33,10 +33,12 @@ Route::post('/get_people_details', 'people@get_people_details');
 
 Route::post('/edit_people', 'people@edit_people');
 
-
-
-
 Route::get('/edit_brand', 'brand@test');
+
+
+
+//product
+Route::post('/get_product', 'product@get_product');
 
 
 
