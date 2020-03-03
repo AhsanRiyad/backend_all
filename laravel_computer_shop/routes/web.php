@@ -42,6 +42,10 @@ Route::post('/get_product', 'product@get_product');
 
 
 
+// purchase
+Route::post('/get_supplier', 'purchase@get_supplier');
+
+
 
 
 
