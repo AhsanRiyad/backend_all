@@ -12,9 +12,12 @@ class purchase extends Controller
 		$people = DB::table('people')->where('type' , '=' , 'Supplier')->get();
 		
 		$products = DB::table('products')->get();
+
+		$serial = DB::table('serial_number')->get();
 		
 		$arrayData['people'] = $people; 
 		$arrayData['products'] = $products; 
+		$arrayData['serial'] = $serial; 
 
 		return $arrayData;
 	}
