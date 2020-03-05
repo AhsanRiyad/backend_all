@@ -36,14 +36,13 @@ Route::post('/edit_people', 'people@edit_people');
 Route::get('/edit_brand', 'brand@test');
 
 
-
 //product
 Route::post('/get_product', 'product@get_product');
 
 
-
 // purchase
 Route::post('/get_supplier', 'purchase@get_supplier');
+Route::post('/add_purchase', 'purchase@add_purchase');
 
 
 

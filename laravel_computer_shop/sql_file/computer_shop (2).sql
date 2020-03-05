@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2020 at 12:11 PM
+-- Generation Time: Mar 05, 2020 at 10:11 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -565,7 +565,7 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`category_id`, `category_name`, `category_description`) VALUES
 (1, 'Monitor', 'arefreafreaf'),
-(2, 'Storage3', 'computer storage');
+(2, 'Storage', 'computer storage');
 
 -- --------------------------------------------------------
 
@@ -664,6 +664,7 @@ CREATE TABLE `products` (
   `brand_id` int(100) DEFAULT NULL,
   `category_id` int(100) DEFAULT NULL,
   `product_unit` varchar(100) DEFAULT NULL,
+  `selling_quantity` int(100) DEFAULT 1,
   `purchase_cost` int(100) DEFAULT NULL,
   `selling_price` int(100) DEFAULT NULL,
   `alert_quantity` int(100) DEFAULT NULL,
@@ -677,15 +678,16 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`) VALUES
-(1, 'Ram For computer', 100000, 2, 2, 'Piece', 0, 0, 0, 'arefarefaerf', 400, 1, 'admin'),
-(2, 'aerfaerfae', 100001, 2, 2, 'Piece', 0, 0, 0, 'arfarefaerf', 365, 1, 'admin'),
-(3, 'arfreafaerf', 100000, 2, 2, 'Piece', 0, 0, 0, 'faerfearf', 365, 1, 'admin'),
-(4, 'aerfaerfaer', 100002, 2, 2, 'Piece', 0, 0, 0, 'arfaerfear', 365, 1, 'admin'),
-(5, 'arferafreaf', 100003, 2, 2, 'Piece', 0, 0, 0, 'arefrefae', 365, 1, 'admin'),
-(6, 'rfaefaerfaerf', 100004, 2, 2, 'Piece', 0, 0, 0, 'arfreafaerf', 365, 1, 'admin'),
-(7, 'farfaerfaerf', 100005, 2, 2, 'Piece', 0, 0, 0, 'arfaerferfaef', 365, 1, 'admin'),
-(8, 'Hard Disk', 100006, 2, 2, 'Piece', 0, 0, 0, 'arefaerf', 365, 1, 'admin');
+INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `selling_quantity`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`) VALUES
+(1, 'Ram For computer', 100000, 2, 2, 'Piece', 1, 0, 0, 0, 'arefarefaerf', 400, 1, 'admin'),
+(2, 'Keyboard', 100001, 2, 2, 'Piece', 1, 0, 0, 0, 'arfarefaerf', 365, 1, 'admin'),
+(3, 'Mouse', 100000, 2, 2, 'Piece', 1, 0, 0, 0, 'faerfearf', 365, 1, 'admin'),
+(4, 'Watch', 100002, 2, 2, 'Piece', 1, 0, 0, 0, 'arfaerfear', 365, 1, 'admin'),
+(5, 'Mobile Phone', 100003, 2, 2, 'Piece', 1, 0, 0, 0, 'arefrefae', 365, 1, 'admin'),
+(6, 'SSD D', 100004, 2, 2, 'Piece', 1, 0, 0, 0, 'arfreafaerf', 365, 1, 'admin'),
+(7, 'NVME ssd', 100005, 2, 2, 'Piece', 1, 0, 0, 0, 'arfaerferfaef', 365, 1, 'admin'),
+(8, 'Hard Disk', 100006, 2, 2, 'Piece', 1, 0, 0, 0, 'arefaerf', 365, 1, 'admin'),
+(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0, 0, 0, 'arfarefaerf', 365, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -696,13 +698,23 @@ INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `cat
 CREATE TABLE `purchase_or_sell` (
   `invoice_number` int(200) NOT NULL,
   `date` datetime(6) DEFAULT NULL,
-  `reference_number` int(200) DEFAULT NULL,
+  `insert_time_date` datetime(6) DEFAULT NULL,
+  `reference_number` varchar(200) DEFAULT NULL,
   `warehouse_id` int(100) DEFAULT NULL,
   `cusotmer_id` int(100) DEFAULT NULL,
   `supplier_id` int(100) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `correction_status` varchar(100) DEFAULT NULL,
   `biller_id` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase_or_sell`
+--
+
+INSERT INTO `purchase_or_sell` (`invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
+(100000, '2020-03-05 00:00:00.000000', '2020-03-06 03:09:42.000000', 'arfreafer', 1, NULL, 25, 'purchase', 'Received', 'Final', NULL);
 
 -- --------------------------------------------------------
 
@@ -718,6 +730,15 @@ CREATE TABLE `sell_or_purchase_details` (
   `spd_id` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `sell_or_purchase_details`
+--
+
+INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `spd_id`) VALUES
+(100000, 3, 1, 0, 13),
+(100000, 4, 1, 0, 14),
+(100000, 7, 1, 0, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -726,6 +747,7 @@ CREATE TABLE `sell_or_purchase_details` (
 
 CREATE TABLE `serial_number` (
   `serial_id` int(100) NOT NULL,
+  `invoice_number` varchar(100) DEFAULT NULL,
   `product_id` int(100) DEFAULT NULL,
   `serial_number` int(100) DEFAULT NULL,
   `status` int(100) DEFAULT NULL
@@ -843,7 +865,7 @@ CREATE TABLE `users_registration` (
 --
 
 INSERT INTO `users_registration` (`email`, `id`, `full_name`, `name_bangla`, `first_name`, `last_name`, `mobile`, `institution_id`, `password`, `registration_date`, `membership_number`) VALUES
-('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad', 'Ahsan', '01919448787', 'riyad ahsan are ', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-27 10:15:15.000000', 1001),
+('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad', 'Ahsan', '01919448787', 'riyad ahsan are ', 'e10adc3949ba59abbe56e057f20f883e', '2019-11-27 10:15:15.000000', 1001),
 ('ahsan.riyad@outlook.com', 2, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 02:22:46.000000', 1002),
 ('riyad298@yahoo.com', 3, 'Ahsan Ferdous', '', 'Riyad', 'Ahsan', '017192246822', '15-2804-2oioo', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 13:59:10.000000', 1003),
 ('riyad298@hotmail.com', 4, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 19:52:40.000000', 1004),
@@ -926,6 +948,25 @@ INSERT INTO `verification_info` (`id_v_info`, `email`, `otp`, `forgot_password_c
 (4, 'riyad298@hotmail.com', '2591', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'admin', 'full_name,institution_id,membership_number', 100, NULL),
 (5, 'rimo@gmail.com', '7680', NULL, 'approved', 'verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
 (6, 'abcd@abcd.com', '6177', NULL, 'not_verified', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 60, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `warehouse`
+--
+
+CREATE TABLE `warehouse` (
+  `id` int(200) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `details` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `warehouse`
+--
+
+INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
+(1, 'Hasan Computer1', NULL);
 
 -- --------------------------------------------------------
 
@@ -1043,6 +1084,12 @@ ALTER TABLE `verification_info`
   ADD PRIMARY KEY (`id_v_info`);
 
 --
+-- Indexes for table `warehouse`
+--
+ALTER TABLE `warehouse`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1092,19 +1139,19 @@ ALTER TABLE `people`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT;
+  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100014;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
@@ -1147,6 +1194,12 @@ ALTER TABLE `user_uploads`
 --
 ALTER TABLE `verification_info`
   MODIFY `id_v_info` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `warehouse`
+--
+ALTER TABLE `warehouse`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
