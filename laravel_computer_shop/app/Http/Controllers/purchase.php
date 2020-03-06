@@ -31,6 +31,13 @@ class purchase extends Controller
 
 	function add_purchase(Request $req){
 
+
+
+
+		//invoice nubmer generation
+
+
+
 		$invoice_number = DB::table('purchase_or_sell')->max('invoice_number');
 		if($invoice_number == ''){
 
@@ -43,12 +50,21 @@ class purchase extends Controller
 
 
 
+		//adding serial
 
 
+		$i = 0;
+		for($i = 0 ; $i < count($req->purchase_data['serial']); $i++ ){
 
-
-
-
+			DB::table('serial_number')->insert(
+				[
+					'invoice_number' => $invoice_number, 
+					'product_id' => $req->purchase_data['serial'][$i]['p_id'],
+					'serial_number' => $req->purchase_data['serial'][$i]['serial_number'],
+					'status' => 'purhase'
+				]
+			);
+		}
 
 
 
@@ -67,13 +83,13 @@ class purchase extends Controller
 		);
 
 
- 		$status = DB::update('UPDATE `purchase_or_sell` SET 
- 			`insert_time_date`= sysdate()
- 			 WHERE
- 			 invoice_number = (?)' , 
- 			[
- 				$invoice_number
- 			]);
+		$status = DB::update('UPDATE `purchase_or_sell` SET 
+			`insert_time_date`= sysdate()
+			WHERE
+			invoice_number = (?)' , 
+			[
+				$invoice_number
+			]);
 
 
 
