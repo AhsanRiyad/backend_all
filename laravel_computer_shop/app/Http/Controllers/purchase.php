@@ -28,7 +28,7 @@ class purchase extends Controller
 		return $arrayData;
 	}
 
-
+	//add_purchase
 	function add_purchase(Request $req){
 
 
@@ -124,7 +124,20 @@ class purchase extends Controller
 	}
 
 
+	// purchase_list
+	function purchase_list(Request $req){
+		
 
+		$purchase_list = DB::select("  select * from purchase_or_sell ");
+
+		$purchaseData['purchase_list'] = $purchase_list;
+
+
+		return $purchaseData;
+
+
+
+	}
 
 
 
