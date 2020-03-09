@@ -106,7 +106,7 @@ class purchase extends Controller
 			//
 
 
-			if($req->purchase_data['products'][$i]['status'] == 'Returned' ){
+			/*if($req->purchase_data['products'][$i]['status'] == 'Returned' ){
 
 
 				DB::table('serial_number')
@@ -118,40 +118,122 @@ class purchase extends Controller
 			])->update(['status' => 'Returned']);
 
 
-			}
+		}*/
+
+
+
+
+		DB::table('purchase_or_sell')
+		->where('invoice_number', $invoice_number)
+		->update(['insert_time_date' => DB::raw('sysdate()')]);
 
 
 
 
 
-
-
-			DB::table('sell_or_purchase_details')->insert(
-				[
-					'invoice_number' => $invoice_number, 
-					'product_id' => $req->purchase_data['products'][$i]['p_id'],
-					'quantity' => $req->purchase_data['products'][$i]['selling_quantity'],
-					'unit_price' => $req->purchase_data['products'][$i]['selling_price'],
-					'status' => $req->purchase_data['products'][$i]['status'],
-				]
-			);
+		DB::table('sell_or_purchase_details')->insert(
+			[
+				'invoice_number' => $invoice_number, 
+				'product_id' => $req->purchase_data['products'][$i]['p_id'],
+				'quantity' => $req->purchase_data['products'][$i]['selling_quantity'],
+				'unit_price' => $req->purchase_data['products'][$i]['selling_price'],
+				'status' => $req->purchase_data['products'][$i]['status'],
+			]
+		);
 			//
 
 			// echo $req->purchase_data['products'][$i]['status'];
 
 
-		}
+	}
+
+
+	$affected = DB::table('purchase_or_sell')
+	->where('invoice_number', $invoice_number)
+	->update(['insert_time_date' => DB::raw('sysdate()')]);
+
+
+	$count_return =  DB::table('sell_or_purchase_details')
+	->select(DB::raw('count(*) as c'))
+	->where([
+		['invoice_number' , '=' , $invoice_number],
+		['status' , '=' , 'Returned'],
+
+	])
+	->get();
+
+	$count_partially_returned =  DB::table('sell_or_purchase_details')
+	->select(DB::raw('count(*) as c'))
+	->where([
+		['invoice_number' , '=' , $invoice_number],
+		['status' , '=' , 'Partial Return'],
+
+	])
+	->get();
+
+	$count_total =  DB::table('sell_or_purchase_details')
+	->select(DB::raw('count(*) as c'))
+	->where([
+		['invoice_number' , '=' , $invoice_number],
+	])
+	->get();
+
+
+
+
+
+
+
+	if( $count_partially_returned[0]->c > 0 ){
+
+		// return 'partina1 ';
+		$affected = DB::table('purchase_or_sell')
+		->where('invoice_number', $invoice_number)
+		->update(['status' => 'Partial Return']);
+
+
+
+	}else if( $count_total[0]->c == $count_return[0]->c ){
+
+		// return 'partina2';
+
+		$affected = DB::table('purchase_or_sell')
+		->where('invoice_number', $invoice_number)
+		->update(['status' => 'Returned']);
+
+	}else if( $count_return[0]->c > 0 ){
+
+		// return 'partina3 ';
 
 
 		$affected = DB::table('purchase_or_sell')
 		->where('invoice_number', $invoice_number)
-		->update(['insert_time_date' => DB::raw('sysdate()')]);
+		->update(['status' => 'Partial Return']);
+
+	}else {
+
+		// return 'partina3 ';
 
 
+		$affected = DB::table('purchase_or_sell')
+		->where('invoice_number', $invoice_number)
+		->update(['status' => 'Received']);
+
+	}
+
+	// $a['t']['count_partially_returned'] = $count_partially_returned[0]->c;
+	// $a['t']['count_return'] = $count_return[0]->c;
+	// $a['t']['count_total'] = $count_total[0]->c;
+
+
+	// return $a;
+
+
+/*
 		$affected = DB::table('serial_number')
 		->where('status', 'new')
 		->update(['status' => 'Purchase']);
-
+*/
 
 
 
@@ -271,23 +353,19 @@ class purchase extends Controller
 
 
 
-		$purchase_list = DB::select("
 
-			select 
-			s.* , p.full_name 
-			from 
-			people p, purchase_or_sell s 
-			where 
-			p.people_id = s.supplier_id 
+		$purchase_list = DB::table('people as p')
+		->select(
+			'p.full_name',
+			's.*'
+		)
+		->join('purchase_or_sell as s', 'p.people_id' , '=' , 's.supplier_id')
+		->get();
 
-			");
 
 		$purchaseData['purchase_list'] = $purchase_list;
 
-
 		return $purchaseData;
-
-
 
 	}
 
@@ -386,7 +464,7 @@ class purchase extends Controller
 		// return  DB::select( 'select count(*) as c  from serial_number where invoice_number = 100000 and product_id = 2');
 
 		
-	 	$i['total'] =  DB::table('serial_number')
+		$i['total'] =  DB::table('serial_number')
 		->select(DB::raw('count(*) as c'))
 		->where([
 			['invoice_number' , '=' , 100000],
