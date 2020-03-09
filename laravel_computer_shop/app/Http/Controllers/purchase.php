@@ -47,43 +47,50 @@ class purchase extends Controller
 
 
 		//invoice nubmer generation
-		$invoice_number;
-		if( $req->invoice_number == 0){
+		
 
-			$invoice_number = 
-			DB::table('purchase_or_sell')
-			->max('invoice_number');
+		$invoice_number = 
+		DB::table('purchase_or_sell')
+		->max('invoice_number');
 
-			if($invoice_number == ''){
+			// echo 'invoice_number';
+			// echo $invoice_number;
 
-				$invoice_number = 100000;
 
-			}else{
+		if($invoice_number == ''){
 
-				$invoice_number += 1; 
-			}
+			$invoice_number = 100000;
+
 		}else{
-			$invoice_number = $req->invoice_number;
-		}
 
-		DB::table('sell_or_purchase_details')->where('invoice_number', '=', $invoice_number)->delete();
-		DB::table('purchase_or_sell')->where('invoice_number', '=', $invoice_number)->delete();
-		DB::table('serial_number')->where('invoice_number', '=', $invoice_number)->delete();
+			$invoice_number += 1; 
+		}
+		
 
 
 		//adding serial
 		$i = 0;
 		for($i = 0 ; $i < count($req->purchase_data['serial']); $i++ ){
 
+			echo 'serial_number';
+			echo $req->purchase_data['serial'][$i]['serial_number'];
+
 			DB::table('serial_number')->insert(
 				[
 					'invoice_number' => $invoice_number, 
 					'product_id' => $req->purchase_data['serial'][$i]['p_id'],
 					'serial_number' => $req->purchase_data['serial'][$i]['serial_number'],
-					'status' => $req->purchase_data['serial'][$i]['status'],
+					'status' => $req->purchase_data['serial'][$i]['status']
 				]
 			);
+
+
 		}
+
+		$affected = DB::table('serial_number')
+		->where('invoice_number', $invoice_number)
+		->update(['status' => 'Purchase']);
+
 
 
 		DB::table('purchase_or_sell')->insert(
@@ -100,14 +107,10 @@ class purchase extends Controller
 
 		);
 
-
-
-
-
 		$i = 0;
 		for($i = 0 ; $i < count($req->purchase_data['products']); $i++ ){
 
-
+			//
 			DB::table('sell_or_purchase_details')->insert(
 				[
 					'invoice_number' => $invoice_number, 
@@ -117,9 +120,9 @@ class purchase extends Controller
 					'status' => $req->purchase_data['products'][$i]['status'],
 				]
 			);
+			//
 
-
-
+			// echo $req->purchase_data['products'][$i]['status'];
 
 
 		}
@@ -128,7 +131,7 @@ class purchase extends Controller
 
 
 		// return $req->purchase_data['date'];
-		return $req;
+		// return $req;
 		// return $req->purchase_data['products'][0];
 		// return $req->purchase_data['products'][0]['product_name'];
 		// return $invoice_number;
@@ -236,17 +239,15 @@ class purchase extends Controller
 	function test(Request $req){
 
 
+		DB::table('invoice_number')
+		->where([
+			['status', '=', 'Returned'],
+			['invoice_number', '=', $invoice_number ],
+			['product_id', '=', $req->purchase_data['products'][$i]['p_id'] 
+		],
+	])
+		->update(['status' => 'Returned']);
 
-
-		$products = DB::table('products as p')
-		->select(
-			DB::raw('concat( p.product_name , " brand: " ,b.brand_name ) as product_name'),
-			'p.selling_price' ,
-			'p.purchase_cost' ,
-			'p.selling_quantity' ,
-			'p.warranty_days')
-		->join('brand as b', 'b.brand_id' , '=' , 'p.brand_id')
-		->get();
 
 		return $products;		
 

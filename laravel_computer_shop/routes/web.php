@@ -48,7 +48,7 @@ Route::post('/edit_purchase', 'purchase@edit_purchase');
 
 
 
-Route::get('/test', 'purchase@get_supplier');
+Route::get('/test', 'purchase@test');
 
 
 
