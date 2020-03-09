@@ -45,6 +45,7 @@ Route::post('/get_supplier', 'purchase@get_supplier');
 Route::post('/add_purchase', 'purchase@add_purchase');
 Route::post('/purchase_list', 'purchase@purchase_list');
 Route::post('/edit_purchase', 'purchase@edit_purchase');
+Route::post('/update_purchase', 'purchase@update_purchase');
 
 
 
