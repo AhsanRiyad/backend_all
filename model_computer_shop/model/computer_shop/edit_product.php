@@ -38,9 +38,11 @@ if( $d1->purpose == 'edit_product' ){
 
 	$sql = "update products set product_name = '".$d1->product_name."'  , warranty_days = ".$d1->warranty_days." ,  purchase_cost = ".$d1->purchase_cost."  , selling_price = ".$d1->selling_price." , alert_quantity = ".$d1->alert_quantity." , product_details = '".$d1->product_details."' , category_id = ".$d1->category_id." , brand_id = ".$d1->brand_id." , having_serial = ".$d1->having_serial."    where p_id = ".$d1->p_id."   ";
 
+
+	echo $sql ; 
 	$result = mysqli_query($conn, $sql);
 
-	echo 'updated';
+	// echo 'updated';
 
 
 	$conn->close();

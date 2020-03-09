@@ -11,11 +11,12 @@ class product extends Controller
 
 	function get_product(Request $req){
 
-
+		
 		$product = DB::table('products')->get();
 		$arrayData['product'] = $product; 
 
 
+		// ->join('people as s' , 's.people_id' , '=' 'sp.supplier_id')
 
 		$products = DB::table('products as p')
 		->join('category as c', 'p.category_id', '=', 'c.category_id')

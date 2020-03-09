@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 //brand
 Route::post('/edit_brand', 'brand@edit_brand');
-
 
 
 //category
@@ -44,6 +44,11 @@ Route::post('/get_product', 'product@get_product');
 Route::post('/get_supplier', 'purchase@get_supplier');
 Route::post('/add_purchase', 'purchase@add_purchase');
 Route::post('/purchase_list', 'purchase@purchase_list');
+Route::post('/edit_purchase', 'purchase@edit_purchase');
+
+
+
+Route::get('/test', 'purchase@test');
 
 
 
