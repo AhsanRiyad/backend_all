@@ -378,12 +378,37 @@ class purchase extends Controller
 
 
 
-		$affected = DB::table('purchase_or_sell')
-		->where('invoice_number', 100000)
-		->update(['insert_time_date' => DB::raw('sysdate()')]);
+		// $affected = DB::table('purchase_or_sell')
+		// ->where('invoice_number', 100000)
+		// ->update(['insert_time_date' => DB::raw('sysdate()')]);
 
 
-		return $affected;		
+		// return  DB::select( 'select count(*) as c  from serial_number where invoice_number = 100000 and product_id = 2');
+
+		
+	 	$i['total'] =  DB::table('serial_number')
+		->select(DB::raw('count(*) as c'))
+		->where([
+			['invoice_number' , '=' , 100000],
+			['product_id' , '=' , 2],
+
+		])
+		->get();
+
+		$i['return'] =  DB::table('serial_number')
+		->select(DB::raw('count(*) as c'))
+		->where([
+			['invoice_number' , '=' , 100000],
+			['product_id' , '=' , 2],
+			['status' , '=' , 'Returned'],
+
+		])
+		->get();
+
+		if($i['total']->c == $i['return']->c ){
+
+		}
+		// return $affected;		
 
 	}
 
