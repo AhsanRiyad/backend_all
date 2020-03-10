@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2020 at 10:11 PM
+-- Generation Time: Mar 10, 2020 at 12:38 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -665,8 +665,8 @@ CREATE TABLE `products` (
   `category_id` int(100) DEFAULT NULL,
   `product_unit` varchar(100) DEFAULT NULL,
   `selling_quantity` int(100) DEFAULT 1,
-  `purchase_cost` int(100) DEFAULT NULL,
-  `selling_price` int(100) DEFAULT NULL,
+  `purchase_cost` float(100,2) DEFAULT NULL,
+  `selling_price` float(100,2) DEFAULT NULL,
   `alert_quantity` int(100) DEFAULT NULL,
   `product_details` varchar(500) DEFAULT NULL,
   `warranty_days` int(100) DEFAULT NULL,
@@ -679,15 +679,42 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `selling_quantity`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`) VALUES
-(1, 'Ram For computer', 100000, 2, 2, 'Piece', 1, 0, 0, 0, 'arefarefaerf', 400, 1, 'admin'),
-(2, 'Keyboard', 100001, 2, 2, 'Piece', 1, 0, 0, 0, 'arfarefaerf', 365, 1, 'admin'),
-(3, 'Mouse', 100000, 2, 2, 'Piece', 1, 0, 0, 0, 'faerfearf', 365, 1, 'admin'),
-(4, 'Watch', 100002, 2, 2, 'Piece', 1, 0, 0, 0, 'arfaerfear', 365, 1, 'admin'),
-(5, 'Mobile Phone', 100003, 2, 2, 'Piece', 1, 0, 0, 0, 'arefrefae', 365, 1, 'admin'),
-(6, 'SSD D', 100004, 2, 2, 'Piece', 1, 0, 0, 0, 'arfreafaerf', 365, 1, 'admin'),
-(7, 'NVME ssd', 100005, 2, 2, 'Piece', 1, 0, 0, 0, 'arfaerferfaef', 365, 1, 'admin'),
-(8, 'Hard Disk', 100006, 2, 2, 'Piece', 1, 0, 0, 0, 'arefaerf', 365, 1, 'admin'),
-(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0, 0, 0, 'arfarefaerf', 365, 1, 'admin');
+(1, 'Ram For computer', 100000, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefarefaerf', 400, 1, 'admin'),
+(2, 'Keyboard', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin'),
+(3, 'Mouse', 100000, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'faerfearf', 365, 0, 'admin'),
+(4, 'Watch', 100002, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfaerfear', 365, 1, 'admin'),
+(5, 'Mobile Phone', 100003, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefrefae', 365, 1, 'admin'),
+(6, 'SSD D', 100004, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfreafaerf', 365, 1, 'admin'),
+(7, 'NVME ssd', 100005, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfaerferfaef', 365, 1, 'admin'),
+(8, 'Hard Disk', 100006, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefaerf', 365, 1, 'admin'),
+(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `purchase_details_list`
+-- (See below for the actual view)
+--
+CREATE TABLE `purchase_details_list` (
+`invoice_number` int(200)
+,`date` datetime(6)
+,`insert_time_date` datetime(6)
+,`reference_number` varchar(200)
+,`warehouse_id` int(100)
+,`cusotmer_id` int(100)
+,`supplier_id` int(100)
+,`type` varchar(100)
+,`status` varchar(100)
+,`correction_status` varchar(100)
+,`biller_id` int(100)
+,`full_name` varchar(100)
+,`name` varchar(100)
+,`unit_price` float(100,2)
+,`quantity` float(100,2)
+,`serial_number` varchar(100)
+,`product_id` int(100)
+,`product_name` varchar(200)
+);
 
 -- --------------------------------------------------------
 
@@ -714,7 +741,12 @@ CREATE TABLE `purchase_or_sell` (
 --
 
 INSERT INTO `purchase_or_sell` (`invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
-(100000, '2020-03-05 00:00:00.000000', '2020-03-06 03:09:42.000000', 'arfreafer', 1, NULL, 25, 'purchase', 'Received', 'Final', NULL);
+(100000, '2020-03-09 00:00:00.000000', '2020-03-10 01:51:28.000000', 'rafaerfer', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
+(100001, '2020-03-09 00:00:00.000000', '2020-03-10 12:42:34.000000', 'raferf', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
+(100002, '2020-03-09 00:00:00.000000', '2020-03-10 01:30:05.000000', 'aferferf', 1, NULL, 24, 'purchase', 'Returned', 'Final', NULL),
+(100003, '2020-03-09 00:00:00.000000', '2020-03-09 20:31:31.000000', 'arfreaferf', 1, NULL, 24, 'purchase', 'Received', 'Final', NULL),
+(100004, '2020-03-09 00:00:00.000000', '2020-03-10 14:36:00.000000', 'farref', 1, NULL, 26, 'purchase', 'Partial Return', 'Faulty', NULL),
+(100005, '2020-03-09 00:00:00.000000', '2020-03-10 01:45:19.000000', 'aerfrefearfe', 1, NULL, 26, 'purchase', 'Received', 'Final', NULL);
 
 -- --------------------------------------------------------
 
@@ -725,8 +757,9 @@ INSERT INTO `purchase_or_sell` (`invoice_number`, `date`, `insert_time_date`, `r
 CREATE TABLE `sell_or_purchase_details` (
   `invoice_number` int(100) DEFAULT NULL,
   `product_id` int(100) DEFAULT NULL,
-  `quantity` int(100) DEFAULT NULL,
-  `unit_price` int(100) DEFAULT NULL,
+  `quantity` float(100,2) DEFAULT NULL,
+  `unit_price` float(100,2) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
   `spd_id` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -734,10 +767,19 @@ CREATE TABLE `sell_or_purchase_details` (
 -- Dumping data for table `sell_or_purchase_details`
 --
 
-INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `spd_id`) VALUES
-(100000, 3, 1, 0, 13),
-(100000, 4, 1, 0, 14),
-(100000, 7, 1, 0, 15);
+INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
+(100003, 7, 3.00, 10.00, 'Partial Return', 220),
+(100003, 3, 1.00, 0.00, 'Returned', 221),
+(100003, 1, 3.00, 0.00, 'Returned', 222),
+(100002, 1, 1.00, 0.00, 'Returned', 309),
+(100005, 1, 1.00, 1023.00, 'Received', 312),
+(100000, 2, 2.00, 0.00, 'Returned', 313),
+(100000, 1, 2.00, 0.00, 'Received', 314),
+(100001, 4, 1.00, 0.00, 'Returned', 318),
+(100001, 2, 1.00, 0.00, 'Received', 319),
+(100004, 4, 1.00, 0.00, 'Received', 320),
+(100004, 3, 1.00, 0.00, 'Returned', 321),
+(100004, 1, 1.00, 0.00, 'Received', 322);
 
 -- --------------------------------------------------------
 
@@ -749,9 +791,31 @@ CREATE TABLE `serial_number` (
   `serial_id` int(100) NOT NULL,
   `invoice_number` varchar(100) DEFAULT NULL,
   `product_id` int(100) DEFAULT NULL,
-  `serial_number` int(100) DEFAULT NULL,
-  `status` int(100) DEFAULT NULL
+  `serial_number` varchar(100) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `serial_number`
+--
+
+INSERT INTO `serial_number` (`serial_id`, `invoice_number`, `product_id`, `serial_number`, `status`) VALUES
+(294, '100003', 1, 'freferfref', 'Purchase'),
+(295, '100003', 1, 'fre', 'Purchase'),
+(296, '100003', 1, 'aferfrfrefre', 'Purchase'),
+(297, '100003', 7, 'egegtrggg', 'Purchase'),
+(298, '100003', 7, 'trgtg', 'Returned'),
+(299, '100003', 7, 'areferfea', 'Purchase'),
+(459, '100002', 1, 'afrerf', 'Returned'),
+(462, '100005', 1, '225', 'Purchase'),
+(463, '100000', 1, 'ghjr', 'Purchase'),
+(464, '100000', 1, 'werea', 'Purchase'),
+(465, '100000', 2, 'ee', 'Returned'),
+(466, '100000', 2, 'gg', 'Returned'),
+(469, '100001', 2, 'arfrf', 'Purchase'),
+(470, '100001', 4, 'freaf', 'Returned'),
+(471, '100004', 4, 'arferferfref', 'Purchase'),
+(472, '100004', 1, 'arfreferf', 'Purchase');
 
 -- --------------------------------------------------------
 
@@ -977,6 +1041,15 @@ DROP TABLE IF EXISTS `all_info_together`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `all_info_together`  AS  select concat(`ur`.`first_name`,' ',`ur`.`last_name`) AS `full_name`,`ur`.`first_name` AS `first_name`,`ur`.`last_name` AS `last_name`,`ur`.`name_bangla` AS `name_bangla`,`ur`.`mobile` AS `mobile`,`ur`.`institution_id` AS `institution_id`,`ur`.`password` AS `password`,`ur`.`registration_date` AS `registration_date`,`ur`.`membership_number` AS `membership_number`,`ui`.`gender` AS `gender`,`ui`.`nid_or_passport` AS `nid_or_passport`,`ui`.`fathers_name` AS `fathers_name`,`ui`.`mother_name` AS `mother_name`,`ui`.`spouse_name` AS `spouse_name`,`ui`.`number_of_children` AS `number_of_children`,`ui`.`profession` AS `profession`,`ui`.`designation` AS `designation`,`ui`.`institution` AS `institution`,`ui`.`blood_group` AS `blood_group`,`ui`.`religion` AS `religion`,`ui`.`date_of_birth` AS `date_of_birth`,`vi`.`id_v_info` AS `id_v_info`,`vi`.`otp` AS `otp`,`vi`.`forgot_password_crypto` AS `forgot_password_crypto`,`vi`.`status` AS `status`,`vi`.`email_verification_status` AS `email_verification_status`,`vi`.`change_request` AS `change_request`,`vi`.`change_request_time` AS `change_request_time`,`vi`.`type` AS `type`,`vi`.`visibility` AS `visibility`,`vi`.`completeness` AS `completeness`,`vi`.`last_verified_info` AS `last_verified_info`,`ur`.`id` AS `id`,`uu`.`recent_photo` AS `recent_photo`,`uu`.`old_photo` AS `old_photo`,`ur`.`email` AS `ur_email`,`vi`.`email` AS `vi_email`,`uu`.`email` AS `uu_email`,`ui`.`email` AS `ui_email`,`ua`.`email` AS `email`,`ua`.`users_address_id` AS `users_address_id`,`ua`.`present_line1` AS `present_line1`,`ua`.`present_line2` AS `present_line2`,`ua`.`present_police_station` AS `present_police_station`,`ua`.`present_district` AS `present_district`,`ua`.`present_post_code` AS `present_post_code`,`ua`.`present_post_office_name` AS `present_post_office_name`,`ua`.`present_country` AS `present_country`,`ua`.`parmanent_line1` AS `parmanent_line1`,`ua`.`parmanent_line2` AS `parmanent_line2`,`ua`.`parmanent_police_station` AS `parmanent_police_station`,`ua`.`parmanent_district` AS `parmanent_district`,`ua`.`parmanent_post_code` AS `parmanent_post_code`,`ua`.`parmanent_post_office_name` AS `parmanent_post_office_name`,`ua`.`parmanent_country` AS `parmanent_country`,`ua`.`second_citizenship_country` AS `second_citizenship_country` from ((((`users_registration` `ur` join `users_info` `ui`) join `users_address` `ua`) join `verification_info` `vi`) join `user_uploads` `uu`) where `uu`.`email` = `ur`.`email` and `ui`.`email` = `ur`.`email` and `ua`.`email` = `ur`.`email` and `vi`.`email` = `ur`.`email` ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `purchase_details_list`
+--
+DROP TABLE IF EXISTS `purchase_details_list`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_details_list`  AS  select `sp`.`invoice_number` AS `invoice_number`,`sp`.`date` AS `date`,`sp`.`insert_time_date` AS `insert_time_date`,`sp`.`reference_number` AS `reference_number`,`sp`.`warehouse_id` AS `warehouse_id`,`sp`.`cusotmer_id` AS `cusotmer_id`,`sp`.`supplier_id` AS `supplier_id`,`sp`.`type` AS `type`,`sp`.`status` AS `status`,`sp`.`correction_status` AS `correction_status`,`sp`.`biller_id` AS `biller_id`,`s`.`full_name` AS `full_name`,`w`.`name` AS `name`,`spd`.`unit_price` AS `unit_price`,`spd`.`quantity` AS `quantity`,`sn`.`serial_number` AS `serial_number`,`sn`.`product_id` AS `product_id`,`p`.`product_name` AS `product_name` from (((((`products` `p` join `purchase_or_sell` `sp`) join `warehouse` `w`) join `people` `s`) join `sell_or_purchase_details` `spd`) join `serial_number` `sn`) where `sp`.`invoice_number` = `spd`.`invoice_number` and `spd`.`invoice_number` = `sn`.`invoice_number` and `p`.`p_id` = `spd`.`product_id` and `w`.`id` = `sp`.`warehouse_id` and `s`.`people_id` = `sp`.`supplier_id` ;
+
 --
 -- Indexes for dumped tables
 --
@@ -1145,19 +1218,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100014;
+  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100032;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
 
 --
 -- AUTO_INCREMENT for table `social_network`

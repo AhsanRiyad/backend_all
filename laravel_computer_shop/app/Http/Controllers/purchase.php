@@ -13,7 +13,7 @@ class purchase extends Controller
 		
 		// $products = DB::table('products')->get();
 
-		// $products = DB::select(" select concat( p.product_name , ' brand: ' ,b.brand_name) as product_name , p.selling_price , p.purchase_cost , p.selling_quantity , p.warranty_days , p.p_id as p_id, p.brand_id from products p , brand b where p.brand_id = b.brand_id ");
+		// $products = DB::select(" select concat( p.product_name , ' brand: ' ,b.brand_name) as product_name , p.purchase_cost , p.purchase_cost , p.selling_quantity , p.warranty_days , p.p_id as p_id, p.brand_id from products p , brand b where p.brand_id = b.brand_id ");
 
 		
 		$products = DB::table('products as p')
@@ -31,7 +31,12 @@ class purchase extends Controller
 		->join('brand as b', 'b.brand_id' , '=' , 'p.brand_id')
 		->get();
 
-		$serial = DB::table('serial_number')->get();
+
+		$serial = DB::table('serial_number')
+		->select('invoice_number', 'product_id', 'serial_number', 'status' , 
+			DB::raw('concat("old") as delete_status'))
+		->get();
+
 		$warehouse = DB::table('warehouse')->get();
 		$arrayData['products'] = $products; 
 		$arrayData['people'] = $people; 
@@ -58,6 +63,7 @@ class purchase extends Controller
 		DB::table('serial_number')->where('invoice_number', '=', $invoice_number)->delete();
 
 
+		
 
 
 		//adding serial
@@ -136,7 +142,7 @@ class purchase extends Controller
 				'invoice_number' => $invoice_number, 
 				'product_id' => $req->purchase_data['products'][$i]['p_id'],
 				'quantity' => $req->purchase_data['products'][$i]['selling_quantity'],
-				'unit_price' => $req->purchase_data['products'][$i]['selling_price'],
+				'unit_price' => $req->purchase_data['products'][$i]['purchase_cost'],
 				'status' => $req->purchase_data['products'][$i]['status'],
 			]
 		);
@@ -322,7 +328,7 @@ class purchase extends Controller
 					'invoice_number' => $invoice_number, 
 					'product_id' => $req->purchase_data['products'][$i]['p_id'],
 					'quantity' => $req->purchase_data['products'][$i]['selling_quantity'],
-					'unit_price' => $req->purchase_data['products'][$i]['selling_price'],
+					'unit_price' => $req->purchase_data['products'][$i]['purchase_cost'],
 					'status' => $req->purchase_data['products'][$i]['status'],
 				]
 			);
@@ -350,8 +356,6 @@ class purchase extends Controller
 
 	// purchase_list
 	function purchase_list(Request $req){
-
-
 
 
 		$purchase_list = DB::table('people as p')
@@ -383,7 +387,6 @@ class purchase extends Controller
 		->select(
 			DB::raw('concat( p.product_name , " brand: " ,b.brand_name ) as product_name'),
 			DB::raw('concat( "Received" ) as status'),
-			'p.selling_price' ,
 			'p.purchase_cost' ,
 			'p.selling_quantity' ,
 			'p.warranty_days',
@@ -397,7 +400,13 @@ class purchase extends Controller
 
 
 
-		$serial = DB::table('serial_number')->get();
+		 // $serial = DB::table('serial_number')->get();
+
+		$serial = DB::table('serial_number')
+		->select('invoice_number', 'product_id', 'serial_number', 'status' , 
+			DB::raw('concat("old") as delete_status'))
+		->get();
+
 		$warehouse = DB::table('warehouse')->get();
 
 		$arrayData['people'] = $people; 
@@ -405,10 +414,13 @@ class purchase extends Controller
 		$arrayData['serial'] = $serial; 
 		$arrayData['warehouse'] = $warehouse; 
 
+
 		$serial_cart = DB::table('serial_number')
 		->where('invoice_number', '=', $req->invoice_number)
-		->select('invoice_number' ,  'product_id as p_id' , 'serial_number' , 'status')
+		->select('invoice_number', 'product_id', 'serial_number', 'status' , 
+			DB::raw('concat("new") as delete_status'))
 		->get();
+
 
 		$purchase_info = 
 		DB::table('purchase_or_sell as sp')
@@ -427,7 +439,7 @@ class purchase extends Controller
 			DB::raw('concat( p.product_name , " brand: " ,b.brand_name ) as product_name'),
 			'sp.product_id as p_id', 
 			'sp.quantity as selling_quantity' , 
-			'sp.unit_price as selling_price' , 
+			'sp.unit_price as purchase_cost' , 
 			'p.having_serial',
 			'sp.status'
 
@@ -464,29 +476,14 @@ class purchase extends Controller
 		// return  DB::select( 'select count(*) as c  from serial_number where invoice_number = 100000 and product_id = 2');
 
 		
-		$i['total'] =  DB::table('serial_number')
-		->select(DB::raw('count(*) as c'))
-		->where([
-			['invoice_number' , '=' , 100000],
-			['product_id' , '=' , 2],
-
-		])
+		$serial = DB::table('serial_number')
+		->select('invoice_number', 'product_id', 'serial_number', 'status' , 
+			DB::raw('concat("old") as delete_status'))
 		->get();
 
-		$i['return'] =  DB::table('serial_number')
-		->select(DB::raw('count(*) as c'))
-		->where([
-			['invoice_number' , '=' , 100000],
-			['product_id' , '=' , 2],
-			['status' , '=' , 'Returned'],
+		return $serial;
 
-		])
-		->get();
-
-		if($i['total']->c == $i['return']->c ){
-
-		}
-		// return $affected;		
+				// return $affected;		
 
 	}
 
