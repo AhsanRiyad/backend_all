@@ -259,7 +259,7 @@ function getPrivacyData($email , $user_id){
 	$result = mysqli_query($conn , $sql);
 	$row_verification_info = mysqli_fetch_assoc($result);
 				//echo $row_verification_info['visibility'];
-	$arrayE =  explode(',', $row_verification_info['visibility']);
+	$arrayE =  explode('<@#$>', $row_verification_info['visibility']);
 				//print_r($arrayE);
 
 				//echo '<br>';
@@ -268,8 +268,7 @@ function getPrivacyData($email , $user_id){
 					// select ua.parmanent_district , ua.parmanent_country , ua.present_district , ua.present_country ,  ui.email , ui.nid_or_passport, ui.fathers_name , ui.mother_name , ui.spouse_name , ui.number_of_children , ui.profession , ui.designation , ui.institution , ui.blood_group , ui.date_of_birth , ur.mobile , ur.institution_id , ur.registration_date from users_info ui , users_registration ur , users_address ua WHERE ui.email  = ur.email = ua.email and ur.email = "riyad298@gmail.com"
 
 
-	$sql ='select 
-	CONCAT(first_name, " " , last_name) as full_name, email , mobile , institution_id, nid_or_passport, fathers_name , mother_name , spouse_name , number_of_children , profession , designation , institution , blood_group , date_of_birth  , present_line1 , present_post_code , present_district, present_country, present_post_code, parmanent_line1, parmanent_post_code, parmanent_district, parmanent_country, membership_number , status , email_verification_status, change_request , type , registration_date from all_info_together WHERE  id = '.$user_id_fresh;
+	$sql ='select CONCAT(first_name, " " , last_name) as full_name,`mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `religion` ,`date_of_birth`, `present_line1`, `present_district`, `present_police_station` ,`present_post_code`,`present_post_office_name`, `present_country`, `parmanent_line1`, `parmanent_police_station` ,`parmanent_district`, `parmanent_post_code`,`parmanent_post_office_name`, `parmanent_country`,`second_citizenship_country`  from all_info_together  id = '.$user_id_fresh;
 	$result = mysqli_query($conn , $sql);
 	$row_users_registration = mysqli_fetch_assoc($result);
 

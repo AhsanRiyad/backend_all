@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 
 session_start();
 
-$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/model/";
+$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/backend_all/model_sir/";
 
-$rootAdress = 'http://localhost/model/';
+$rootAdress = 'http://localhost/backend_all/model_sir/';
 $rootAdressDomain = 'http://localhost:8080/';
 
 
