@@ -38,6 +38,8 @@ class privacy extends Controller
 			"a.status as Status" , 'p.status',
 			"a.type as Type" , 'p.type',
 			"a.change_request as Change Request" , 'p.change_request',
+			"a.present_line1 as Present Address Line1" , 'p.present_line1',
+			"a.email as Present Address Line1" , 'p.email',
 		)
 		->get();
 
@@ -60,6 +62,123 @@ class privacy extends Controller
 
 
 	function updatePrivacy(Request $req){
+
+
+		if($req->purpose == 'forProfile'){
+
+
+			// echo 'update Privacy';
+
+
+
+			$change_request_exists = 
+			DB::table($req->table_name)
+			->where('email', '=' , $req->email )
+			->select('change_request')
+			->get();
+
+			// echo $change_request_exists[0]->change_request;
+
+			if($change_request_exists[0]->change_request == 'approved'){
+
+
+
+
+				$old = DB::table('all_info_together')
+				->where([
+					[ 'email' , '=' , /*$req->email*/  $req->email  ]
+				])
+				->select('first_name' , 'last_name' , 'name_bangla' , 'institution_id' , 'mobile', 'nid_or_passport' , 'blood_group' , 'religion'  , 'date_of_birth', 'fathers_name', 'mother_name' , 'spouse_name' , 'number_of_children' , 'profession' , 'institution' , 'designation' , 'present_line1' , 'present_post_office_name' , 'present_post_code' , 'present_police_station' , 'present_district' , 'present_country' ,   
+					'parmanent_line1' , 'parmanent_post_office_name' , 'parmanent_post_code' , 'parmanent_police_station' , 'parmanent_district' , 'parmanent_country'
+
+				)
+				->get();
+
+
+				$r =  json_decode($old);
+
+
+				foreach($r[0] as $key => $value) {
+			// print "$key => $value\n";
+
+			// echo '<br>';
+
+
+					DB::table('data_log')
+					->where('email', '=' ,  $req->email  )
+					->update([ $key => $value ]);
+
+
+				}
+
+
+
+				DB::table('all_info_together')
+				->where('email', '=' ,  $req->email   )
+				->update([ 'change_request' => 'requested']);
+
+
+
+
+
+			}
+
+
+
+		}
+
+
+
+
+		if($req->purpose == 'forUpdateRequest'){
+
+			if($req->privacy_value == 'rejected'){
+
+
+
+				$old = DB::table('data_log')
+				->where([
+					[ 'email' , '=' , /*$req->email*/  $req->email  ]
+				])
+				->select('first_name' , 'last_name' , 'name_bangla' , 'institution_id' , 'mobile', 'nid_or_passport' , 'blood_group' , 'religion'  , 'date_of_birth', 'fathers_name', 'mother_name' , 'spouse_name' , 'number_of_children' , 'profession' , 'institution' , 'designation' , 'present_line1' , 'present_post_office_name' , 'present_post_code' , 'present_police_station' , 'present_district' , 'present_country' ,   
+					'parmanent_line1' , 'parmanent_post_office_name' , 'parmanent_post_code' , 'parmanent_police_station' , 'parmanent_district' , 'parmanent_country'
+
+				)
+				->get();
+
+
+				$r =  json_decode($old);
+
+
+				foreach($r[0] as $key => $value) {
+			// print "$key => $value\n";
+
+			// echo '<br>';
+
+
+					DB::table('all_info_together')
+					->where('email', '=' ,  $req->email  )
+					->update([ $key => $value ]);
+
+
+				}
+
+
+
+				DB::table('all_info_together')
+				->where('email', '=' ,  $req->email   )
+				->update([ 'change_request' => 'rejected']);
+
+
+
+			}
+
+
+		}
+
+
+
+
 
 		DB::table($req->table_name)
 		->where('email', '=' , $req->email )
