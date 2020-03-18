@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 12:38 PM
+-- Generation Time: Mar 18, 2020 at 07:12 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -19,29 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `computer_shop`
+-- Database: `intern_project`
 --
 
 DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_people` (IN `mobile1` VARCHAR(100), IN `type1` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
-
-DECLARE UID INT(3); 
-SET UID = 0 ;
-
-SELECT COUNT(*) INTO UID FROM people WHERE mobile= mobile1 and type = type1 ;
-
-IF UID > 0 THEN
-set result = 'yes';
-ELSE
-SET result = 'no';
-END IF ;
-
-
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `count_request` (OUT `verification_request1` VARCHAR(100), OUT `change_request1` VARCHAR(100))  BEGIN
        
 select count(*) into verification_request1 from all_info_together ai where   email_verification_status = 'verified' and status = 'not_verified' and ai.completeness = 100;
@@ -171,6 +155,9 @@ INSERT INTO verification_info (email,otp,status,type,visibility,completeness) VA
 
 INSERT INTO users_info (email) VALUES (email1);
 INSERT INTO users_address (email) VALUES (email1);
+INSERT INTO privacy (email) VALUES (email1);
+INSERT INTO data_log (email) VALUES (email1);
+
 INSERT INTO user_uploads (email , recent_photo , old_photo) VALUES (email1 , 'not_set' , 'not_set');
 
 
@@ -289,6 +276,9 @@ UPDATE users_registration set email = email2 WHERE email = email1;
 UPDATE user_photos set email = email2 WHERE email = email1;
 UPDATE user_uploads set email = email2 WHERE email = email1;
 UPDATE verification_info set email = email2 WHERE email = email1;
+UPDATE privacy set email = email2 WHERE email = email1;
+UPDATE data_log set email = email2 WHERE email = email1;
+
 
 set result = 'success';
 
@@ -530,57 +520,66 @@ CREATE TABLE `all_info_together` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `brand`
---
-
-CREATE TABLE `brand` (
-  `brand_id` int(100) NOT NULL,
-  `brand_name` varchar(200) DEFAULT NULL,
-  `brand_description` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `brand`
---
-
-INSERT INTO `brand` (`brand_id`, `brand_name`, `brand_description`) VALUES
-(1, 'Lenovo1', 'rfeafaer'),
-(2, 'HP', 'arfaerfaerf');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `category`
---
-
-CREATE TABLE `category` (
-  `category_id` int(200) NOT NULL,
-  `category_name` varchar(200) DEFAULT NULL,
-  `category_description` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`category_id`, `category_name`, `category_description`) VALUES
-(1, 'Monitor', 'arefreafreaf'),
-(2, 'Storage', 'computer storage');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `childrens_info`
 --
 
 CREATE TABLE `childrens_info` (
-  `id_chi` int(200) NOT NULL,
+  `id` int(200) NOT NULL,
   `email` varchar(200) DEFAULT NULL,
   `no` varchar(200) DEFAULT NULL,
   `name` varchar(200) DEFAULT NULL,
   `gender` varchar(200) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_log`
+--
+
+CREATE TABLE `data_log` (
+  `id` int(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `timestamp` timestamp(6) NULL DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `name_bangla` varchar(100) DEFAULT NULL,
+  `institution_id` varchar(100) DEFAULT NULL,
+  `mobile` varchar(100) DEFAULT NULL,
+  `nid_or_passport` varchar(100) DEFAULT NULL,
+  `blood_group` varchar(100) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `fathers_name` varchar(100) DEFAULT NULL,
+  `mother_name` varchar(100) DEFAULT NULL,
+  `spouse_name` varchar(100) DEFAULT NULL,
+  `religion` varchar(100) DEFAULT NULL,
+  `present_line1` varchar(100) DEFAULT NULL,
+  `present_line2` varchar(100) DEFAULT NULL,
+  `present_district` varchar(100) DEFAULT NULL,
+  `present_police_station` varchar(100) DEFAULT NULL,
+  `present_post_office_name` varchar(100) DEFAULT NULL,
+  `present_post_code` varchar(100) DEFAULT NULL,
+  `present_country` varchar(100) DEFAULT NULL,
+  `parmanent_line1` varchar(100) DEFAULT NULL,
+  `parmanent_line2` varchar(100) DEFAULT NULL,
+  `parmanent_police_station` varchar(100) DEFAULT NULL,
+  `parmanent_district` varchar(100) DEFAULT NULL,
+  `parmanent_post_office_name` varchar(100) DEFAULT NULL,
+  `parmanent_post_code` varchar(100) DEFAULT NULL,
+  `parmanent_country` varchar(100) DEFAULT NULL,
+  `number_of_children` int(10) DEFAULT NULL,
+  `profession` varchar(50) DEFAULT NULL,
+  `institution` varchar(100) DEFAULT NULL,
+  `designation` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_log`
+--
+
+INSERT INTO `data_log` (`id`, `email`, `timestamp`, `first_name`, `last_name`, `name_bangla`, `institution_id`, `mobile`, `nid_or_passport`, `blood_group`, `date_of_birth`, `fathers_name`, `mother_name`, `spouse_name`, `religion`, `present_line1`, `present_line2`, `present_district`, `present_police_station`, `present_post_office_name`, `present_post_code`, `present_country`, `parmanent_line1`, `parmanent_line2`, `parmanent_police_station`, `parmanent_district`, `parmanent_post_office_name`, `parmanent_post_code`, `parmanent_country`, `number_of_children`, `profession`, `institution`, `designation`) VALUES
+(1, 'riyad298@gmail.com', NULL, 'Riyad Ahsan', 'Ahsan', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'riyad ahsa ff ff', '01919448787', '12548756', 'O+', '2020-03-31', 'Barkat Alam Siddiki', 'Urmeeff', 'Maliha', 'Islam', 'House: 04, Bazar Road', NULL, 'Kurigram', '560000', 'Tograinah', '5600', 'Bangladesh', 'Sarker Bari', NULL, 'arfaerfaerfaerarfe', 'Dhaka', 'afreferf', '3900', 'Bangladesh', 2, 'Student stgstrg afre', 'Ame', 'Student');
 
 -- --------------------------------------------------------
 
@@ -602,7 +601,7 @@ INSERT INTO `form_fields_rule` (`id_form_field`, `field_name`, `rule`) VALUES
 (20, 'nid_or_passport_validity', 'mandatory'),
 (21, 'blood_group_validity', 'optional'),
 (22, 'religion_validity', 'mandatory'),
-(23, 'date_of_birth_validity', 'mandatory'),
+(23, 'date_of_birth_validity', 'optional'),
 (24, 'fathers_name_validity', 'mandatory'),
 (25, 'spouses_name_validity', 'mandatory'),
 (26, 'number_of_children_validity', 'mandatory'),
@@ -614,208 +613,57 @@ INSERT INTO `form_fields_rule` (`id_form_field`, `field_name`, `rule`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log_table`
+-- Table structure for table `privacy`
 --
 
-CREATE TABLE `log_table` (
-  `log_id` int(255) NOT NULL,
-  `user` varchar(100) DEFAULT NULL,
-  `log_info` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `people`
---
-
-CREATE TABLE `people` (
-  `people_id` int(200) NOT NULL,
-  `full_name` varchar(100) DEFAULT NULL,
-  `company_name` varchar(200) DEFAULT NULL,
-  `mobile` varchar(20) DEFAULT NULL,
+CREATE TABLE `privacy` (
+  `id` int(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `post_code` varchar(30) DEFAULT NULL,
-  `address` varchar(200) DEFAULT NULL,
-  `type` varchar(40) DEFAULT NULL,
-  `who_is_adding` varchar(100) DEFAULT NULL
+  `timestamp` timestamp(6) NULL DEFAULT NULL,
+  `first_name` tinyint(1) DEFAULT 1,
+  `last_name` tinyint(1) DEFAULT 1,
+  `name_bangla` tinyint(1) DEFAULT 1,
+  `institution_id` tinyint(1) DEFAULT 1,
+  `mobile` tinyint(1) DEFAULT 0,
+  `nid_or_passport` tinyint(1) DEFAULT 0,
+  `blood_group` tinyint(1) DEFAULT 0,
+  `date_of_birth` tinyint(1) DEFAULT 0,
+  `fathers_name` tinyint(1) DEFAULT 0,
+  `mother_name` tinyint(1) DEFAULT 0,
+  `spouse_name` tinyint(1) DEFAULT 0,
+  `present_line1` tinyint(1) DEFAULT 0,
+  `present_line2` tinyint(1) DEFAULT 0,
+  `present_district` tinyint(1) DEFAULT 0,
+  `present_police_station` tinyint(1) DEFAULT 0,
+  `present_post_office_name` tinyint(1) DEFAULT 0,
+  `present_post_code` tinyint(1) DEFAULT 0,
+  `present_country` tinyint(1) DEFAULT 0,
+  `parmanent_line1` tinyint(1) DEFAULT 0,
+  `parmanent_line2` tinyint(1) DEFAULT 0,
+  `parmanent_police_station` tinyint(1) DEFAULT 0,
+  `parmanent_district` tinyint(1) DEFAULT 0,
+  `parmanent_post_office_name` tinyint(1) DEFAULT 0,
+  `parmanent_post_code` tinyint(1) DEFAULT 0,
+  `parmanent_country` tinyint(1) DEFAULT 0,
+  `membership_number` tinyint(1) DEFAULT 0,
+  `gender` tinyint(1) DEFAULT 0,
+  `number_of_children` tinyint(1) DEFAULT 0,
+  `profession` tinyint(1) DEFAULT 0,
+  `designation` tinyint(1) DEFAULT 0,
+  `institution` tinyint(1) DEFAULT 0,
+  `religion` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `type` tinyint(1) NOT NULL DEFAULT 0,
+  `change_request` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `people`
+-- Dumping data for table `privacy`
 --
 
-INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email`, `post_code`, `address`, `type`, `who_is_adding`) VALUES
-(24, 'Ahsan', 'Riyad', '01719246822', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
-(25, 'Zobaida', 'Taher Mahal', '01793138099', 'tz.maliha@gmail.com', '3900', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
-(26, 'Tahera', 'arferfa', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', 'admin'),
-(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `p_id` int(200) NOT NULL,
-  `product_name` varchar(200) DEFAULT NULL,
-  `product_code` int(200) DEFAULT 100000,
-  `brand_id` int(100) DEFAULT NULL,
-  `category_id` int(100) DEFAULT NULL,
-  `product_unit` varchar(100) DEFAULT NULL,
-  `selling_quantity` int(100) DEFAULT 1,
-  `purchase_cost` float(100,2) DEFAULT NULL,
-  `selling_price` float(100,2) DEFAULT NULL,
-  `alert_quantity` int(100) DEFAULT NULL,
-  `product_details` varchar(500) DEFAULT NULL,
-  `warranty_days` int(100) DEFAULT NULL,
-  `having_serial` tinyint(1) DEFAULT NULL,
-  `who_is_adding` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `selling_quantity`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`) VALUES
-(1, 'Ram For computer', 100000, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefarefaerf', 400, 1, 'admin'),
-(2, 'Keyboard', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin'),
-(3, 'Mouse', 100000, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'faerfearf', 365, 0, 'admin'),
-(4, 'Watch', 100002, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfaerfear', 365, 1, 'admin'),
-(5, 'Mobile Phone', 100003, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefrefae', 365, 1, 'admin'),
-(6, 'SSD D', 100004, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfreafaerf', 365, 1, 'admin'),
-(7, 'NVME ssd', 100005, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfaerferfaef', 365, 1, 'admin'),
-(8, 'Hard Disk', 100006, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefaerf', 365, 1, 'admin'),
-(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `purchase_details_list`
--- (See below for the actual view)
---
-CREATE TABLE `purchase_details_list` (
-`invoice_number` int(200)
-,`date` datetime(6)
-,`insert_time_date` datetime(6)
-,`reference_number` varchar(200)
-,`warehouse_id` int(100)
-,`cusotmer_id` int(100)
-,`supplier_id` int(100)
-,`type` varchar(100)
-,`status` varchar(100)
-,`correction_status` varchar(100)
-,`biller_id` int(100)
-,`full_name` varchar(100)
-,`name` varchar(100)
-,`unit_price` float(100,2)
-,`quantity` float(100,2)
-,`serial_number` varchar(100)
-,`product_id` int(100)
-,`product_name` varchar(200)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_or_sell`
---
-
-CREATE TABLE `purchase_or_sell` (
-  `invoice_number` int(200) NOT NULL,
-  `date` datetime(6) DEFAULT NULL,
-  `insert_time_date` datetime(6) DEFAULT NULL,
-  `reference_number` varchar(200) DEFAULT NULL,
-  `warehouse_id` int(100) DEFAULT NULL,
-  `cusotmer_id` int(100) DEFAULT NULL,
-  `supplier_id` int(100) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL,
-  `correction_status` varchar(100) DEFAULT NULL,
-  `biller_id` int(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `purchase_or_sell`
---
-
-INSERT INTO `purchase_or_sell` (`invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
-(100000, '2020-03-09 00:00:00.000000', '2020-03-10 01:51:28.000000', 'rafaerfer', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
-(100001, '2020-03-09 00:00:00.000000', '2020-03-10 12:42:34.000000', 'raferf', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
-(100002, '2020-03-09 00:00:00.000000', '2020-03-10 01:30:05.000000', 'aferferf', 1, NULL, 24, 'purchase', 'Returned', 'Final', NULL),
-(100003, '2020-03-09 00:00:00.000000', '2020-03-09 20:31:31.000000', 'arfreaferf', 1, NULL, 24, 'purchase', 'Received', 'Final', NULL),
-(100004, '2020-03-09 00:00:00.000000', '2020-03-10 14:36:00.000000', 'farref', 1, NULL, 26, 'purchase', 'Partial Return', 'Faulty', NULL),
-(100005, '2020-03-09 00:00:00.000000', '2020-03-10 01:45:19.000000', 'aerfrefearfe', 1, NULL, 26, 'purchase', 'Received', 'Final', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_or_purchase_details`
---
-
-CREATE TABLE `sell_or_purchase_details` (
-  `invoice_number` int(100) DEFAULT NULL,
-  `product_id` int(100) DEFAULT NULL,
-  `quantity` float(100,2) DEFAULT NULL,
-  `unit_price` float(100,2) DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
-  `spd_id` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `sell_or_purchase_details`
---
-
-INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
-(100003, 7, 3.00, 10.00, 'Partial Return', 220),
-(100003, 3, 1.00, 0.00, 'Returned', 221),
-(100003, 1, 3.00, 0.00, 'Returned', 222),
-(100002, 1, 1.00, 0.00, 'Returned', 309),
-(100005, 1, 1.00, 1023.00, 'Received', 312),
-(100000, 2, 2.00, 0.00, 'Returned', 313),
-(100000, 1, 2.00, 0.00, 'Received', 314),
-(100001, 4, 1.00, 0.00, 'Returned', 318),
-(100001, 2, 1.00, 0.00, 'Received', 319),
-(100004, 4, 1.00, 0.00, 'Received', 320),
-(100004, 3, 1.00, 0.00, 'Returned', 321),
-(100004, 1, 1.00, 0.00, 'Received', 322);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `serial_number`
---
-
-CREATE TABLE `serial_number` (
-  `serial_id` int(100) NOT NULL,
-  `invoice_number` varchar(100) DEFAULT NULL,
-  `product_id` int(100) DEFAULT NULL,
-  `serial_number` varchar(100) DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `serial_number`
---
-
-INSERT INTO `serial_number` (`serial_id`, `invoice_number`, `product_id`, `serial_number`, `status`) VALUES
-(294, '100003', 1, 'freferfref', 'Purchase'),
-(295, '100003', 1, 'fre', 'Purchase'),
-(296, '100003', 1, 'aferfrfrefre', 'Purchase'),
-(297, '100003', 7, 'egegtrggg', 'Purchase'),
-(298, '100003', 7, 'trgtg', 'Returned'),
-(299, '100003', 7, 'areferfea', 'Purchase'),
-(459, '100002', 1, 'afrerf', 'Returned'),
-(462, '100005', 1, '225', 'Purchase'),
-(463, '100000', 1, 'ghjr', 'Purchase'),
-(464, '100000', 1, 'werea', 'Purchase'),
-(465, '100000', 2, 'ee', 'Returned'),
-(466, '100000', 2, 'gg', 'Returned'),
-(469, '100001', 2, 'arfrf', 'Purchase'),
-(470, '100001', 4, 'freaf', 'Returned'),
-(471, '100004', 4, 'arferferfref', 'Purchase'),
-(472, '100004', 1, 'arfreferf', 'Purchase');
+INSERT INTO `privacy` (`id`, `email`, `timestamp`, `first_name`, `last_name`, `name_bangla`, `institution_id`, `mobile`, `nid_or_passport`, `blood_group`, `date_of_birth`, `fathers_name`, `mother_name`, `spouse_name`, `present_line1`, `present_line2`, `present_district`, `present_police_station`, `present_post_office_name`, `present_post_code`, `present_country`, `parmanent_line1`, `parmanent_line2`, `parmanent_police_station`, `parmanent_district`, `parmanent_post_office_name`, `parmanent_post_code`, `parmanent_country`, `membership_number`, `gender`, `number_of_children`, `profession`, `designation`, `institution`, `religion`, `status`, `type`, `change_request`) VALUES
+(1, 'riyad298@gmail.com', NULL, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0),
+(2, 'ahsan.riyad@outlook.com', NULL, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -863,7 +711,7 @@ CREATE TABLE `users_address` (
 
 INSERT INTO `users_address` (`email`, `users_address_id`, `present_line1`, `present_line2`, `present_district`, `present_police_station`, `present_post_office_name`, `present_post_code`, `present_country`, `parmanent_line1`, `parmanent_line2`, `parmanent_police_station`, `parmanent_district`, `parmanent_post_office_name`, `parmanent_post_code`, `parmanent_country`, `second_citizenship_country`) VALUES
 ('riyad298@gmail.com', 1, 'House: 04, Bazar Road', NULL, 'Kurigram', '560000', 'Tograinah', '5600', 'Bangladesh', 'Sarker Bari', NULL, 'arfaerfaerfaerarfe', 'Dhaka', 'afreferf', '3900', 'Bangladesh', 'frence'),
-('ahsan.riyad@outlook.com', 2, NULL, NULL, NULL, NULL, NULL, '3200', NULL, NULL, NULL, NULL, NULL, NULL, '3200', 'Bangladesh', NULL),
+('ahsan.riyad@outlook.com', 2, 'Arrf', NULL, 'Kurigram', NULL, NULL, '3200', NULL, NULL, NULL, NULL, NULL, NULL, '3200', 'Bangladesh', NULL),
 ('riyad298@yahoo.com', 3, 'arfaerferf', NULL, 'arferfer', '0', 'Tograihat', '5600', 'arfarfe ref er', 'aerfearfe', NULL, 'kurigram', 'arferferf', NULL, '111546', 'arfefaerfafaerf', NULL),
 ('riyad298@hotmail.com', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('rimo@gmail.com', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -889,20 +737,22 @@ CREATE TABLE `users_info` (
   `institution` varchar(100) DEFAULT NULL,
   `blood_group` varchar(10) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `religion` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `religion` varchar(200) DEFAULT NULL,
+  `json_test` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ;
 
 --
 -- Dumping data for table `users_info`
 --
 
-INSERT INTO `users_info` (`email`, `gender`, `ui_id`, `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `religion`) VALUES
-('riyad298@gmail.com', NULL, 0, '12548756', 'Barkat Alam Siddiki', 'Urmee', 'Maliha', 2, 'Student stgstrg afre', 'Student', 'Ame', 'A-', '1971-05-28', 'Islam'),
-('ahsan.riyad@outlook.com', NULL, 0, '454655656646465', 'Barkat Alam', 'Urmee Kabir', NULL, NULL, NULL, NULL, NULL, NULL, '2020-02-13', NULL),
-('riyad298@yahoo.com', NULL, 0, '55555555577', 'Romel agartg', 'Urmee Sultana', 'aferfaef rafer', 5, 'arfafrafeaf', 'afferfaref', 'arfefearffrae arferf', 'A-', '1992-11-01', NULL),
-('riyad298@hotmail.com', NULL, 0, '01919448787', 'Romel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-16', NULL),
-('rimo@gmail.com', NULL, 0, '12333665544888', 'Romel', 'Urmee Kabir', 'Romel', NULL, 'Student', NULL, NULL, NULL, NULL, NULL),
-('abcd@abcd.com', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users_info` (`email`, `gender`, `ui_id`, `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `religion`, `json_test`) VALUES
+('riyad298@gmail.com', NULL, 0, '12548756', 'Barkat Alam Siddiki', 'Urmeeff', 'Maliha', 2, 'Student stgstrg afre', 'Student', 'Ame', 'O+', '2020-03-01', 'Islam', NULL),
+('ahsan.riyad@outlook.com', 'Male', 0, '454655656646465', 'Barkat Alam', 'Urmee Kabir', 'Maliha', 2, 'st', 'Student', 'AIUB', 'AB+', '2020-03-19', NULL, NULL),
+('riyad298@yahoo.com', NULL, 0, '55555555577', 'Romel agartg', 'Urmee Sultana', 'aferfaef rafer', 5, 'arfafrafeaf', 'afferfaref', 'arfefearffrae arferf', 'A-', '1992-11-01', NULL, NULL),
+('riyad298@hotmail.com', NULL, 0, '01919448787', 'Romel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-16', NULL, NULL),
+('rimo@gmail.com', NULL, 0, '12333665544888', 'Romel', 'Urmee Kabir', 'Romel', NULL, 'Student', NULL, NULL, NULL, NULL, NULL, NULL),
+('abcd@abcd.com', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{ \"name\" : \"riyad\" }');
 
 -- --------------------------------------------------------
 
@@ -929,8 +779,8 @@ CREATE TABLE `users_registration` (
 --
 
 INSERT INTO `users_registration` (`email`, `id`, `full_name`, `name_bangla`, `first_name`, `last_name`, `mobile`, `institution_id`, `password`, `registration_date`, `membership_number`) VALUES
-('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad', 'Ahsan', '01919448787', 'riyad ahsan are ', 'e10adc3949ba59abbe56e057f20f883e', '2019-11-27 10:15:15.000000', 1001),
-('ahsan.riyad@outlook.com', 2, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 02:22:46.000000', 1002),
+('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad Ahsan', 'Ahsan', '01919448787', 'riyad ahsa ff ff', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-27 10:15:15.000000', 1001),
+('ahsan.riyad@outlook.com', 2, 'Md Ahsan Ferdous Riyad', '', 'Riyad Ahsan', 'Ahsan', '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 02:22:46.000000', 1002),
 ('riyad298@yahoo.com', 3, 'Ahsan Ferdous', '', 'Riyad', 'Ahsan', '017192246822', '15-2804-2oioo', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 13:59:10.000000', 1003),
 ('riyad298@hotmail.com', 4, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 19:52:40.000000', 1004),
 ('rimo@gmail.com', 5, 'rimo shahriar munem', '', NULL, NULL, '01919448787', 'afrerafarefaerarfaerf', '947a084ae67a0e57e0bf46a0d505e747', '2019-11-30 23:16:02.000000', 1005),
@@ -1006,31 +856,12 @@ CREATE TABLE `verification_info` (
 --
 
 INSERT INTO `verification_info` (`id_v_info`, `email`, `otp`, `forgot_password_crypto`, `status`, `email_verification_status`, `change_request`, `change_request_time`, `type`, `visibility`, `completeness`, `last_verified_info`) VALUES
-(1, 'riyad298@gmail.com', '3038', 'ac627ab1ccbdb62ec96e702f07f6425b', 'approved', 'verified', 'rejected', '2019-11-29 01:45:23.000000', 'admin', 'full_name,email,mobile,institution_id,mother_name,spouse_name,profession,institution,present_district,membership_number,status,email_verification_status,change_request', 100, '\r\n'),
-(2, 'ahsan.riyad@outlook.com', '4982', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
-(3, 'riyad298@yahoo.com', '8456', NULL, 'rejected', 'verified', 'approved', '2020-02-19 19:09:50.000000', 'user', 'full_name,institution_id,membership_number', 80, 'first_name,last_name,mobile,institution_id,nid_or_passport,fathers_name,mother_name,spouse_name,number_of_children,profession,designation,institution,blood_group,religion,date_of_birth,present_line1,present_district,present_police_station,present_post_code,present_post_office_name,present_country,parmanent_line1,parmanent_police_station,parmanent_district,parmanent_post_code,parmanent_post_office_name,parmanent_country,second_citizenship_country@#$Riyad,Ahsan,017192246822,15-2804-2oioo,55555555577,Romel agartg,Urmee Sultana,aferfaef rafer,5,arfafrafeaf,afferfaref,arfefearffrae arferf,A-,,1992-11-01,arfaerferf,arferfer,0,5600,Tograihat,arfarfe ref er,aerfearfe,,arferferf,111546,,arfefaerfafaerf,'),
-(4, 'riyad298@hotmail.com', '2591', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'admin', 'full_name,institution_id,membership_number', 100, NULL),
-(5, 'rimo@gmail.com', '7680', NULL, 'approved', 'verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
-(6, 'abcd@abcd.com', '6177', NULL, 'not_verified', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 60, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `warehouse`
---
-
-CREATE TABLE `warehouse` (
-  `id` int(200) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `details` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `warehouse`
---
-
-INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
-(1, 'Hasan Computer1', NULL);
+(1, 'riyad298@gmail.com', '2408', 'ac627ab1ccbdb62ec96e702f07f6425b', 'approved', 'verified', 'requested', '2019-11-29 01:45:23.000000', 'admin', '', 100, '\r\n'),
+(2, 'ahsan.riyad@outlook.com', '4982', NULL, 'rejected', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
+(3, 'riyad298@yahoo.com', '8456', NULL, 'approved', 'verified', 'approved', '2020-02-19 19:09:50.000000', 'user', 'full_name,institution_id,membership_number', 80, 'first_name,last_name,mobile,institution_id,nid_or_passport,fathers_name,mother_name,spouse_name,number_of_children,profession,designation,institution,blood_group,religion,date_of_birth,present_line1,present_district,present_police_station,present_post_code,present_post_office_name,present_country,parmanent_line1,parmanent_police_station,parmanent_district,parmanent_post_code,parmanent_post_office_name,parmanent_country,second_citizenship_country@#$Riyad,Ahsan,017192246822,15-2804-2oioo,55555555577,Romel agartg,Urmee Sultana,aferfaef rafer,5,arfafrafeaf,afferfaref,arfefearffrae arferf,A-,,1992-11-01,arfaerferf,arferfer,0,5600,Tograihat,arfarfe ref er,aerfearfe,,arferferf,111546,,arfefaerfafaerf,'),
+(4, 'riyad298@hotmail.com', '2591', NULL, 'rejected', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
+(5, 'rimo@gmail.com', '7680', NULL, 'rejected', 'verified', 'not_requested', NULL, 'admin', 'full_name,institution_id,membership_number', 100, NULL),
+(6, 'abcd@abcd.com', '9250', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 60, NULL);
 
 -- --------------------------------------------------------
 
@@ -1040,15 +871,6 @@ INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
 DROP TABLE IF EXISTS `all_info_together`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `all_info_together`  AS  select concat(`ur`.`first_name`,' ',`ur`.`last_name`) AS `full_name`,`ur`.`first_name` AS `first_name`,`ur`.`last_name` AS `last_name`,`ur`.`name_bangla` AS `name_bangla`,`ur`.`mobile` AS `mobile`,`ur`.`institution_id` AS `institution_id`,`ur`.`password` AS `password`,`ur`.`registration_date` AS `registration_date`,`ur`.`membership_number` AS `membership_number`,`ui`.`gender` AS `gender`,`ui`.`nid_or_passport` AS `nid_or_passport`,`ui`.`fathers_name` AS `fathers_name`,`ui`.`mother_name` AS `mother_name`,`ui`.`spouse_name` AS `spouse_name`,`ui`.`number_of_children` AS `number_of_children`,`ui`.`profession` AS `profession`,`ui`.`designation` AS `designation`,`ui`.`institution` AS `institution`,`ui`.`blood_group` AS `blood_group`,`ui`.`religion` AS `religion`,`ui`.`date_of_birth` AS `date_of_birth`,`vi`.`id_v_info` AS `id_v_info`,`vi`.`otp` AS `otp`,`vi`.`forgot_password_crypto` AS `forgot_password_crypto`,`vi`.`status` AS `status`,`vi`.`email_verification_status` AS `email_verification_status`,`vi`.`change_request` AS `change_request`,`vi`.`change_request_time` AS `change_request_time`,`vi`.`type` AS `type`,`vi`.`visibility` AS `visibility`,`vi`.`completeness` AS `completeness`,`vi`.`last_verified_info` AS `last_verified_info`,`ur`.`id` AS `id`,`uu`.`recent_photo` AS `recent_photo`,`uu`.`old_photo` AS `old_photo`,`ur`.`email` AS `ur_email`,`vi`.`email` AS `vi_email`,`uu`.`email` AS `uu_email`,`ui`.`email` AS `ui_email`,`ua`.`email` AS `email`,`ua`.`users_address_id` AS `users_address_id`,`ua`.`present_line1` AS `present_line1`,`ua`.`present_line2` AS `present_line2`,`ua`.`present_police_station` AS `present_police_station`,`ua`.`present_district` AS `present_district`,`ua`.`present_post_code` AS `present_post_code`,`ua`.`present_post_office_name` AS `present_post_office_name`,`ua`.`present_country` AS `present_country`,`ua`.`parmanent_line1` AS `parmanent_line1`,`ua`.`parmanent_line2` AS `parmanent_line2`,`ua`.`parmanent_police_station` AS `parmanent_police_station`,`ua`.`parmanent_district` AS `parmanent_district`,`ua`.`parmanent_post_code` AS `parmanent_post_code`,`ua`.`parmanent_post_office_name` AS `parmanent_post_office_name`,`ua`.`parmanent_country` AS `parmanent_country`,`ua`.`second_citizenship_country` AS `second_citizenship_country` from ((((`users_registration` `ur` join `users_info` `ui`) join `users_address` `ua`) join `verification_info` `vi`) join `user_uploads` `uu`) where `uu`.`email` = `ur`.`email` and `ui`.`email` = `ur`.`email` and `ua`.`email` = `ur`.`email` and `vi`.`email` = `ur`.`email` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `purchase_details_list`
---
-DROP TABLE IF EXISTS `purchase_details_list`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_details_list`  AS  select `sp`.`invoice_number` AS `invoice_number`,`sp`.`date` AS `date`,`sp`.`insert_time_date` AS `insert_time_date`,`sp`.`reference_number` AS `reference_number`,`sp`.`warehouse_id` AS `warehouse_id`,`sp`.`cusotmer_id` AS `cusotmer_id`,`sp`.`supplier_id` AS `supplier_id`,`sp`.`type` AS `type`,`sp`.`status` AS `status`,`sp`.`correction_status` AS `correction_status`,`sp`.`biller_id` AS `biller_id`,`s`.`full_name` AS `full_name`,`w`.`name` AS `name`,`spd`.`unit_price` AS `unit_price`,`spd`.`quantity` AS `quantity`,`sn`.`serial_number` AS `serial_number`,`sn`.`product_id` AS `product_id`,`p`.`product_name` AS `product_name` from (((((`products` `p` join `purchase_or_sell` `sp`) join `warehouse` `w`) join `people` `s`) join `sell_or_purchase_details` `spd`) join `serial_number` `sn`) where `sp`.`invoice_number` = `spd`.`invoice_number` and `spd`.`invoice_number` = `sn`.`invoice_number` and `p`.`p_id` = `spd`.`product_id` and `w`.`id` = `sp`.`warehouse_id` and `s`.`people_id` = `sp`.`supplier_id` ;
 
 --
 -- Indexes for dumped tables
@@ -1061,22 +883,16 @@ ALTER TABLE `admin_options`
   ADD PRIMARY KEY (`admin_options_id`);
 
 --
--- Indexes for table `brand`
---
-ALTER TABLE `brand`
-  ADD PRIMARY KEY (`brand_id`);
-
---
--- Indexes for table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_id`);
-
---
 -- Indexes for table `childrens_info`
 --
 ALTER TABLE `childrens_info`
-  ADD PRIMARY KEY (`id_chi`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `data_log`
+--
+ALTER TABLE `data_log`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `form_fields_rule`
@@ -1085,40 +901,10 @@ ALTER TABLE `form_fields_rule`
   ADD PRIMARY KEY (`id_form_field`);
 
 --
--- Indexes for table `log_table`
+-- Indexes for table `privacy`
 --
-ALTER TABLE `log_table`
-  ADD PRIMARY KEY (`log_id`);
-
---
--- Indexes for table `people`
---
-ALTER TABLE `people`
-  ADD PRIMARY KEY (`people_id`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`p_id`);
-
---
--- Indexes for table `purchase_or_sell`
---
-ALTER TABLE `purchase_or_sell`
-  ADD PRIMARY KEY (`invoice_number`);
-
---
--- Indexes for table `sell_or_purchase_details`
---
-ALTER TABLE `sell_or_purchase_details`
-  ADD PRIMARY KEY (`spd_id`);
-
---
--- Indexes for table `serial_number`
---
-ALTER TABLE `serial_number`
-  ADD PRIMARY KEY (`serial_id`);
+ALTER TABLE `privacy`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `social_network`
@@ -1157,12 +943,6 @@ ALTER TABLE `verification_info`
   ADD PRIMARY KEY (`id_v_info`);
 
 --
--- Indexes for table `warehouse`
---
-ALTER TABLE `warehouse`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1173,22 +953,16 @@ ALTER TABLE `admin_options`
   MODIFY `admin_options_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `brand`
---
-ALTER TABLE `brand`
-  MODIFY `brand_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `category`
---
-ALTER TABLE `category`
-  MODIFY `category_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `childrens_info`
 --
 ALTER TABLE `childrens_info`
-  MODIFY `id_chi` int(200) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `data_log`
+--
+ALTER TABLE `data_log`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `form_fields_rule`
@@ -1197,40 +971,10 @@ ALTER TABLE `form_fields_rule`
   MODIFY `id_form_field` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `log_table`
+-- AUTO_INCREMENT for table `privacy`
 --
-ALTER TABLE `log_table`
-  MODIFY `log_id` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `people`
---
-ALTER TABLE `people`
-  MODIFY `people_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `purchase_or_sell`
---
-ALTER TABLE `purchase_or_sell`
-  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100032;
-
---
--- AUTO_INCREMENT for table `sell_or_purchase_details`
---
-ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
-
---
--- AUTO_INCREMENT for table `serial_number`
---
-ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+ALTER TABLE `privacy`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `social_network`
@@ -1254,7 +998,7 @@ ALTER TABLE `users_registration`
 -- AUTO_INCREMENT for table `user_photos`
 --
 ALTER TABLE `user_photos`
-  MODIFY `id_user_photos` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user_photos` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user_uploads`
@@ -1267,12 +1011,6 @@ ALTER TABLE `user_uploads`
 --
 ALTER TABLE `verification_info`
   MODIFY `id_v_info` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `warehouse`
---
-ALTER TABLE `warehouse`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
