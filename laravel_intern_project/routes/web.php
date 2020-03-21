@@ -15,13 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Route::post('/getPrivacyData', 'privacy@getPrivacyData');
 // Route::get('/getPrivacyData', 'privacy@getPrivacyData');
 
 Route::post('/updatePrivacy', 'privacy@updatePrivacy');
-
 Route::post('/getAllPeopleList', 'search@getAllPeopleList');
 
 
@@ -47,3 +44,21 @@ Route::post('/get_data_update_request_list', 'users_info@get_data_update_request
 Route::post('/get_new_user_request_list', 'users_info@get_new_user_request_list');
 
 Route::post('/get_info_of_a_particular_user_with_promise', 'users_info@get_info_of_a_particular_user_with_promise');
+
+
+//children
+Route::post('/updateChildren', 'users_info@updateChildren');
+Route::post('/getChildren', 'users_info@getChildren');
+
+
+//forum
+Route::post('/getFacebookAndForumMemeberShipInfo', 'users_info@getFacebookAndForumMemeberShipInfo');
+Route::post('/updateForum', 'users_info@updateForum');
+
+
+Route::get('/test_PDF', 'users_info@test_PDF');
+Route::post('/test_PDF', 'users_info@test_PDF');
+
+
+
+
