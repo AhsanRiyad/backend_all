@@ -56,9 +56,12 @@ Route::post('/getFacebookAndForumMemeberShipInfo', 'users_info@getFacebookAndFor
 Route::post('/updateForum', 'users_info@updateForum');
 
 
-Route::get('/test_PDF', 'users_info@test_PDF');
-Route::post('/test_PDF', 'users_info@test_PDF');
+// Route::get('/test_PDF', 'users_info@test_PDF');
+Route::post('/download_PDF', 'users_info@download_PDF');
 
 
+Route::get('/export_user_data', 'users_info@export_user_data');
+Route::post('/export_user_data', 'users_info@export_user_data');
+Route::post('/import_user_data', 'users_info@import_user_data');
 
 

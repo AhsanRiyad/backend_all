@@ -224,7 +224,7 @@ class users_info extends Controller
 
     }
 
-    function test_PDF(Request $req){
+    function download_PDF(Request $req){
 
 /*
         $pdf = \App::make('dompdf.wrapper');
@@ -242,7 +242,7 @@ class users_info extends Controller
             [ DB::raw('TIME_TO_SEC( timediff( sysdate() , timestamp ) )/ 60') , '>' , 1 ]
         ])
         ->get();*/
-       
+
         //delete file names from database
        /* DB::table('files')
         ->where([
@@ -330,6 +330,417 @@ class users_info extends Controller
 
     }
 
+    function export_user_data(Request $req){
 
+        $users_info_export_import;
+        $i=0;
+
+        $email_list = 
+        DB::table('users_registration')
+        ->select('email')
+        ->get();
+
+
+        $registration_info = 
+        DB::table('users_registration')
+        ->where('email' , '=' , 'riyad298@gmail.com')
+        ->get();
+        
+        // return $registration_info;
+        
+
+        // $email_list = json_decode($email_list0);     
+
+        foreach ($email_list as $key => $value) {
+
+            $users_info_export_import[$i]['email'] = $value->email ;
+
+            // echo $value->email;
+
+
+            $registration_info = 
+            DB::table('users_registration')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['users_registration'] = $registration_info ;
+
+            $users_info = 
+            DB::table('users_info')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['users_info'] = $users_info ;
+
+
+            $users_address = 
+            DB::table('users_address')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['users_address'] = $users_address ;
+
+            $verification_info = 
+            DB::table('verification_info')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['verification_info'] = $verification_info ;
+
+            $childrens_info = 
+            DB::table('childrens_info')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['childrens_info'] = $childrens_info ;
+
+            $social_network = 
+            DB::table('social_network')
+            ->where('email' , '=' , $value->email)
+            ->get();
+            $users_info_export_import[$i]['social_network'] = $social_network ;
+
+
+            ++$i;
+
+        }
+
+
+        $final_data = json_encode($users_info_export_import);
+        Storage::disk('local')->put('public/file.json', json_encode($users_info_export_import) );
+
+        return $users_info_export_import;
+
+        $get_php_data = json_decode($final_data);
+
+        // print_r($get_php_data[1]->users_registration[0]);
+
+        // return $get_php_data[1]->users_registration;
+
+        // return $email_list;
+
+        // dd($get_php_data);
+
+        DB::table('users_registration')
+        ->delete();
+
+        DB::table('users_info')
+        ->delete();
+
+        DB::table('users_address')
+        ->delete();
+
+        DB::table('verification_info')
+        ->delete();
+
+
+        DB::table('childrens_info')
+        ->delete();
+
+        DB::table('social_network')
+        ->delete();
+
+
+        foreach ($get_php_data as $key => $value) {
+            # code...
+
+            $array = (array) $value;
+
+            // print_r($value);
+
+            //working email
+            // print_r($array['email']);
+
+            
+            //working users_registration
+            // print_r( (array)  $array['users_registration'][0]);
+            $insertToDB =  (array)  $array['users_registration'][0];
+            DB::table('users_registration')
+            ->insert(
+             $insertToDB
+         );
+
+
+            //working users_info
+            // print_r( (array)  $array['users_info'][0]);
+            $insertToDB =  (array)  $array['users_info'][0];
+            DB::table('users_info')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+            //working users_address
+            // print_r( (array)  $array['users_address'][0]);
+            $insertToDB =  (array)  $array['users_address'][0];
+            DB::table('users_address')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+
+            //working verification_info
+            // print_r( (array)  $array['verification_info'][0]);
+            $insertToDB =  (array)  $array['verification_info'][0];
+            DB::table('verification_info')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+
+
+            foreach ($array['childrens_info'] as $key_chi => $value_chi) {
+                # code...
+
+                //working childrens_info
+                print_r( (array) $value_chi );
+
+
+                $insertToDB = (array) $value_chi ;
+                DB::table('childrens_info')
+                ->insert(
+                 $insertToDB
+             );
+
+
+                echo '<br/><br/>';
+            }
+
+
+
+            foreach ($array['social_network'] as $key_chi => $value_chi) {
+                # code...
+
+              //working social_network
+              print_r( (array) $value_chi );
+
+              $insertToDB = (array) $value_chi ;
+              DB::table('social_network')
+              ->insert(
+                 $insertToDB
+             );
+
+              echo '<br/><br/>';
+          }
+
+
+          echo '<br/><br/>';
+
+
+
+
+      }
+
+
+
+
+/*
+        $array = (array) $get_php_data[0]->users_registration[0];
+        DB::table('users_registration')
+        ->delete();
+        DB::table('users_registration')
+        ->insert(
+           $array
+        );
+        dd($array);*/
+
+       /* foreach ( $get_php_data[1]->users_registration[0] as $key => $value ) {
+            # code...
+
+
+            echo $key. '=>' . $value ;
+        }*/
+
+
+    }
+
+
+    function import_user_data(Request $req){
+
+        // return $req->file('user_import_data_file');
+
+
+        $path = $req->file('user_import_data_file')->storeAs(
+            'import_data' , 'user_import_data_file.json' );
+
+        $contents = Storage::get('import_data/user_import_data_file.json');
+
+
+        // return $contents;
+
+
+
+        $get_php_data = json_decode($contents);
+
+        // print_r($get_php_data[1]->users_registration[0]);
+
+        // return $get_php_data[1]->users_registration;
+
+        // return $email_list;
+
+        // dd($get_php_data);
+
+        DB::table('users_registration')
+        ->delete();
+
+        DB::table('users_info')
+        ->delete();
+
+        DB::table('users_address')
+        ->delete();
+
+        DB::table('verification_info')
+        ->delete();
+
+
+        DB::table('childrens_info')
+        ->delete();
+
+        DB::table('social_network')
+        ->delete();
+
+        DB::table('user_uploads')
+        ->delete();
+
+
+
+        DB::table('privacy')
+        ->delete();
+
+
+
+        DB::table('data_log')
+        ->delete();
+
+
+
+
+        foreach ($get_php_data as $key => $value) {
+            # code...
+
+            $array = (array) $value;
+
+            // print_r($value);
+
+            //working email
+            // print_r($array['email']);
+
+            DB::table('data_log')
+            ->insert(
+                
+                [ 'email' =>  $array['email'] ]
+
+                    );
+
+
+            DB::table('privacy')
+            ->insert(
+                
+                [ 'email' =>  $array['email'] ]
+
+                    );
+
+
+            DB::table('user_uploads')
+            ->insert(
+                
+                [ 'email' =>  $array['email'] , 'recent_photo' => 'not_set' , 'old_photo' => 'not_set' ]
+
+                    );
+
+
+            //working users_registration
+            // print_r( (array)  $array['users_registration'][0]);
+            $insertToDB =  (array)  $array['users_registration'][0];
+            DB::table('users_registration')
+            ->insert(
+             $insertToDB
+         );
+
+
+            //working users_info
+            // print_r( (array)  $array['users_info'][0]);
+            $insertToDB =  (array)  $array['users_info'][0];
+            DB::table('users_info')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+            //working users_address
+            // print_r( (array)  $array['users_address'][0]);
+            $insertToDB =  (array)  $array['users_address'][0];
+            DB::table('users_address')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+
+            //working verification_info
+            // print_r( (array)  $array['verification_info'][0]);
+            $insertToDB =  (array)  $array['verification_info'][0];
+            DB::table('verification_info')
+            ->insert(
+             $insertToDB
+         );
+
+
+
+
+
+            foreach ($array['childrens_info'] as $key_chi => $value_chi) {
+                # code...
+
+                //working childrens_info
+                // print_r( (array) $value_chi );
+
+
+                $insertToDB = (array) $value_chi ;
+                DB::table('childrens_info')
+                ->insert(
+                 $insertToDB
+             );
+
+
+                // echo '<br/><br/>';
+            }
+
+
+
+            foreach ($array['social_network'] as $key_chi => $value_chi) {
+                # code...
+
+              //working social_network
+              // print_r( (array) $value_chi );
+
+              $insertToDB = (array) $value_chi ;
+              DB::table('social_network')
+              ->insert(
+                 $insertToDB
+             );
+
+              // echo '<br/><br/>';
+          }
+
+
+          // echo '<br/><br/>';
+
+
+
+      }
+      
+
+
+
+
+
+
+
+      return 'successful';
+
+  }
 
 }
