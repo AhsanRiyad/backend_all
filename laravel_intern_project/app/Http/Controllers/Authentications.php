@@ -34,6 +34,7 @@ class Authentications extends Controller
 			"name_bangla" , "name_bangla as Bangla Name" , 
 			"institution_id" , "institution_id as Institution Id" ,
 			"mobile", "mobile as Mobile",
+			"email", "email as Email",
 			"nid_or_passport" , "nid_or_passport as NID or Passport" ,
 			"blood_group" , "blood_group as Blood Group" ,
 			"religion"  , "religion as Religion"  ,
@@ -56,7 +57,7 @@ class Authentications extends Controller
 			"parmanent_post_code" , "parmanent_post_code as Permanent Post Code" ,
 			"parmanent_police_station" , "parmanent_police_station as Permanent Police Station" ,
 			"parmanent_district" , "parmanent_district as Permanent District" ,
-			"parmanent_country" , "parmanent_country as Permanent Country"
+			"parmanent_country" , "parmanent_country as Permanent Country",
 
 		)
 		->get();
@@ -109,7 +110,7 @@ class Authentications extends Controller
 		$old = 
 		DB::table('data_log')
 			->where([
-			[ 'email' , '=' , 'riyad298@gmail.com' ]
+			[ 'email' , '=' , $req->email ]
 		])
 		->get();
 
