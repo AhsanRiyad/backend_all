@@ -12,6 +12,7 @@ class privacy extends Controller
 
 		// $req->email = "riyad298@gmail.com";
 
+		
 
 		$privacy_info = 
 		DB::table('all_info_together as a')
@@ -25,7 +26,6 @@ class privacy extends Controller
 			"a.mother_name as Mother's Name" , 'p.mother_name',
 			"a.spouse_name as Spouse's Name" , 'p.spouse_name',
 			"a.mobile as Mobile" , 'p.mobile',
-			"a.email as Email" , 'p.email',
 			"a.institution_id as Institution Id" , 'p.institution_id',
 			"a.membership_number as Membership Number" , 'p.membership_number',
 			"a.gender as Gender" , 'p.gender',

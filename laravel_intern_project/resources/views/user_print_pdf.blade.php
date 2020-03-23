@@ -31,18 +31,6 @@
         <h1 class="text-center bg-success text-white"> {{ $users_info[0]['field_value'] }}'s  Info </h1>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         <table class="table ">
           <thead>
             <tr>
@@ -61,13 +49,16 @@
 
             {{ $users_info[$i]['alias_field_name'] }}
 
-
+            
+            @if ( $users_info[$i]['field_name'] != 'social_network' && $users_info[$i]['field_name'] != 'number_of_children'   )
 
             <tr>
               <th scope="row">{{ $i+1 }}</th>
               <td>  {{ $users_info[$i]['alias_field_name'] }} </td>
               <td>  {{ $users_info[$i]['field_value'] }}   </td>
             </tr>
+
+            @endif
 
             @endfor
 

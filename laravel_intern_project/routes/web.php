@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::post('/getPrivacyData', 'privacy@getPrivacyData');
+Route::get('/getPrivacyData', 'privacy@getPrivacyData');
 
 
 Route::get('/test_privacy', 'privacy@getPrivacyData');
