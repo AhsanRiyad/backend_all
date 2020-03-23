@@ -732,15 +732,29 @@ class users_info extends Controller
 
       }
       
-
-
-
-
-
-
-
       return 'successful';
 
   }
+
+  function reset_password(Request $req){
+
+
+
+    DB::table('all_info_together')
+    ->where('email' , $req->email)
+    ->update( ['password' => md5('123456') ]);
+
+
+
+    return 'ok';
+
+
+
+
+
+
+  }
+
+
 
 }

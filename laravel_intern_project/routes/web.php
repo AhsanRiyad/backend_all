@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 Route::post('/getPrivacyData', 'privacy@getPrivacyData');
+
+
+Route::get('/test_privacy', 'privacy@getPrivacyData');
 // Route::get('/getPrivacyData', 'privacy@getPrivacyData');
 
 Route::post('/updatePrivacy', 'privacy@updatePrivacy');
@@ -63,5 +66,9 @@ Route::post('/download_PDF', 'users_info@download_PDF');
 Route::get('/export_user_data', 'users_info@export_user_data');
 Route::post('/export_user_data', 'users_info@export_user_data');
 Route::post('/import_user_data', 'users_info@import_user_data');
+
+
+//reset password
+Route::post('/reset_password', 'users_info@reset_password');
 
 

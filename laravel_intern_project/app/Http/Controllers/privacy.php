@@ -10,6 +10,9 @@ class privacy extends Controller
     //
 	function getPrivacyData(Request $req){
 
+		// $req->email = "riyad298@gmail.com";
+
+
 		$privacy_info = 
 		DB::table('all_info_together as a')
 		->join('privacy as p' , 'p.email' , '=' ,'a.email')
@@ -21,9 +24,8 @@ class privacy extends Controller
 			"a.fathers_name as Father's Name" , 'p.fathers_name',
 			"a.mother_name as Mother's Name" , 'p.mother_name',
 			"a.spouse_name as Spouse's Name" , 'p.spouse_name',
-			"a.spouse_name as Spouse's Name" , 'p.spouse_name',
 			"a.mobile as Mobile" , 'p.mobile',
-			"a.mobile as Mobile" , 'p.mobile',
+			"a.email as Email" , 'p.email',
 			"a.institution_id as Institution Id" , 'p.institution_id',
 			"a.membership_number as Membership Number" , 'p.membership_number',
 			"a.gender as Gender" , 'p.gender',
@@ -39,7 +41,9 @@ class privacy extends Controller
 			"a.type as Type" , 'p.type',
 			"a.change_request as Change Request" , 'p.change_request',
 			"a.present_line1 as Present Address Line1" , 'p.present_line1',
-			"a.email as Present Address Line1" , 'p.email',
+			"a.first_name as Social Network"  , 'p.social_network', 
+			
+			
 		)
 		->get();
 
@@ -174,6 +178,21 @@ class privacy extends Controller
 			}
 
 
+		}else if($req->purpose == 'forNewUserRequest'){
+
+
+			$membership_number = 
+			DB::table('users_registration')
+			->select( DB::raw("max(membership_number)+1 as c") )
+			->get();
+
+			$membership_number_extracted = $membership_number[0]->c;
+
+			DB::table($req->table_name)
+			->where('email', '=' , $req->email )
+			->update([ 'membership_number' => $membership_number_extracted ]);
+
+
 		}
 
 
@@ -185,6 +204,23 @@ class privacy extends Controller
 		->update([ $req->field_name => $req->privacy_value]);
 
 		return $req;
+
+
+	}
+
+
+	function test(Request $req){
+
+
+		$membership_number = 
+		DB::table('users_registration')
+		->select( DB::raw("max(membership_number)+1 as c") )
+		->get();
+
+
+		// dd($membership_number[0]->c);
+		return ($membership_number[0]->c);
+
 
 
 	}
