@@ -26,6 +26,7 @@ class privacy extends Controller
 			"a.mother_name as Mother's Name" , 'p.mother_name',
 			"a.spouse_name as Spouse's Name" , 'p.spouse_name',
 			"a.mobile as Mobile" , 'p.mobile',
+			"a.email as Email" , 'p.email',
 			"a.institution_id as Institution Id" , 'p.institution_id',
 			"a.membership_number as Membership Number" , 'p.membership_number',
 			"a.gender as Gender" , 'p.gender',
@@ -41,7 +42,25 @@ class privacy extends Controller
 			"a.type as Type" , 'p.type',
 			"a.change_request as Change Request" , 'p.change_request',
 			"a.present_line1 as Present Address Line1" , 'p.present_line1',
+
+
 			"a.first_name as Social Network"  , 'p.social_network', 
+
+
+
+			"a.present_post_office_name as Present Post Office Name" , "p.present_post_office_name" ,
+			"a.present_post_code as Present Post Code" , "p.present_post_code" ,
+			"a.present_police_station as Present Police Station" , "p.present_police_station" , 
+			"a.present_district as Present District" , "p.present_district" , 
+			"a.present_country as Present Country" ,   "p.present_country" , 
+			"a.parmanent_line1 as Permanent Adress Line 1" , "p.parmanent_line1" , 
+			"a.parmanent_post_office_name as Permanent Post Office Name" , "p.parmanent_post_office_name" , 
+			"a.parmanent_post_code as Permanent Post Code" , "p.parmanent_post_code" , 
+			"a.parmanent_police_station as Permanent Police Station" , "p.parmanent_police_station" , 
+			"a.parmanent_district as Permanent District" , "p.parmanent_district" , 
+			"a.parmanent_country as Permanent Country", "p.parmanent_country" 
+
+
 			
 			
 		)
