@@ -73,3 +73,16 @@ Route::post('/import_user_data', 'users_info@import_user_data');
 Route::post('/reset_password', 'users_info@reset_password');
 
 
+
+//upload file
+Route::post('/photo_upload', 'file_uploads@photo_upload');
+Route::get('/photo_upload', 'file_uploads@photo_upload');
+
+
+Route::post('/detele_photo', 'file_uploads@detele_photo');
+
+
+
+
+
+
