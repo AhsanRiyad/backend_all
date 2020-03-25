@@ -58,7 +58,9 @@ class privacy extends Controller
 			"a.parmanent_post_code as Permanent Post Code" , "p.parmanent_post_code" , 
 			"a.parmanent_police_station as Permanent Police Station" , "p.parmanent_police_station" , 
 			"a.parmanent_district as Permanent District" , "p.parmanent_district" , 
-			"a.parmanent_country as Permanent Country", "p.parmanent_country" 
+			"a.parmanent_country as Permanent Country", "p.parmanent_country" , 
+			"a.parmanent_country as Permanent Country", "p.parmanent_country" , 
+			"a.membership_fee as Membership Fee", "p.membership_fee" 
 
 
 			
@@ -191,9 +193,6 @@ class privacy extends Controller
 				DB::table('all_info_together')
 				->where('email', '=' ,  $req->email   )
 				->update([ 'change_request' => 'rejected']);
-
-
-
 			}
 
 

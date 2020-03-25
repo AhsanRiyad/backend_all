@@ -68,10 +68,11 @@ Route::get('/export_user_data', 'users_info@export_user_data');
 Route::post('/export_user_data', 'users_info@export_user_data');
 Route::post('/import_user_data', 'users_info@import_user_data');
 
+Route::post('/user_registration', 'users_info@user_registration');
+Route::get('/test_users_info', 'users_info@test');
 
 //reset password
 Route::post('/reset_password', 'users_info@reset_password');
-
 
 
 //upload file

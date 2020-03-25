@@ -336,7 +336,7 @@ class users_info extends Controller
         $i=0;
 
         $email_list = 
-        DB::table('users_registration')
+        DB::table('all_info_together')
         ->select('email')
         ->get();
 
@@ -358,30 +358,13 @@ class users_info extends Controller
             // echo $value->email;
 
 
-            $registration_info = 
-            DB::table('users_registration')
+            $all_info_together = 
+            DB::table('all_info_together')
             ->where('email' , '=' , $value->email)
             ->get();
-            $users_info_export_import[$i]['users_registration'] = $registration_info ;
-
-            $users_info = 
-            DB::table('users_info')
-            ->where('email' , '=' , $value->email)
-            ->get();
-            $users_info_export_import[$i]['users_info'] = $users_info ;
+            $users_info_export_import[$i]['all_info_together'] = $registration_info ;
 
 
-            $users_address = 
-            DB::table('users_address')
-            ->where('email' , '=' , $value->email)
-            ->get();
-            $users_info_export_import[$i]['users_address'] = $users_address ;
-
-            $verification_info = 
-            DB::table('verification_info')
-            ->where('email' , '=' , $value->email)
-            ->get();
-            $users_info_export_import[$i]['verification_info'] = $verification_info ;
 
             $childrens_info = 
             DB::table('childrens_info')
@@ -405,133 +388,6 @@ class users_info extends Controller
         Storage::disk('local')->put('public/file.json', json_encode($users_info_export_import) );
 
         return $users_info_export_import;
-
-        $get_php_data = json_decode($final_data);
-
-        // print_r($get_php_data[1]->users_registration[0]);
-
-        // return $get_php_data[1]->users_registration;
-
-        // return $email_list;
-
-        // dd($get_php_data);
-
-        DB::table('users_registration')
-        ->delete();
-
-        DB::table('users_info')
-        ->delete();
-
-        DB::table('users_address')
-        ->delete();
-
-        DB::table('verification_info')
-        ->delete();
-
-
-        DB::table('childrens_info')
-        ->delete();
-
-        DB::table('social_network')
-        ->delete();
-
-
-        foreach ($get_php_data as $key => $value) {
-            # code...
-
-            $array = (array) $value;
-
-            // print_r($value);
-
-            //working email
-            // print_r($array['email']);
-
-            
-            //working users_registration
-            // print_r( (array)  $array['users_registration'][0]);
-            $insertToDB =  (array)  $array['users_registration'][0];
-            DB::table('users_registration')
-            ->insert(
-             $insertToDB
-         );
-
-
-            //working users_info
-            // print_r( (array)  $array['users_info'][0]);
-            $insertToDB =  (array)  $array['users_info'][0];
-            DB::table('users_info')
-            ->insert(
-             $insertToDB
-         );
-
-
-
-            //working users_address
-            // print_r( (array)  $array['users_address'][0]);
-            $insertToDB =  (array)  $array['users_address'][0];
-            DB::table('users_address')
-            ->insert(
-             $insertToDB
-         );
-
-
-
-
-            //working verification_info
-            // print_r( (array)  $array['verification_info'][0]);
-            $insertToDB =  (array)  $array['verification_info'][0];
-            DB::table('verification_info')
-            ->insert(
-             $insertToDB
-         );
-
-
-
-
-
-            foreach ($array['childrens_info'] as $key_chi => $value_chi) {
-                # code...
-
-                //working childrens_info
-                print_r( (array) $value_chi );
-
-
-                $insertToDB = (array) $value_chi ;
-                DB::table('childrens_info')
-                ->insert(
-                 $insertToDB
-             );
-
-
-                echo '<br/><br/>';
-            }
-
-
-
-            foreach ($array['social_network'] as $key_chi => $value_chi) {
-                # code...
-
-              //working social_network
-              print_r( (array) $value_chi );
-
-              $insertToDB = (array) $value_chi ;
-              DB::table('social_network')
-              ->insert(
-                 $insertToDB
-             );
-
-              echo '<br/><br/>';
-          }
-
-
-          echo '<br/><br/>';
-
-
-
-
-      }
-
-
 
 
 /*
@@ -563,8 +419,17 @@ class users_info extends Controller
         $path = $req->file('user_import_data_file')->storeAs(
             'import_data' , 'user_import_data_file.json' );
 
+        // return $path;
+
         $contents = Storage::get('import_data/user_import_data_file.json');
 
+        // return $contents;
+
+
+        $a=json_decode($contents);
+        // return $a;
+
+          // return $req->file('user_import_data_file');
 
         // return $contents;
 
@@ -580,18 +445,9 @@ class users_info extends Controller
 
         // dd($get_php_data);
 
-        DB::table('users_registration')
-        ->delete();
 
-        DB::table('users_info')
+        DB::table('all_info_together')
         ->delete();
-
-        DB::table('users_address')
-        ->delete();
-
-        DB::table('verification_info')
-        ->delete();
-
 
         DB::table('childrens_info')
         ->delete();
@@ -599,14 +455,11 @@ class users_info extends Controller
         DB::table('social_network')
         ->delete();
 
-        DB::table('user_uploads')
+        DB::table('user_photos')
         ->delete();
-
-
 
         DB::table('privacy')
         ->delete();
-
 
 
         DB::table('data_log')
@@ -614,147 +467,143 @@ class users_info extends Controller
 
 
 
+        $abc;
 
         foreach ($get_php_data as $key => $value) {
-            # code...
 
-            $array = (array) $value;
 
-            // print_r($value);
+            $abc = (array) $value;
+            DB::table('all_info_together')
+            ->insert(
+                $abc
+            );
 
-            //working email
-            // print_r($array['email']);
+
 
             DB::table('data_log')
             ->insert(
-                
-                [ 'email' =>  $array['email'] ]
 
-                    );
+                [ 'email' =>  $abc['email']   ]
+
+            );
 
 
             DB::table('privacy')
             ->insert(
-                
-                [ 'email' =>  $array['email'] ]
 
-                    );
+                [ 'email' =>  $abc['email']  ]
 
+            );
 
-            DB::table('user_uploads')
-            ->insert(
-                
-                [ 'email' =>  $array['email'] , 'recent_photo' => 'not_set' , 'old_photo' => 'not_set' ]
+        }
 
-                    );
+        DB::table('all_info_together')
+        ->update([ 'status' => 'approved' , 'password' => md5('123456'), 'otp' => '1234' , 'forgot_password_crypto' => '1234' ]);
 
-
-            //working users_registration
-            // print_r( (array)  $array['users_registration'][0]);
-            $insertToDB =  (array)  $array['users_registration'][0];
-            DB::table('users_registration')
-            ->insert(
-             $insertToDB
-         );
-
-
-            //working users_info
-            // print_r( (array)  $array['users_info'][0]);
-            $insertToDB =  (array)  $array['users_info'][0];
-            DB::table('users_info')
-            ->insert(
-             $insertToDB
-         );
+        return  $abc['email'] ;
 
 
 
-            //working users_address
-            // print_r( (array)  $array['users_address'][0]);
-            $insertToDB =  (array)  $array['users_address'][0];
-            DB::table('users_address')
-            ->insert(
-             $insertToDB
-         );
+    }
+
+    function reset_password(Request $req){
 
 
 
+        DB::table('all_info_together')
+        ->where('email' , $req->email)
+        ->update( ['password' => md5('123456') ]);
 
-            //working verification_info
-            // print_r( (array)  $array['verification_info'][0]);
-            $insertToDB =  (array)  $array['verification_info'][0];
-            DB::table('verification_info')
-            ->insert(
-             $insertToDB
-         );
+        return 'ok';
+    }
 
-
+    function user_registration(Request $request){
 
 
-
-            foreach ($array['childrens_info'] as $key_chi => $value_chi) {
-                # code...
-
-                //working childrens_info
-                // print_r( (array) $value_chi );
-
-
-                $insertToDB = (array) $value_chi ;
-                DB::table('childrens_info')
-                ->insert(
-                 $insertToDB
-             );
-
-
-                // echo '<br/><br/>';
-            }
+        $isUserExists =  
+        DB::table('all_info_together')
+        ->where('email' , $request['users_info']['email'])
+        ->select(DB::raw('count(*) as c'))
+        ->get();
 
 
 
-            foreach ($array['social_network'] as $key_chi => $value_chi) {
-                # code...
+    /*if($isUserExists[0]->c > 0){
+        return 'user_exists';
+    }*/
 
-              //working social_network
-              // print_r( (array) $value_chi );
+    // $a =  (object) $request['users_info'];
+    // $b =  (array) $request['users_info'];
 
-              $insertToDB = (array) $value_chi ;
-              DB::table('social_network')
-              ->insert(
-                 $insertToDB
-             );
+    /*DB::table('all_info_together')->insert(
+        [ 'first_name' => $a->first_name ]
+    );*/
 
-              // echo '<br/><br/>';
-          }
+    // return $isUserExists[0]->c;
 
-
-          // echo '<br/><br/>';
-
+   /* DB::table('all_info_together')->insert(
+        ['email' => 'john@example.com']
+    );
+*/
 
 
-      }
-      
-      return 'successful';
-
-  }
-
-  function reset_password(Request $req){
 
 
 
     DB::table('all_info_together')
-    ->where('email' , $req->email)
-    ->update( ['password' => md5('123456') ]);
+    ->insert(
+        $request['users_info']
+    );
 
 
+    DB::table('privacy')
+    ->insert(
+        [ 'email' => $request['users_info']['email'] ]
+    );
 
-    return 'ok';
+    DB::table('data_log')
+    ->insert(
+        [ 'email' => $request['users_info']['email'] ]
+    );
+
+    $request['who_is_doing_registration'] == 'admin' ? 
+    DB::table('all_info_together')
+    ->where(
+        [ 'email' => $request['users_info']['email'] ]
+    )
+    ->update( ['status' => 'verified'] ) : '';
 
 
+    DB::table('all_info_together')
+    ->where(
+        [ 'email' => $request['users_info']['email'] ]
+    )
+    ->update( ['password' => md5($request['users_info']['password']) , 'otp' => '1234' , 'forgot_password_crypto' => '1234'   ] ) ;
+
+    // return $request['who_is_doing_registration'];
+
+/*
+    $request['who_is_doing_registration'] == 'user' ? 
+    DB::table('all_info_together')
+    ->update(
+        $request['users_info']
+    );
+*/
+    // return $a->first_name;
+
+    // var_dump($request['users_info']);
+
+}
 
 
+function test(Request $request){
 
+    DB::table('all_info_together')
+    ->insert([
+        ['email' => 'john@example.com']
+    ]);
 
-  }
-
+}
 
 
 }
