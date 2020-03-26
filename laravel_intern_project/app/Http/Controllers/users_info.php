@@ -566,12 +566,21 @@ class users_info extends Controller
         [ 'email' => $request['users_info']['email'] ]
     );
 
+    $max_member_ship_number = 
+    DB::table('all_info_together')
+    ->select(DB::raw('max(membership_number)+1 as c'))
+    ->get();
+
+
     $request['who_is_doing_registration'] == 'admin' ? 
     DB::table('all_info_together')
     ->where(
         [ 'email' => $request['users_info']['email'] ]
     )
-    ->update( ['status' => 'verified'] ) : '';
+    ->update( [
+     'status' => 'approved',
+     'membership_number' => $max_member_ship_number[0]->c
+            ]) : '';
 
 
     DB::table('all_info_together')
@@ -598,10 +607,17 @@ class users_info extends Controller
 
 function test(Request $request){
 
-    DB::table('all_info_together')
+    /*DB::table('all_info_together')
     ->insert([
         ['email' => 'john@example.com']
     ]);
+*/
+    $max_member_ship_number = 
+    DB::table('all_info_together')
+    ->select(DB::raw('max(membership_number)+1 as c'))
+    ->get();
+
+    return $max_member_ship_number[0]->c;
 
 }
 
