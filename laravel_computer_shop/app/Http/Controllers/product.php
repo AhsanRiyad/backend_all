@@ -40,8 +40,42 @@ class product extends Controller
 		// return '';
 
 	}
-	function test(Request $req){
+	function get_category_brand_product_code(){
 
+		$info['products'] = 
+		DB::table('products')
+		->get();
+
+		$info['brand'] = 
+		DB::table('brand')
+		->get();
+
+		$info['category'] = 
+		DB::table('category')
+		->get();
+
+		$info['product_code'] = 
+		DB::table('products')
+		->select(DB::raw('max(product_code)+1 as c'))
+		->get();
+
+		return $info;
+
+	}
+	function add_product(Request $request){
+
+
+
+		DB::table('products')
+		->insert($request->products_info);
+		return 'add_product';
+
+	}
+	function test(Request $request){
+
+
+		DB::table('products')
+		->insert();
 
 		return 'echo';
 

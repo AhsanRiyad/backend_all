@@ -38,10 +38,13 @@ Route::get('/edit_brand', 'brand@test');
 
 //product
 Route::post('/get_product', 'product@get_product');
+Route::post('/get_category_brand_product_code', 'product@get_category_brand_product_code');
+
+Route::post('/add_product', 'product@add_product');
 
 
 // purchase
-Route::post('/get_supplier', 'purchase@get_supplier');
+Route::post('/getData_add_purchase', 'purchase@getData_add_purchase');
 Route::post('/add_purchase', 'purchase@add_purchase');
 Route::post('/purchase_list', 'purchase@purchase_list');
 Route::post('/edit_purchase', 'purchase@edit_purchase');

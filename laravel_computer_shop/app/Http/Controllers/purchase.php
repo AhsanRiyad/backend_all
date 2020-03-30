@@ -7,7 +7,7 @@ use DB;
 
 class purchase extends Controller
 {
-	function get_supplier(Request $req){
+	function getData_add_purchase(Request $req){
 
 		$people = DB::table('people')->where('type' , '=' , 'Supplier')->get();
 		
@@ -18,11 +18,12 @@ class purchase extends Controller
 		
 		$products = DB::table('products as p')
 		->select(
-			DB::raw('concat( p.product_name , " brand: " ,b.brand_name ) as product_name'),
+			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
 			DB::raw('concat( "Received" ) as status'),
-			'p.selling_price' ,
-			'p.purchase_cost' ,
-			'p.selling_quantity' ,
+			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
+			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
+			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+		
 			'p.warranty_days',
 			'p.having_serial',
 			'p.p_id',
@@ -33,15 +34,21 @@ class purchase extends Controller
 
 
 		$serial = DB::table('serial_number')
-		->select('invoice_number', 'product_id', 'serial_number', 'status' , 
-			DB::raw('concat("old") as delete_status'))
+		->select('invoice_number', 'product_id', 'serial_number', 'status' )
 		->get();
 
 		$warehouse = DB::table('warehouse')->get();
-		$arrayData['products'] = $products; 
-		$arrayData['people'] = $people; 
+		$invoice_number = 
+		DB::table('purchase_or_sell')
+		->select(DB::raw('max(invoice_number)+1 as c'))
+		->get();
+
+		$arrayData['supplier'] = $people; 
 		$arrayData['serial'] = $serial; 
 		$arrayData['warehouse'] = $warehouse; 
+		$arrayData['products'] = $products; 
+		$arrayData['invoice_number'] = $invoice_number[0]->c;
+
 		// $arrayData['products_test'] = $products_test; 
 
 		return $arrayData;

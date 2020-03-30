@@ -69,6 +69,7 @@ Route::post('/export_user_data', 'users_info@export_user_data');
 Route::post('/import_user_data', 'users_info@import_user_data');
 
 Route::post('/user_registration', 'users_info@user_registration');
+Route::post('/get_users_info_and_counter_data', 'users_info@get_users_info_and_counter_data');
 Route::get('/test_users_info', 'users_info@test');
 
 //reset password

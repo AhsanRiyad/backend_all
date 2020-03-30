@@ -528,9 +528,11 @@ class users_info extends Controller
 
 
 
-    /*if($isUserExists[0]->c > 0){
-        return 'user_exists';
-    }*/
+
+
+        if($isUserExists[0]->c > 0){
+            return 'NO';
+        }
 
     // $a =  (object) $request['users_info'];
     // $b =  (array) $request['users_info'];
@@ -587,7 +589,9 @@ class users_info extends Controller
     ->where(
         [ 'email' => $request['users_info']['email'] ]
     )
-    ->update( ['password' => md5($request['users_info']['password']) , 'otp' => '1234' , 'forgot_password_crypto' => '1234'   ] ) ;
+    ->update( ['password' => md5($request['users_info']['password']) , 'otp' => '1234' , 'forgot_password_crypto' => '1234' , 'registration_date' => DB::raw('sysdate()')  ] ) ;
+
+
 
     // return $request['who_is_doing_registration'];
 
@@ -603,6 +607,47 @@ class users_info extends Controller
     // var_dump($request['users_info']);
 
 }
+
+
+function get_users_info_and_counter_data(Request $request){
+
+    /*DB::table('all_info_together')
+    ->insert([
+        ['email' => 'john@example.com']
+    ]);
+*/
+
+    $request->email = 'riyad298@gmail.com';
+
+    $all_info['userInfo'] = 
+    DB::table('all_info_together')
+    ->where('email' , $request->email)
+    ->get();
+
+
+    $all_info['institution_id_label'] = 
+    DB::table('admin_options')
+    ->select('institution_id_label')
+    ->first()->institution_id_label;
+
+    $all_info['verificationRequest'] = 
+    DB::table('all_info_together')
+    ->select(DB::raw('count(*) as c'))
+    ->where('status', 'new')
+    ->get()[0]->c;
+
+    $all_info['changeRequest'] = 
+    DB::table('all_info_together')
+    ->select(DB::raw('count(*) as c'))
+    ->where('change_request', 'requested')
+    ->get()[0]->c;
+
+    
+
+    return $all_info;
+
+}
+
 
 
 function test(Request $request){
