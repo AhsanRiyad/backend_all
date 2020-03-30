@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 12:38 PM
+-- Generation Time: Mar 30, 2020 at 07:44 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -687,7 +687,18 @@ INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `cat
 (6, 'SSD D', 100004, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfreafaerf', 365, 1, 'admin'),
 (7, 'NVME ssd', 100005, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arfaerferfaef', 365, 1, 'admin'),
 (8, 'Hard Disk', 100006, 2, 2, 'Piece', 1, 0.00, 0.00, 0, 'arefaerf', 365, 1, 'admin'),
-(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin');
+(9, 'Monitor arafrf', 100007, 2, 1, 'Piece', 1, 0.00, 0.00, 0, 'arfarefaerf', 365, 1, 'admin'),
+(10, 'abcd', 100008, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'frarf', 365, 0, NULL),
+(11, 'efgh', 100009, 1, 2, 'Piece', 1, 0.00, 0.00, 10, 'farradef', 365, 0, NULL),
+(12, 'cdnla', 100010, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'fff', 365, 0, NULL),
+(13, 'f445', 100010, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'fff', 365, 0, NULL),
+(14, 'afc258', 100011, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'rfreferf', 365, 0, NULL),
+(15, 'arcd4567', 100011, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'rfreferf', 365, 0, NULL),
+(16, 'abcd456789', 100011, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'rfreferf', 365, 0, NULL),
+(17, 'ad^358', 100011, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'rfreferf', 365, 0, NULL),
+(18, 'abcriyad', 100012, 1, 1, 'Piece', 1, 0.00, 0.00, 10, 'frfrf', 365, 0, NULL),
+(19, 'ram for for form', 100013, 1, 2, 'Piece', 1, 0.00, 0.00, 10, 'farfref', 365, 0, NULL),
+(20, 'arferferfaaarrwaddfffra', 100014, 2, 1, 'Piece', 1, 0.00, 0.00, 10, 'afrerfrffarefreffr', 365, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -696,7 +707,7 @@ INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `cat
 -- (See below for the actual view)
 --
 CREATE TABLE `purchase_details_list` (
-`invoice_number` int(200)
+`invoice_number` varchar(200)
 ,`date` datetime(6)
 ,`insert_time_date` datetime(6)
 ,`reference_number` varchar(200)
@@ -723,7 +734,8 @@ CREATE TABLE `purchase_details_list` (
 --
 
 CREATE TABLE `purchase_or_sell` (
-  `invoice_number` int(200) NOT NULL,
+  `id` int(200) NOT NULL,
+  `invoice_number` varchar(200) DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
   `insert_time_date` datetime(6) DEFAULT NULL,
   `reference_number` varchar(200) DEFAULT NULL,
@@ -740,13 +752,8 @@ CREATE TABLE `purchase_or_sell` (
 -- Dumping data for table `purchase_or_sell`
 --
 
-INSERT INTO `purchase_or_sell` (`invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
-(100000, '2020-03-09 00:00:00.000000', '2020-03-10 01:51:28.000000', 'rafaerfer', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
-(100001, '2020-03-09 00:00:00.000000', '2020-03-10 12:42:34.000000', 'raferf', 1, NULL, 26, 'purchase', 'Partial Return', 'Final', NULL),
-(100002, '2020-03-09 00:00:00.000000', '2020-03-10 01:30:05.000000', 'aferferf', 1, NULL, 24, 'purchase', 'Returned', 'Final', NULL),
-(100003, '2020-03-09 00:00:00.000000', '2020-03-09 20:31:31.000000', 'arfreaferf', 1, NULL, 24, 'purchase', 'Received', 'Final', NULL),
-(100004, '2020-03-09 00:00:00.000000', '2020-03-10 14:36:00.000000', 'farref', 1, NULL, 26, 'purchase', 'Partial Return', 'Faulty', NULL),
-(100005, '2020-03-09 00:00:00.000000', '2020-03-10 01:45:19.000000', 'aerfrefearfe', 1, NULL, 26, 'purchase', 'Received', 'Final', NULL);
+INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
+(3, '10000', '2020-03-19 00:00:00.000000', NULL, 'ffarf', 1, NULL, 24, NULL, 'Received', 'Final', NULL);
 
 -- --------------------------------------------------------
 
@@ -768,18 +775,8 @@ CREATE TABLE `sell_or_purchase_details` (
 --
 
 INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
-(100003, 7, 3.00, 10.00, 'Partial Return', 220),
-(100003, 3, 1.00, 0.00, 'Returned', 221),
-(100003, 1, 3.00, 0.00, 'Returned', 222),
-(100002, 1, 1.00, 0.00, 'Returned', 309),
-(100005, 1, 1.00, 1023.00, 'Received', 312),
-(100000, 2, 2.00, 0.00, 'Returned', 313),
-(100000, 1, 2.00, 0.00, 'Received', 314),
-(100001, 4, 1.00, 0.00, 'Returned', 318),
-(100001, 2, 1.00, 0.00, 'Received', 319),
-(100004, 4, 1.00, 0.00, 'Received', 320),
-(100004, 3, 1.00, 0.00, 'Returned', 321),
-(100004, 1, 1.00, 0.00, 'Received', 322);
+(10000, 1, 1.00, 0.00, 'Received', 4),
+(10000, 2, 1.00, 0.00, 'Received', 5);
 
 -- --------------------------------------------------------
 
@@ -800,22 +797,8 @@ CREATE TABLE `serial_number` (
 --
 
 INSERT INTO `serial_number` (`serial_id`, `invoice_number`, `product_id`, `serial_number`, `status`) VALUES
-(294, '100003', 1, 'freferfref', 'Purchase'),
-(295, '100003', 1, 'fre', 'Purchase'),
-(296, '100003', 1, 'aferfrfrefre', 'Purchase'),
-(297, '100003', 7, 'egegtrggg', 'Purchase'),
-(298, '100003', 7, 'trgtg', 'Returned'),
-(299, '100003', 7, 'areferfea', 'Purchase'),
-(459, '100002', 1, 'afrerf', 'Returned'),
-(462, '100005', 1, '225', 'Purchase'),
-(463, '100000', 1, 'ghjr', 'Purchase'),
-(464, '100000', 1, 'werea', 'Purchase'),
-(465, '100000', 2, 'ee', 'Returned'),
-(466, '100000', 2, 'gg', 'Returned'),
-(469, '100001', 2, 'arfrf', 'Purchase'),
-(470, '100001', 4, 'freaf', 'Returned'),
-(471, '100004', 4, 'arferferfref', 'Purchase'),
-(472, '100004', 1, 'arfreferf', 'Purchase');
+(4, '10000', 1, 'fffffffffffw', 'Purchase'),
+(5, '10000', 2, 'ffffffffffff', 'Purchase');
 
 -- --------------------------------------------------------
 
@@ -1106,7 +1089,7 @@ ALTER TABLE `products`
 -- Indexes for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  ADD PRIMARY KEY (`invoice_number`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sell_or_purchase_details`
@@ -1212,25 +1195,25 @@ ALTER TABLE `people`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `invoice_number` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100032;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `social_network`
