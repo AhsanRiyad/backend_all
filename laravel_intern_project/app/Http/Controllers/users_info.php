@@ -617,12 +617,9 @@ function get_users_info_and_counter_data(Request $request){
     ]);
 */
 
-    $request->email = 'riyad298@gmail.com';
+    // $request->email = 'riyad298@gmail.com';
 
-    $all_info['userInfo'] = 
-    DB::table('all_info_together')
-    ->where('email' , $request->email)
-    ->get();
+   
 
 
     $all_info['institution_id_label'] = 
