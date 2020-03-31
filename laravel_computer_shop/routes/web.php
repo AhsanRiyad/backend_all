@@ -43,16 +43,26 @@ Route::post('/get_category_brand_product_code', 'product@get_category_brand_prod
 Route::post('/add_product', 'product@add_product');
 
 
-// purchase
+/************ purchase ***********/
+//initial function for purchase, for getting product list , supplier, brand , warehouse information
 Route::post('/getData_add_purchase', 'purchase@getData_add_purchase');
+
+//this is for adding/updating purchase, for submit button
 Route::post('/add_purchase', 'purchase@add_purchase');
-Route::post('/purchase_list', 'purchase@purchase_list');
+
+//this is getting inital data for editing purchase, for example existing data
 Route::post('/edit_purchase', 'purchase@edit_purchase');
-Route::post('/update_purchase', 'purchase@update_purchase');
+
+//this will send purchase list
+Route::post('/purchase_list', 'purchase@purchase_list');
+
+
+/*************** sell *****************/
+//initial function for purchase, for getting product list , supplier, brand , warehouse information
+Route::post('/getData_add_sell', 'sell@getData_add_sell');
 
 
 
-Route::get('/test', 'purchase@test');
 
 
 
