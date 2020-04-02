@@ -22,7 +22,7 @@ class purchase extends Controller
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
 			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
-		
+
 			'p.warranty_days',
 			'p.having_serial',
 			'p.p_id',
@@ -71,14 +71,14 @@ class purchase extends Controller
 		->delete();
 
 		DB::table('sell_or_purchase_details')
-		->where('invoice_number' , $req->invoice_number)
+		->where([
+			['invoice_number' , '=' , $req->invoice_number]
+		])
 		->delete();
 
 
 		DB::table('serial_number')
 		->where('invoice_number_purchase' , $req->invoice_number)
-		//orWhere chains helps connect sell/purchase together
-		->orWhere('invoice_number_sell' , $req->invoice_number)
 		->delete();
 
 
@@ -92,9 +92,9 @@ class purchase extends Controller
 		foreach ($req->sell_or_purchase_details as $key => $value) {
 
 			DB::table('sell_or_purchase_details')
-            ->insert(
-                (array) $value
-            );
+			->insert(
+				(array) $value
+			);
 		}
 
 		//step_3
@@ -102,12 +102,63 @@ class purchase extends Controller
 		foreach ($req->serial_number as $key => $value) {
 
 			DB::table('serial_number')
-            ->insert(
-                (array) $value
-            );
+			->insert(
+				(array) $value
+			);
 		}
 
 	}
+
+
+
+
+	//this function is used for finally sending data to database, both for add/edit purchase
+	function update_purchase(Request $req){
+
+
+		//delete all the existing data using the invoice number. this is specially needed for updating data
+		DB::table('purchase_or_sell')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+		DB::table('sell_or_purchase_details')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+
+		//step_1
+		//insert to purchase_or_sell , this is the purchase info purpose
+		DB::table('purchase_or_sell')
+		->insert( $req->purchase_or_sell );
+
+		//step_2
+		//insert to sell_or_purchase_details , for example product_id , quantity
+		foreach ($req->sell_or_purchase_details as $key => $value) {
+
+			DB::table('sell_or_purchase_details')
+			->insert(
+				(array) $value
+			);
+		}
+
+		//step_3
+		//update the serial number
+		foreach ($req->serial_number as $key => $value) {			
+			DB::table('serial_number')
+			->where('serial_number',  $value['serial_number'] )
+			->update((array) $value);
+
+		}
+
+	}
+
+
+
+
+
+
+
+
 
 
 	// this is used for showing purchase list, initial page
@@ -121,9 +172,11 @@ class purchase extends Controller
 			's.supplier_id',
 			's.status',
 			's.correction_status',
+			//concating date and time from two different field as we did not take the time input from the form
 			DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
 
 		)
+		->where('status' , 'Received')
 		->join('purchase_or_sell as s', 'p.people_id' , '=' , 's.supplier_id')
 		->get();
 
@@ -151,7 +204,7 @@ class purchase extends Controller
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
 			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
-		
+
 			'p.warranty_days',
 			'p.having_serial',
 			'p.p_id',
@@ -228,5 +281,6 @@ class purchase extends Controller
 
 		return $arrayData;
 	}
+
 
 }
