@@ -60,6 +60,7 @@ Route::post('/purchase_list', 'purchase@purchase_list');
 /*************** sell *****************/
 //initial function for purchase, for getting product list , supplier, brand , warehouse information
 Route::post('/getData_add_sell', 'sell@getData_add_sell');
+Route::post('/add_sell', 'sell@add_sell');
 
 
 

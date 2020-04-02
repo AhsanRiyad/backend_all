@@ -34,7 +34,7 @@ class purchase extends Controller
 
 		//get all the serial for duplication serial verification
 		$serial = DB::table('serial_number')
-		->select('invoice_number', 'product_id', 'serial_number', 'status' )
+		->select('invoice_number_purchase', 'product_id', 'serial_number', 'status' )
 		->get();
 
 
@@ -62,7 +62,7 @@ class purchase extends Controller
 
 
 
-	//this function is used for finally sending data to database
+	//this function is used for finally sending data to database, both for add/edit purchase
 	function add_purchase(Request $req){
 
 		//delete all the existing data using the invoice number. this is specially needed for updating data
@@ -74,8 +74,11 @@ class purchase extends Controller
 		->where('invoice_number' , $req->invoice_number)
 		->delete();
 
+
 		DB::table('serial_number')
-		->where('invoice_number' , $req->invoice_number)
+		->where('invoice_number_purchase' , $req->invoice_number)
+		//orWhere chains helps connect sell/purchase together
+		->orWhere('invoice_number_sell' , $req->invoice_number)
 		->delete();
 
 
@@ -114,7 +117,12 @@ class purchase extends Controller
 		$purchase_list = DB::table('people as p')
 		->select(
 			'p.full_name',
-			's.*'
+			's.invoice_number',
+			's.supplier_id',
+			's.status',
+			's.correction_status',
+			DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
+
 		)
 		->join('purchase_or_sell as s', 'p.people_id' , '=' , 's.supplier_id')
 		->get();
@@ -158,7 +166,7 @@ class purchase extends Controller
 		 //get all the serial for duplication serial verification
 
 		$serial = DB::table('serial_number')
-		->select('invoice_number', 'product_id', 'serial_number', 'status' )
+		->select('invoice_number_purchase', 'product_id', 'serial_number', 'status' )
 		->get();
 
 		//get warehouse list for autocomplete
@@ -166,8 +174,8 @@ class purchase extends Controller
 
 
 		$serial_cart = DB::table('serial_number')
-		->where('invoice_number', '=', $req->invoice_number)
-		->select('invoice_number', 'product_id', 'serial_number', 'status' )
+		->where('invoice_number_purchase', '=', $req->invoice_number)
+		->select('invoice_number_purchase', 'product_id', 'serial_number', 'status' )
 		->get();
 
 

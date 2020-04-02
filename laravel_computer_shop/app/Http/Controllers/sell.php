@@ -34,7 +34,7 @@ class sell extends Controller
 
 		//get all the serial for duplication serial verification
 		$serial = DB::table('serial_number')
-		->select('invoice_number', 'product_id', 'serial_number', 'status' )
+		->select('invoice_number_purchase', 'invoice_number_sell' , 'product_id', 'serial_number', 'status' )
 		->get();
 
 
@@ -58,5 +58,52 @@ class sell extends Controller
 
 		return $arrayData;
 	}    
+
+
+	function add_sell(Request $req){
+
+		return $req;
+
+		//delete all the existing data using the invoice number. this is specially needed for updating data
+		DB::table('purchase_or_sell')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+		DB::table('sell_or_purchase_details')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+		DB::table('serial_number')
+		->where('invoice_number_sell' , $req->invoice_number)
+		->delete();
+
+
+		//step_1
+		//insert to purchase_or_sell , this is the purchase info purpose
+		DB::table('purchase_or_sell')
+		->insert( $req->purchase_or_sell );
+
+		//step_2
+		//insert to sell_or_purchase_details , for example product_id , quantity
+		foreach ($req->sell_or_purchase_details as $key => $value) {
+
+			DB::table('sell_or_purchase_details')
+			->insert(
+				(array) $value
+			);
+		}
+
+		//step_3
+		//insert to serial_number table
+		foreach ($req->serial_number as $key => $value) {
+
+			DB::table('serial_number')
+			->insert(
+				(array) $value
+			);
+		}
+
+
+	}
 
 }

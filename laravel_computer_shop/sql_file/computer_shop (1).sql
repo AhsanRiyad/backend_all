@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2020 at 07:44 PM
+-- Generation Time: Apr 02, 2020 at 04:41 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -707,24 +707,6 @@ INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `cat
 -- (See below for the actual view)
 --
 CREATE TABLE `purchase_details_list` (
-`invoice_number` varchar(200)
-,`date` datetime(6)
-,`insert_time_date` datetime(6)
-,`reference_number` varchar(200)
-,`warehouse_id` int(100)
-,`cusotmer_id` int(100)
-,`supplier_id` int(100)
-,`type` varchar(100)
-,`status` varchar(100)
-,`correction_status` varchar(100)
-,`biller_id` int(100)
-,`full_name` varchar(100)
-,`name` varchar(100)
-,`unit_price` float(100,2)
-,`quantity` float(100,2)
-,`serial_number` varchar(100)
-,`product_id` int(100)
-,`product_name` varchar(200)
 );
 
 -- --------------------------------------------------------
@@ -737,10 +719,10 @@ CREATE TABLE `purchase_or_sell` (
   `id` int(200) NOT NULL,
   `invoice_number` varchar(200) DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
-  `insert_time_date` datetime(6) DEFAULT NULL,
+  `timestamp` timestamp(6) NULL DEFAULT current_timestamp(6),
   `reference_number` varchar(200) DEFAULT NULL,
   `warehouse_id` int(100) DEFAULT NULL,
-  `cusotmer_id` int(100) DEFAULT NULL,
+  `customer_id` int(100) DEFAULT NULL,
   `supplier_id` int(100) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL,
@@ -752,8 +734,18 @@ CREATE TABLE `purchase_or_sell` (
 -- Dumping data for table `purchase_or_sell`
 --
 
-INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `insert_time_date`, `reference_number`, `warehouse_id`, `cusotmer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
-(3, '10000', '2020-03-19 00:00:00.000000', NULL, 'ffarf', 1, NULL, 24, NULL, 'Received', 'Final', NULL);
+INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
+(3, '10000', '2020-03-19 00:00:00.000000', '2020-03-31 18:50:29.000000', 'ffarf', 1, NULL, 24, NULL, 'Received', 'Final', NULL),
+(7, '10002', '2020-03-31 00:00:00.000000', '2020-03-31 18:50:29.000000', 'fff', 1, NULL, 24, NULL, 'Received', 'Final', NULL),
+(8, '10003', '2020-03-31 00:00:00.000000', '2020-03-31 18:50:29.000000', 'faf', 1, NULL, 25, NULL, 'Received', 'Final', NULL),
+(9, '10001', '2020-03-19 00:00:00.000000', '2020-03-31 18:55:28.262140', 'fff', 1, NULL, 26, NULL, 'Received', 'Final', NULL),
+(10, '10004', '2020-04-02 00:00:00.000000', '2020-04-02 14:21:23.139452', 'rfaefer', 1, NULL, 24, NULL, 'Received', 'Final', NULL),
+(11, '10005', '2020-04-02 00:00:00.000000', '2020-04-02 14:25:57.725734', 'rferf', 1, 27, NULL, NULL, 'Sold', 'Final', NULL),
+(15, '10006', '2020-04-02 00:00:00.000000', '2020-04-02 14:30:09.196185', 'arferf', 1, 27, NULL, NULL, 'Sold', 'Final', NULL),
+(16, '10007', '2020-04-02 00:00:00.000000', '2020-04-02 14:32:54.929994', 'ffaref', 1, 27, NULL, NULL, 'Sold', 'Final', NULL),
+(17, '10008', '2020-04-02 00:00:00.000000', '2020-04-02 14:33:37.207990', 'arfrf', 1, 27, NULL, NULL, 'Sold', 'Final', NULL),
+(18, '10009', '2020-04-02 00:00:00.000000', '2020-04-02 14:34:04.948586', 'arfref', 1, 27, NULL, NULL, 'Sold', 'Final', NULL),
+(19, '10010', '2020-04-02 00:00:00.000000', '2020-04-02 14:36:37.389036', 'rfer', 1, 27, NULL, NULL, 'Sold', 'Final', NULL);
 
 -- --------------------------------------------------------
 
@@ -776,7 +768,20 @@ CREATE TABLE `sell_or_purchase_details` (
 
 INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
 (10000, 1, 1.00, 0.00, 'Received', 4),
-(10000, 2, 1.00, 0.00, 'Received', 5);
+(10000, 2, 1.00, 0.00, 'Received', 5),
+(10002, 2, 1.00, 0.00, 'Received', 18),
+(10003, 1, 1.00, 0.00, 'Received', 19),
+(10001, 4, 1.00, 0.00, 'Received', 20),
+(10001, 6, 1.00, 0.00, 'Received', 21),
+(10001, 1, 1.00, 0.00, 'Received', 22),
+(10004, 2, 1.00, 0.00, 'Received', 23),
+(10005, 2, 1.00, 0.00, 'Sold', 24),
+(10006, 2, 1.00, 0.00, 'Sold', 28),
+(10007, 2, 1.00, 0.00, 'Sold', 29),
+(10007, 3, 1.00, 0.00, 'Sold', 30),
+(10008, 1, 1.00, 0.00, 'Sold', 31),
+(10009, 1, 1.00, 0.00, 'Sold', 32),
+(10010, 2, 1.00, 0.00, 'Sold', 33);
 
 -- --------------------------------------------------------
 
@@ -786,7 +791,8 @@ INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantit
 
 CREATE TABLE `serial_number` (
   `serial_id` int(100) NOT NULL,
-  `invoice_number` varchar(100) DEFAULT NULL,
+  `invoice_number_purchase` varchar(100) DEFAULT NULL,
+  `invoice_number_sell` varchar(200) DEFAULT NULL,
   `product_id` int(100) DEFAULT NULL,
   `serial_number` varchar(100) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL
@@ -796,9 +802,21 @@ CREATE TABLE `serial_number` (
 -- Dumping data for table `serial_number`
 --
 
-INSERT INTO `serial_number` (`serial_id`, `invoice_number`, `product_id`, `serial_number`, `status`) VALUES
-(4, '10000', 1, 'fffffffffffw', 'Purchase'),
-(5, '10000', 2, 'ffffffffffff', 'Purchase');
+INSERT INTO `serial_number` (`serial_id`, `invoice_number_purchase`, `invoice_number_sell`, `product_id`, `serial_number`, `status`) VALUES
+(4, '10000', NULL, 1, 'fffffffffffw', 'Purchase'),
+(5, '10000', NULL, 2, 'ffffffffffff', 'Purchase'),
+(15, '10002', NULL, 2, 'fffffffffffh', 'Purchase'),
+(16, '10003', NULL, 1, 'fffffffffffm', 'Purchase'),
+(17, '10001', NULL, 1, 'fffffffffffa', 'Purchase'),
+(18, '10001', NULL, 6, 'fffffffffffg', 'Purchase'),
+(19, '10001', NULL, 4, 'ffffffffffft', 'Purchase'),
+(20, '10004', NULL, 2, 'ffffafffffff', 'Purchase'),
+(21, '10000', '10005', 2, 'ffffffffffff', 'Sold'),
+(25, '10002', '10006', 2, 'fffffffffffh', 'Sold'),
+(26, '10002', '10007', 2, 'fffffffffffh', 'Sold'),
+(27, '10000', '10008', 1, 'fffffffffffw', 'Sold'),
+(28, '10000', '10009', 1, 'fffffffffffw', 'Sold'),
+(29, '10000', '10010', 2, 'ffffffffffff', 'Sold');
 
 -- --------------------------------------------------------
 
@@ -1201,19 +1219,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `social_network`
