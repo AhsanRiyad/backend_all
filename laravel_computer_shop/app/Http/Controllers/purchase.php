@@ -48,12 +48,20 @@ class purchase extends Controller
 		->get();
 
 
+		//counter of item sold or remaining
+		$count_purchase_or_sell = 
+		DB::table('count_purchase_or_sell')
+		->get();
+
+
+
 		//marge and send the data
 		$arrayData['supplier'] = $people; 
 		$arrayData['serial'] = $serial; 
 		$arrayData['warehouse'] = $warehouse; 
 		$arrayData['products'] = $products; 
 		$arrayData['invoice_number'] = $invoice_number[0]->c;
+		$arrayData['count_purchase_or_sell'] = $count_purchase_or_sell;
 
 
 		return $arrayData;
@@ -187,7 +195,7 @@ class purchase extends Controller
 
 	}
 
-	// this function is used for editing a purchase... this function will send the existing data according to the invoice number so that old data can be read and update if needed.
+	//inital funciton, this function is used for editing a purchase... this function will send the existing data according to the invoice number so that old data can be read and update if needed.
 	function edit_purchase(Request $req){
 
 
@@ -256,9 +264,6 @@ class purchase extends Controller
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
 			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
-			
-
-
 			'p.having_serial',
 			'sp.status'
 
@@ -266,18 +271,21 @@ class purchase extends Controller
 		->get();
 
 
+		//counter of item sold or remaining
+		$count_purchase_or_sell = 
+		DB::table('count_purchase_or_sell')
+		->get();
+
 
 		//mergin the data for sending to vue
 		$arrayData['supplier'] = $supplier; 
 		$arrayData['products'] = $products; 
 		$arrayData['serial'] = $serial; 
 		$arrayData['warehouse'] = $warehouse; 
-
-
+		$arrayData['count_purchase_or_sell'] = $count_purchase_or_sell;
 		$arrayData['serial_cart'] = $serial_cart; 
 		$arrayData['purchase_info'] = $purchase_info; 
 		$arrayData['product_cart'] = $product_cart; 
-
 
 		return $arrayData;
 	}
