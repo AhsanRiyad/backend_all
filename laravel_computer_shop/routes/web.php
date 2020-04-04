@@ -45,15 +45,14 @@ Route::post('/getData_add_purchase', 'purchase@getData_add_purchase');
 
 //this is for adding/updating purchase, for submit button
 Route::post('/add_purchase', 'purchase@add_purchase');
-
 //this is getting inital data for editing purchase, for example existing data
 Route::post('/edit_purchase', 'purchase@edit_purchase');
-
 //this is the submit function for editing purchase information
 Route::post('/update_purchase', 'purchase@update_purchase');
-
 //this will send purchase list
 Route::post('/purchase_list', 'purchase@purchase_list');
+//this will delete a invoice of purchase
+Route::post('/delete_invoice_purchase', 'purchase@delete_invoice_purchase');
 
 
 /*************** sell *****************/
@@ -65,6 +64,8 @@ Route::post('/add_sell', 'sell@add_sell');
 Route::post('/sells_list', 'sell@sells_list');
 //sends a particular sells info
 Route::post('/edit_sell', 'sell@edit_sell');
+//delete a invoice of sell
+Route::post('/delete_invoice_sell', 'sell@delete_invoice_sell');
 
 
 

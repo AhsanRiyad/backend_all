@@ -12,13 +12,16 @@ class sell extends Controller
 	function getData_add_sell(Request $req){
 
 		//this will get all the supplier list for the autocomplete
-		$customer = DB::table('people')->where('type' , '=' , 'Customer')->get();
+		$customer = 
+		DB::table('people')
+		->where('type' , '=' , 'Customer')
+		->get();
 		
 		//get the product list for autocomplete
 		$products = DB::table('products as p')
 		->select(
 			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
-			DB::raw('concat( "Received" ) as status'),
+			DB::raw('concat( "Sold" ) as status'),
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.selling_price as char(10)) as selling_price '),
 			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
@@ -134,8 +137,6 @@ class sell extends Controller
 	// this function is used for editing a sell... this function will send the existing data according to the invoice number so that old data can be read and update if needed.
 	function edit_sell(Request $req){
 
-
-
 		// $req->invoice_number = 10001;
 
 		//this will get all the supplier list for the autocomplete
@@ -162,7 +163,6 @@ class sell extends Controller
 
 
 		 //get all the serial for duplication serial verification
-
 		$serial = DB::table('serial_number')
 		->select('invoice_number_purchase', 'invoice_number_sell', 'product_id', 'serial_number', 'status' )
 		->get();
@@ -201,9 +201,7 @@ class sell extends Controller
 
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
-
-
+			DB::raw('CAST( sp.quantity as char(10)) as selling_quantity'),
 
 			'p.having_serial',
 			'sp.status'
@@ -227,7 +225,26 @@ class sell extends Controller
 		return $arrayData;
 	}
 
+	function delete_invoice_sell(Request $req){
 
+		//delete all the existing data using the invoice number. this is specially needed for updating data
+		DB::table('purchase_or_sell')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
 
-
+		DB::table('sell_or_purchase_details')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+		//step_3
+		//update the serial number
+		DB::table('serial_number')
+		->where( 'invoice_number_sell', $req->invoice_number  )
+		->update( [ 'invoice_number_sell' => '' ,
+					'status' => 'Purchase'
+		 		]);
+	
+		return $req;
+	}
+	
+	
 }

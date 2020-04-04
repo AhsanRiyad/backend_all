@@ -152,9 +152,12 @@ class purchase extends Controller
 		//step_3
 		//update the serial number
 		foreach ($req->serial_number as $key => $value) {			
+
 			DB::table('serial_number')
-			->where('serial_number',  $value['serial_number'] )
-			->update((array) $value);
+			->updateOrInsert(
+				[ 'serial_number' =>  $value['serial_number'] ],
+				(array) $value
+			);
 
 		}
 
@@ -263,7 +266,7 @@ class purchase extends Controller
 
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( sp.quantity as char(10)) as selling_quantity'),
 			'p.having_serial',
 			'sp.status'
 
@@ -290,5 +293,36 @@ class purchase extends Controller
 		return $arrayData;
 	}
 
+	//this funciton will delete the invoice number of purchase if the criteria of condition is full-filled
+	function delete_invoice_purchase(Request $req){
+
+		$isAnyProductSold = 
+		DB::table('serial_number')
+		->where([
+			['invoice_number_purchase' , '=' ,  $req->invoice_number],
+			['status' , '=' ,  'Sold'],
+		])
+		->select( DB::raw('count(*) as c') )
+		->get()[0]->c;
+
+		//if any product is sold then the invoice can not be deleted
+		if($isAnyProductSold>0) return 'some_prouducts_already_sold';
+
+		//delete all the existing data using the invoice number. 
+		DB::table('purchase_or_sell')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+		DB::table('sell_or_purchase_details')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
+		DB::table('serial_number')
+		->where('invoice_number_purchase' , $req->invoice_number)
+		->delete();
+
+		return 'invoice_deleted_successfully';
+
+	}
 
 }
