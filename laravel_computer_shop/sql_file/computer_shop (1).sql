@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2020 at 10:57 PM
+-- Generation Time: Apr 07, 2020 at 03:58 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -585,6 +585,18 @@ CREATE TABLE `childrens_info` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `count_purchase_or_sell`
+-- (See below for the actual view)
+--
+CREATE TABLE `count_purchase_or_sell` (
+`product_id` int(100)
+,`status` varchar(50)
+,`total` double(19,2)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `form_fields_rule`
 --
 
@@ -649,7 +661,18 @@ INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email
 (24, 'Ahsan', 'Riyad', '01719246822', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
 (25, 'Zobaida', 'Taher Mahal', '01793138099', 'tz.maliha@gmail.com', '3900', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
 (26, 'Tahera', 'arferfa', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', 'admin'),
-(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin');
+(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin'),
+(28, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(29, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(30, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(31, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(32, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(33, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(34, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(35, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(36, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(37, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(38, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL);
 
 -- --------------------------------------------------------
 
@@ -727,6 +750,7 @@ CREATE TABLE `purchase_or_sell` (
   `type` varchar(100) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL,
   `correction_status` varchar(100) DEFAULT NULL,
+  `discount` varchar(100) DEFAULT '0',
   `biller_id` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -734,9 +758,9 @@ CREATE TABLE `purchase_or_sell` (
 -- Dumping data for table `purchase_or_sell`
 --
 
-INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `biller_id`) VALUES
-(3, '10000', '2020-04-02 00:00:00.000000', '2020-04-02 20:43:51.045573', 'ffa', 1, NULL, 24, NULL, 'Received', 'Final', NULL),
-(4, '10001', '2020-04-02 00:00:00.000000', '2020-04-02 20:56:12.961133', 'fffaerf', 1, 27, NULL, NULL, 'Sold', 'Final', NULL);
+INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `discount`, `biller_id`) VALUES
+(49, '10000', '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.916451', 'arferf', 1, NULL, 24, NULL, 'Received', 'Final', '0', NULL),
+(51, '10001', '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.087148', 'fref', 1, 27, NULL, NULL, 'Sold', 'Final', '0', NULL);
 
 -- --------------------------------------------------------
 
@@ -758,11 +782,9 @@ CREATE TABLE `sell_or_purchase_details` (
 --
 
 INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
-(10000, 1, 1.00, 0.00, 'Received', 7),
-(10000, 3, 1.00, 0.00, 'Received', 8),
-(10000, 2, 1.00, 0.00, 'Received', 9),
-(10001, 1, 1.00, 0.00, 'Sold', 10),
-(10001, 2, 1.00, 0.00, 'Sold', 11);
+(10000, 2, 2.00, 100.00, 'Received', 63),
+(10000, 3, 1.00, 100.00, 'Received', 64),
+(10001, 2, 1.00, 1000.00, 'Sold', 66);
 
 -- --------------------------------------------------------
 
@@ -784,8 +806,8 @@ CREATE TABLE `serial_number` (
 --
 
 INSERT INTO `serial_number` (`serial_id`, `invoice_number_purchase`, `invoice_number_sell`, `product_id`, `serial_number`, `status`) VALUES
-(1, '10000', '10001', 2, 'fffffffffffw', 'Sold'),
-(2, '10000', '10001', 1, 'ffffffffffff', 'Sold');
+(20, '10000', '10001', 2, 'fffffffffffg', 'Sold'),
+(21, '10000', '', 2, 'ffffffffffff', 'Purchase');
 
 -- --------------------------------------------------------
 
@@ -800,6 +822,54 @@ CREATE TABLE `social_network` (
   `profile_link` varchar(500) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `total_amount`
+-- (See below for the actual view)
+--
+CREATE TABLE `total_amount` (
+`status` varchar(50)
+,`invoice_number` int(100)
+,`discount` varchar(100)
+,`total` double
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `id` int(200) NOT NULL,
+  `transaction_id` varchar(200) DEFAULT '100000000',
+  `invoice_number` varchar(200) DEFAULT NULL,
+  `seller_or_customer_id` varchar(200) DEFAULT NULL,
+  `reference_number` varchar(200) DEFAULT NULL,
+  `total_amount` float(100,2) DEFAULT NULL,
+  `check_or_cash` varchar(100) DEFAULT NULL,
+  `purchase_or_sell` varchar(100) DEFAULT NULL,
+  `paying_or_receiving` varchar(100) DEFAULT NULL,
+  `debit_or_credit` varchar(100) DEFAULT NULL,
+  `advance_or_final` varchar(100) DEFAULT NULL,
+  `bank` varchar(100) DEFAULT NULL,
+  `branch` varchar(100) DEFAULT NULL,
+  `check_date` date DEFAULT NULL,
+  `date` datetime(6) DEFAULT NULL,
+  `timestamp` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `transaction_id`, `invoice_number`, `seller_or_customer_id`, `reference_number`, `total_amount`, `check_or_cash`, `purchase_or_sell`, `paying_or_receiving`, `debit_or_credit`, `advance_or_final`, `bank`, `branch`, `check_date`, `date`, `timestamp`) VALUES
+(62, '1000000', '10000', '24', 'Trans_purchase10000', 300.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.931694'),
+(64, '1000001', '10001', '27', 'Trans_sell10001', 1000.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.096924'),
+(65, '1000002', '10001', '27', 'affre', 100.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:55:12.879565'),
+(66, '1000003', '10001', '27', 'refef', 900.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:56:34.277870');
 
 -- --------------------------------------------------------
 
@@ -1014,11 +1084,29 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `count_purchase_or_sell`
+--
+DROP TABLE IF EXISTS `count_purchase_or_sell`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `count_purchase_or_sell`  AS  select `sell_or_purchase_details`.`product_id` AS `product_id`,`sell_or_purchase_details`.`status` AS `status`,sum(`sell_or_purchase_details`.`quantity`) AS `total` from `sell_or_purchase_details` group by `sell_or_purchase_details`.`product_id`,`sell_or_purchase_details`.`status` ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `purchase_details_list`
 --
 DROP TABLE IF EXISTS `purchase_details_list`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_details_list`  AS  select `sp`.`invoice_number` AS `invoice_number`,`sp`.`date` AS `date`,`sp`.`insert_time_date` AS `insert_time_date`,`sp`.`reference_number` AS `reference_number`,`sp`.`warehouse_id` AS `warehouse_id`,`sp`.`cusotmer_id` AS `cusotmer_id`,`sp`.`supplier_id` AS `supplier_id`,`sp`.`type` AS `type`,`sp`.`status` AS `status`,`sp`.`correction_status` AS `correction_status`,`sp`.`biller_id` AS `biller_id`,`s`.`full_name` AS `full_name`,`w`.`name` AS `name`,`spd`.`unit_price` AS `unit_price`,`spd`.`quantity` AS `quantity`,`sn`.`serial_number` AS `serial_number`,`sn`.`product_id` AS `product_id`,`p`.`product_name` AS `product_name` from (((((`products` `p` join `purchase_or_sell` `sp`) join `warehouse` `w`) join `people` `s`) join `sell_or_purchase_details` `spd`) join `serial_number` `sn`) where `sp`.`invoice_number` = `spd`.`invoice_number` and `spd`.`invoice_number` = `sn`.`invoice_number` and `p`.`p_id` = `spd`.`product_id` and `w`.`id` = `sp`.`warehouse_id` and `s`.`people_id` = `sp`.`supplier_id` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `total_amount`
+--
+DROP TABLE IF EXISTS `total_amount`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_amount`  AS  select `s`.`status` AS `status`,`s`.`invoice_number` AS `invoice_number`,`p`.`discount` AS `discount`,sum(`s`.`quantity` * `s`.`unit_price`) - sum(`s`.`quantity` * `s`.`unit_price`) * `p`.`discount` / 100 AS `total` from (`sell_or_purchase_details` `s` join `purchase_or_sell` `p`) where `s`.`invoice_number` = `p`.`invoice_number` group by `s`.`invoice_number`,`p`.`discount`,`s`.`status` ;
 
 --
 -- Indexes for dumped tables
@@ -1095,6 +1183,12 @@ ALTER TABLE `serial_number`
 --
 ALTER TABLE `social_network`
   ADD PRIMARY KEY (`id_sn`);
+
+--
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users_address`
@@ -1176,7 +1270,7 @@ ALTER TABLE `log_table`
 -- AUTO_INCREMENT for table `people`
 --
 ALTER TABLE `people`
-  MODIFY `people_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `people_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1188,25 +1282,31 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `social_network`
 --
 ALTER TABLE `social_network`
   MODIFY `id_sn` int(200) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `users_address`

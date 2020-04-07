@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 /****************brand***************/
 Route::post('/edit_brand', 'brand@edit_brand');
@@ -31,6 +27,8 @@ Route::post('/get_people', 'people@get_people');
 Route::post('/get_people_details', 'people@get_people_details');
 Route::post('/edit_people', 'people@edit_people');
 Route::get('/edit_brand', 'brand@test');
+//this function will register people
+Route::post('/add_people', 'people@add_people');
 
 
 /******************** product *******************/
@@ -45,6 +43,7 @@ Route::post('/getData_add_purchase', 'purchase@getData_add_purchase');
 
 //this is for adding/updating purchase, for submit button
 Route::post('/add_purchase', 'purchase@add_purchase');
+Route::get('/add_purchase', 'purchase@add_purchase');
 //this is getting inital data for editing purchase, for example existing data
 Route::post('/edit_purchase', 'purchase@edit_purchase');
 //this is the submit function for editing purchase information
@@ -62,6 +61,7 @@ Route::post('/getData_add_sell', 'sell@getData_add_sell');
 Route::post('/add_sell', 'sell@add_sell');
 // sends intial data for list of sells
 Route::post('/sells_list', 'sell@sells_list');
+Route::get('/sells_list', 'sell@sells_list');
 //sends a particular sells info
 Route::post('/edit_sell', 'sell@edit_sell');
 //delete a invoice of sell
@@ -69,14 +69,13 @@ Route::post('/delete_invoice_sell', 'sell@delete_invoice_sell');
 
 
 
-
-
-
-
-
-
-
-
-
-
+/*************** Payment *****************/
+/*
+| this route will send intial data for adding payment, for example people_list
+*/
+Route::post('/add_payment_get_initial_data', 'payment@add_payment_get_initial_data');
+/*
+| this route will add payment for general purpose
+*/
+Route::post('/add_payment_general', 'payment@add_payment_general');
 

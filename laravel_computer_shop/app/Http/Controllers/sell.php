@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class sell extends Controller
+class sell extends payment
 {
 	
 	//this function gets the initial pre-requisite data for adding purchase.
@@ -103,6 +103,10 @@ class sell extends Controller
 
 		}
 
+		
+		//add transaction
+		parent::add_payment_general($req);
+
 	}
 
 
@@ -116,6 +120,7 @@ class sell extends Controller
 			's.customer_id',
 			's.status',
 			's.correction_status',
+			's.discount',
 			DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
 
 		)
@@ -123,9 +128,31 @@ class sell extends Controller
 		->join('purchase_or_sell as s', 'p.people_id' , '=' , 's.customer_id')
 		->get();
 
-		 $sellsData['sells_list'] = $sells_list;
 
-		 return $sellsData;
+		/*$total_amount = 
+		DB::table('sell_or_purchase_details as s')
+		->select(DB::raw('sum( s.quantity * s.unit_price )-(sum( s.quantity * s.unit_price )*p.discount/100) as total'), 's.invoice_number', 'p.discount')
+		->join('purchase_or_sell as p' , 'p.invoice_number' , '=' , 's.invoice_number') 
+		->where('s.status', '=', 'Sold')
+		->groupBy('s.invoice_number', 'p.discount')
+		->get();
+*/
+
+		$total_amount = DB::table('total_amount')->get();
+		$amount_paid= 
+		DB::table('transactions')
+		->select('invoice_number' , DB::raw('sum(total_amount) as total_paid'))
+		->where('paying_or_receiving', 'Receiving')
+		->groupBy('invoice_number')
+		->get();
+
+
+		$sellsData['sells_list'] = $sells_list;
+		$sellsData['total_amount'] = $total_amount;
+		$sellsData['amount_paid'] = $amount_paid;
+
+
+		return $sellsData;
 	}
 
 
@@ -209,14 +236,13 @@ class sell extends Controller
 		)
 		->get();
 
-
-
+		
 		//mergin the data for sending to vue
 		$arrayData['customer'] = $customer; 
 		$arrayData['products'] = $products; 
 		$arrayData['serial'] = $serial; 
 		$arrayData['warehouse'] = $warehouse; 
-
+		
 
 		$arrayData['serial_cart'] = $serial_cart; 
 		$arrayData['sells_info'] = $sells_info; 
@@ -232,6 +258,12 @@ class sell extends Controller
 		->where('invoice_number' , $req->invoice_number)
 		->delete();
 
+
+		//delete all transactions related to this sell
+		DB::table('transactions')
+		->where('invoice_number' , $req->invoice_number)
+		->delete();
+
 		DB::table('sell_or_purchase_details')
 		->where('invoice_number' , $req->invoice_number)
 		->delete();
@@ -240,9 +272,9 @@ class sell extends Controller
 		DB::table('serial_number')
 		->where( 'invoice_number_sell', $req->invoice_number  )
 		->update( [ 'invoice_number_sell' => '' ,
-					'status' => 'Purchase'
-		 		]);
-	
+			'status' => 'Purchase'
+		]);
+
 		return $req;
 	}
 	

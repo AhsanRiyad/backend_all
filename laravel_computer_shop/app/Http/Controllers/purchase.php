@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class purchase extends Controller
+class purchase extends payment
 {
 
 	//this function gets the initial pre-requisite data for adding purchase.
@@ -73,6 +73,7 @@ class purchase extends Controller
 	//this function is used for finally sending data to database, both for add/edit purchase
 	function add_purchase(Request $req){
 
+
 		//delete all the existing data using the invoice number. this is specially needed for updating data
 		DB::table('purchase_or_sell')
 		->where('invoice_number' , $req->invoice_number)
@@ -114,6 +115,11 @@ class purchase extends Controller
 				(array) $value
 			);
 		}
+		// return 'ok';
+
+		//call add_payment f
+		parent::add_payment_general($req);
+		
 
 	}
 
@@ -319,6 +325,11 @@ class purchase extends Controller
 
 		DB::table('serial_number')
 		->where('invoice_number_purchase' , $req->invoice_number)
+		->delete();
+
+		//delete all transactions related to this sell
+		DB::table('transactions')
+		->where('invoice_number' , $req->invoice_number)
 		->delete();
 
 		return 'invoice_deleted_successfully';

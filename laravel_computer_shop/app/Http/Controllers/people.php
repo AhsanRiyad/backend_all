@@ -33,6 +33,30 @@ class people extends Controller
 
 	}
 
+	//this function will register user
+	function add_people(Request $req){
+
+		$UserInfo = $req->UserInfo;
+
+		// return $UserInfo;
+
+		$isUserExists = 
+		DB::table('people')
+		->where('email' , $UserInfo['email'] )
+		->orWhere('mobile' , '=' ,$UserInfo['mobile'] )
+		->select(DB::raw('count(*) as c'))
+		->get()[0]->c;
+		
+
+		if($isUserExists > 0 ) return 'user_exists'; 
+
+		DB::table('people')
+		->insert( (array) $UserInfo );
+
+		return 'ok';
+
+	}
+	
 
 
 
