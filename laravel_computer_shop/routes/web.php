@@ -78,4 +78,8 @@ Route::post('/add_payment_get_initial_data', 'payment@add_payment_get_initial_da
 | this route will add payment for general purpose
 */
 Route::post('/add_payment_general', 'payment@add_payment_general');
+//get payment history by inovice number
+Route::post('/payment_history_by_invoice_number', 'payment@payment_history_by_invoice_number');
+//this route will delete transaction
+Route::post('/deleteTransaction', 'payment@deleteTransaction');
 
