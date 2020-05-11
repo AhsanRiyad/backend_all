@@ -22,9 +22,9 @@ class sell extends payment
 		->select(
 			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
 			DB::raw('concat( "Sold" ) as status'),
-			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
+			DB::raw('CAST( p.selling_price as char(10) ) as unit_price'),
 			DB::raw('CAST( p.selling_price as char(10)) as selling_price '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( p.selling_quantity as char(10)) as quantity'),
 			'p.product_code',
 			'p.warranty_days',
 			'p.having_serial',
@@ -175,9 +175,9 @@ class sell extends payment
 		->select(
 			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
 			DB::raw('concat( "Sold" ) as status'),
-			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
+			DB::raw('CAST( p.selling_price as char(10) ) as unit_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( p.selling_quantity as char(10)) as quantity'),
 
 			'p.warranty_days',
 			'p.having_serial',
@@ -189,7 +189,7 @@ class sell extends payment
 
 
 
-		 //get all the serial for duplication serial verification
+		//get all the serial for duplication serial verification
 		$serial = DB::table('serial_number')
 		->select('invoice_number_purchase', 'invoice_number_sell', 'product_id', 'serial_number', 'status' )
 		->get();
@@ -199,6 +199,7 @@ class sell extends payment
 		$warehouse = DB::table('warehouse')->get();
 
 
+		//
 		$serial_cart = DB::table('serial_number')
 		->where('invoice_number_sell', '=', $req->invoice_number)
 		->select('invoice_number_purchase', 'invoice_number_sell',  'product_id', 'serial_number', 'status' )
@@ -225,10 +226,9 @@ class sell extends payment
 			DB::raw('concat( p.product_name , " brand: " ,b.brand_name ) as product_name'),
 			'sp.product_id as p_id', 
 
-
-			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
+			DB::raw('CAST( sp.unit_price as char(10) ) as unit_price'),
 			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( sp.quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( sp.quantity as char(10)) as quantity'),
 
 			'p.having_serial',
 			'sp.status'

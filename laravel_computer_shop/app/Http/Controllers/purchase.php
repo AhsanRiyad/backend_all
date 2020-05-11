@@ -20,8 +20,8 @@ class purchase extends payment
 			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
 			DB::raw('concat( "Received" ) as status'),
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
-			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( p.purchase_cost as char(10)) as unit_price '),
+			DB::raw('CAST( p.selling_quantity as char(10)) as quantity'),
 
 			'p.warranty_days',
 			'p.having_serial',
@@ -189,6 +189,7 @@ class purchase extends payment
 			's.supplier_id',
 			's.status',
 			's.correction_status',
+			's.discount',
 			//concating date and time from two different field as we did not take the time input from the form
 			DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
 
@@ -198,7 +199,19 @@ class purchase extends payment
 		->get();
 
 
+		$total_amount = DB::table('total_amount')->get();
+		$amount_paid= 
+		DB::table('transactions')
+		->select('invoice_number' , DB::raw('sum(total_amount) as total_paid'))
+		->where('paying_or_receiving', 'Receiving')
+		->groupBy('invoice_number')
+		->get();
+
+
+
 		$purchaseData['purchase_list'] = $purchase_list;
+		$purchaseData['total_amount'] = $total_amount;
+		$purchaseData['amount_paid'] = $amount_paid;
 
 		return $purchaseData;
 
@@ -219,8 +232,8 @@ class purchase extends payment
 			DB::raw('concat( p.product_name , " brand: " , b.brand_name ) as product_name'),
 			DB::raw('concat( "Received" ) as status'),
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
-			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( p.purchase_cost as char(10)) as unit_price '),
+			DB::raw('CAST( p.selling_quantity as char(10)) as quantity'),
 
 			'p.warranty_days',
 			'p.having_serial',
@@ -271,8 +284,8 @@ class purchase extends payment
 			
 
 			DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
-			DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost '),
-			DB::raw('CAST( sp.quantity as char(10)) as selling_quantity'),
+			DB::raw('CAST( sp.unit_price as char(10)) as unit_price '),
+			DB::raw('CAST( sp.quantity as char(10)) as quantity'),
 			'p.having_serial',
 			'sp.status'
 

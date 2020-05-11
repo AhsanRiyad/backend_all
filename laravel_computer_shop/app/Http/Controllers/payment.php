@@ -2,15 +2,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Traits\PaymentTrait;
 use DB;
+
 
 class payment extends Controller
 {
+	use PaymentTrait;
+
     /*
 	| this funtion will send initial data for adding payment
     */
 	function add_payment_get_initial_data(Request $req){
-		
 		$peopleList = 
 		DB::table('people')
 		->select(DB::raw('concat(full_name,  " type: " , type   ) as full_name'), 'people_id')
@@ -31,14 +34,9 @@ class payment extends Controller
 			DB::table('transactions')	
 			->where( 'transaction_id' , $req->transaction_id )
 			->update( $req->transactions );
-		
+
 			return 'OK';
 		}
-
-
-
-
-
 
 		//get the transaction id
 		$transaction_id = 
@@ -53,7 +51,6 @@ class payment extends Controller
 		DB::table('transactions')
 		->insert( [ 'transaction_id' => $transaction_id ] );
 
-
 		//then update the data according to transaction id
 		DB::table('transactions')	
 		->where( 'transaction_id' , $transaction_id )
@@ -61,8 +58,6 @@ class payment extends Controller
 
 		return 'OK';
 	}
-
-  
     /*
 	| get payment history against a invoice number
     */
@@ -87,25 +82,42 @@ class payment extends Controller
 			[ 'debit_or_credit' , '=' ,  $debit_or_credit ],
 		])
 		->get();
-
-		 $transactions['transactions'] = $transaction_history;
-
-		 return $transactions;
+		$transactions['transactions'] = $transaction_history;
+		return $transactions;
 	}
     /*
 	| get payment history against a invoice number
     */
 	function deleteTransaction(Request $req){
-		
-
-
 		//check if this invoice number is for sell or puchase
 		$affected = 
 		DB::table('transactions')
 		->where('transaction_id' , $req->transaction_id)
 		->delete();
-
 		return 'ok';
 	}
+    /*
+	| get payment history against a invoice number
+    */
+	function get_invoice_info($invoice_number){
+		
+		$h1 =  $this->invoice_trait($invoice_number);	
+
+		return $h1;
+		// return $invoice_number;
+	}
+	/*
+	| Print invoice
+    */
+	function download_inovice_pdf($invoice_number){
+
+		$data['users_info'] = $req->users_info;
+		$pdf = PDF::loadView('user_print_pdf' , $data );
+		$pdf->save('storage/users_info.pdf');
+		return $pdf->stream('users_info.pdf');
+	}
+
+
+
 
 }

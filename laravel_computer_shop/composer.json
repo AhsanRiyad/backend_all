@@ -10,6 +10,8 @@
     "require": {
         "php": "^7.2",
         "barryvdh/laravel-cors": "^1.0",
+        "barryvdh/laravel-dompdf": "^0.8.6",
+        "dompdf/dompdf": "^0.8.5",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0"

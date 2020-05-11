@@ -16,10 +16,12 @@
 Route::post('/edit_brand', 'brand@edit_brand');
 
 
+
 /*******************category****************/
 Route::post('/get_category', 'category@get_category');
 Route::post('/get_category_details', 'category@get_category_details');
 Route::post('/edit_category', 'category@edit_category');
+
 
 
 /*************** people **************/
@@ -31,16 +33,19 @@ Route::get('/edit_brand', 'brand@test');
 Route::post('/add_people', 'people@add_people');
 
 
+
 /******************** product *******************/
 Route::post('/get_product', 'product@get_product');
 Route::post('/get_category_brand_product_code', 'product@get_category_brand_product_code');
 Route::post('/add_product', 'product@add_product');
 
 
+
+
+
 /************ purchase ***********/
 //initial function for purchase, for getting product list , supplier, brand , warehouse information
 Route::post('/getData_add_purchase', 'purchase@getData_add_purchase');
-
 //this is for adding/updating purchase, for submit button
 Route::post('/add_purchase', 'purchase@add_purchase');
 Route::get('/add_purchase', 'purchase@add_purchase');
@@ -52,6 +57,9 @@ Route::post('/update_purchase', 'purchase@update_purchase');
 Route::post('/purchase_list', 'purchase@purchase_list');
 //this will delete a invoice of purchase
 Route::post('/delete_invoice_purchase', 'purchase@delete_invoice_purchase');
+
+
+
 
 
 /*************** sell *****************/
@@ -69,6 +77,7 @@ Route::post('/delete_invoice_sell', 'sell@delete_invoice_sell');
 
 
 
+
 /*************** Payment *****************/
 /*
 | this route will send intial data for adding payment, for example people_list
@@ -82,4 +91,8 @@ Route::post('/add_payment_general', 'payment@add_payment_general');
 Route::post('/payment_history_by_invoice_number', 'payment@payment_history_by_invoice_number');
 //this route will delete transaction
 Route::post('/deleteTransaction', 'payment@deleteTransaction');
+//get invoice details
+Route::get('/get_invoice_info/{invoice_number}', 'payment@get_invoice_info');
+//this route will send the invoice pdf file to download
+Route::get('/download_inovice_pdf/{invoice_number}', 'payment@download_inovice_pdf');
 
