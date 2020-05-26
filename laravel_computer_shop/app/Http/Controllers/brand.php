@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 class brand extends Controller
 {
     //
-
 	function edit_brand(Request $req){
 
 

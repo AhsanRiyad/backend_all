@@ -11,6 +11,12 @@
 |
 */
 
+/****************auth***************/
+Route::post('/signin', 'auth@signin');
+
+
+
+
 
 /****************brand***************/
 Route::post('/edit_brand', 'brand@edit_brand');

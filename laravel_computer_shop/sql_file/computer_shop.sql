@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2020 at 08:56 PM
+-- Generation Time: Apr 07, 2020 at 03:58 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_people` (IN `mobile1` VARCHAR(100), IN `type1` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `add_people` (IN `mobile1` VARCHAR(100), IN `type1` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE UID INT(3); 
 SET UID = 0 ;
@@ -42,7 +42,7 @@ END IF ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `count_request` (OUT `verification_request1` VARCHAR(100), OUT `change_request1` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `count_request` (OUT `verification_request1` VARCHAR(100), OUT `change_request1` VARCHAR(100))  BEGIN
        
 select count(*) into verification_request1 from all_info_together ai where   email_verification_status = 'verified' and status = 'not_verified' and ai.completeness = 100;
            
@@ -52,7 +52,7 @@ select count(*) into change_request1 from all_info_together ai where  status = '
             
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `current_photo` (IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), OUT `existing_link` VARCHAR(500))  BEGIN
+CREATE  PROCEDURE `current_photo` (IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), OUT `existing_link` VARCHAR(500))  BEGIN
 
 
 Select recent_photo into existing_link from user_uploads where email = email1 ;
@@ -72,7 +72,7 @@ update user_uploads set recent_photo = upload_link where email = email1 ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `email_verification_otp` (IN `email1` VARCHAR(100), IN `otp1` VARCHAR(100), IN `purpose` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `email_verification_otp` (IN `email1` VARCHAR(100), IN `otp1` VARCHAR(100), IN `purpose` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -102,7 +102,7 @@ end if;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `email1` VARCHAR(500), IN `password1` VARCHAR(100), OUT `result` VARCHAR(500))  BEGIN
+CREATE  PROCEDURE `login` (IN `email1` VARCHAR(500), IN `password1` VARCHAR(100), OUT `result` VARCHAR(500))  BEGIN
 
 DECLARE i int(3);
 DECLARE type1 varchar(100);
@@ -129,7 +129,7 @@ end if;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `old_photo` (IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), OUT `existing_link` VARCHAR(500))  BEGIN
+CREATE  PROCEDURE `old_photo` (IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), OUT `existing_link` VARCHAR(500))  BEGIN
 
 
 Select old_photo into existing_link from user_uploads where email = email1 ;
@@ -149,7 +149,7 @@ update user_uploads set old_photo = upload_link where email = email1 ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `REGISTRATION` (IN `email1` VARCHAR(100), IN `first_name1` VARCHAR(100), IN `last_name1` VARCHAR(100), IN `mobile1` VARCHAR(20), IN `institution_id1` VARCHAR(100), IN `password1` VARCHAR(100), IN `otp1` VARCHAR(100), IN `who_is_doing_registration` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `REGISTRATION` (IN `email1` VARCHAR(100), IN `first_name1` VARCHAR(100), IN `last_name1` VARCHAR(100), IN `mobile1` VARCHAR(20), IN `institution_id1` VARCHAR(100), IN `password1` VARCHAR(100), IN `otp1` VARCHAR(100), IN `who_is_doing_registration` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE UID INT(3); 
 DECLARE mem_number int(10);
@@ -196,7 +196,7 @@ END IF ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_address` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `present_line11` VARCHAR(100), IN `present_district1` VARCHAR(100), IN `present_post_code1` INT(100), IN `present_country1` VARCHAR(200), IN `permanent_line11` VARCHAR(100), IN `permanent_district1` VARCHAR(100), IN `permanent_post_code1` INT(100), IN `permanent_country1` VARCHAR(200), IN `permanent_post_office_name1` VARCHAR(200), IN `permanent_police_station1` VARCHAR(100), IN `present_post_office_name1` VARCHAR(100), IN `present_police_station1` INT(100), IN `second_citizenship_country1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_address` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `present_line11` VARCHAR(100), IN `present_district1` VARCHAR(100), IN `present_post_code1` INT(100), IN `present_country1` VARCHAR(200), IN `permanent_line11` VARCHAR(100), IN `permanent_district1` VARCHAR(100), IN `permanent_post_code1` INT(100), IN `permanent_country1` VARCHAR(200), IN `permanent_post_office_name1` VARCHAR(200), IN `permanent_police_station1` VARCHAR(100), IN `present_post_office_name1` VARCHAR(100), IN `present_police_station1` INT(100), IN `second_citizenship_country1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
 DECLARE count int(5);
 
 DECLARE verification_status varchar(100);
@@ -233,7 +233,7 @@ set result = 'success' ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_basic` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `first_name1` VARCHAR(100), IN `last_name1` VARCHAR(100), IN `name_bangla1` VARCHAR(200) CHARSET utf8, IN `mobile1` VARCHAR(100), IN `institution_id1` VARCHAR(100), IN `blood_group1` VARCHAR(100), IN `religion1` VARCHAR(100), IN `nid_or_passport1` VARCHAR(200), IN `dob1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_basic` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `first_name1` VARCHAR(100), IN `last_name1` VARCHAR(100), IN `name_bangla1` VARCHAR(200) CHARSET utf8, IN `mobile1` VARCHAR(100), IN `institution_id1` VARCHAR(100), IN `blood_group1` VARCHAR(100), IN `religion1` VARCHAR(100), IN `nid_or_passport1` VARCHAR(200), IN `dob1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -270,7 +270,7 @@ set result = 'success' ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_email` (IN `id1` VARCHAR(100), IN `email1` VARCHAR(100), IN `email2` VARCHAR(100), IN `otp1` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_email` (IN `id1` VARCHAR(100), IN `email1` VARCHAR(100), IN `email2` VARCHAR(100), IN `otp1` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -318,7 +318,7 @@ END IF;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_forgot_password` (IN `email1` VARCHAR(100), IN `forgot_password_crypto1` VARCHAR(500), IN `purpose` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_forgot_password` (IN `email1` VARCHAR(100), IN `forgot_password_crypto1` VARCHAR(500), IN `purpose` VARCHAR(100), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -352,7 +352,7 @@ end if;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_password` (IN `id1` VARCHAR(100), IN `password1` VARCHAR(500), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_password` (IN `id1` VARCHAR(100), IN `password1` VARCHAR(500), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -364,7 +364,7 @@ set result = 'success' ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_personal` (IN `id1` VARCHAR(100), IN `last_verified_info1` VARCHAR(1000), IN `fathers_name1` VARCHAR(100), IN `mothers_name1` VARCHAR(100), IN `spouse_name1` VARCHAR(100), IN `number_of_children1` INT(100), IN `profession1` VARCHAR(100), IN `workplace_or_institution1` VARCHAR(200), IN `designation1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `update_profile_personal` (IN `id1` VARCHAR(100), IN `last_verified_info1` VARCHAR(1000), IN `fathers_name1` VARCHAR(100), IN `mothers_name1` VARCHAR(100), IN `spouse_name1` VARCHAR(100), IN `number_of_children1` INT(100), IN `profession1` VARCHAR(100), IN `workplace_or_institution1` VARCHAR(200), IN `designation1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
 
 DECLARE count int(5);
 
@@ -399,7 +399,7 @@ set result = 'success' ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `upload_photo` (IN `purpose` VARCHAR(100), IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), IN `id1` INT(100), OUT `existing_link` VARCHAR(500), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `upload_photo` (IN `purpose` VARCHAR(100), IN `upload_link` VARCHAR(500), IN `email1` VARCHAR(100), IN `id1` INT(100), OUT `existing_link` VARCHAR(500), OUT `result` VARCHAR(100))  BEGIN
 
 
 if purpose = 'recent_photo'
@@ -422,7 +422,7 @@ SET result = 'success';
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `user_request` (IN `id1` INT(100), OUT `result` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `user_request` (IN `id1` INT(100), OUT `result` VARCHAR(100))  BEGIN
 DECLARE count , mem_num int(5);
 
 select ai.membership_number into mem_num from all_info_together ai WHERE ai.id = id1;
@@ -650,31 +650,29 @@ CREATE TABLE `people` (
   `post_code` varchar(30) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `type` varchar(40) DEFAULT NULL,
-  `who_is_adding` varchar(100) DEFAULT NULL,
-  `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
+  `who_is_adding` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email`, `post_code`, `address`, `type`, `who_is_adding`, `created_at`, `updated_at`) VALUES
-(24, 'Ahsan', 'Riyad', '01719246822', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(25, 'Zobaida', 'Taher Mahal', '01793138099', 'tz.maliha@gmail.com', '3900', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(26, 'Tahera', 'arferfa', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', 'admin', '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin', '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(28, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(29, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(30, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(31, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(32, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(33, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(34, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(35, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(36, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(37, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441'),
-(38, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL, '2020-04-15 09:37:48.241441', '2020-04-15 09:37:48.241441');
+INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email`, `post_code`, `address`, `type`, `who_is_adding`) VALUES
+(24, 'Ahsan', 'Riyad', '01719246822', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
+(25, 'Zobaida', 'Taher Mahal', '01793138099', 'tz.maliha@gmail.com', '3900', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
+(26, 'Tahera', 'arferfa', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', 'admin'),
+(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin'),
+(28, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(29, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(30, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(31, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(32, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(33, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(34, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(35, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(36, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(37, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
+(38, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL);
 
 -- --------------------------------------------------------
 
@@ -731,8 +729,6 @@ INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `cat
 -- Stand-in structure for view `purchase_details_list`
 -- (See below for the actual view)
 --
-CREATE TABLE `purchase_details_list` (
-);
 
 -- --------------------------------------------------------
 
@@ -762,11 +758,7 @@ CREATE TABLE `purchase_or_sell` (
 
 INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `discount`, `biller_id`) VALUES
 (49, '10000', '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.916451', 'arferf', 1, NULL, 24, NULL, 'Received', 'Final', '0', NULL),
-(63, '10002', '2020-04-25 00:00:00.000000', '2020-04-25 14:24:20.286670', 'afref', 1, 27, NULL, NULL, 'Sold', 'Final', '20', NULL),
-(65, '10004', '2020-04-25 00:00:00.000000', '2020-04-25 14:36:55.301777', 'freferf', 1, 27, NULL, NULL, 'Sold', 'Final', '10', NULL),
-(75, '10005', '2020-04-25 00:00:00.000000', '2020-04-25 15:45:31.435340', 'rferf', 1, NULL, 26, NULL, 'Received', 'Final', '10', NULL),
-(99, '10001', '2020-04-07 00:00:00.000000', '2020-04-28 19:28:28.202883', 'fref', 1, 27, NULL, NULL, 'Sold', 'Final', '47', NULL),
-(100, '10003', '2020-04-25 00:00:00.000000', '2020-05-11 12:18:04.377426', 'frefae', 1, NULL, 25, NULL, 'Received', 'Final', '10', NULL);
+(51, '10001', '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.087148', 'fref', 1, 27, NULL, NULL, 'Sold', 'Final', '0', NULL);
 
 -- --------------------------------------------------------
 
@@ -790,12 +782,7 @@ CREATE TABLE `sell_or_purchase_details` (
 INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
 (10000, 2, 2.00, 100.00, 'Received', 63),
 (10000, 3, 1.00, 100.00, 'Received', 64),
-(10002, 2, 1.00, 200.00, 'Sold', 78),
-(10004, 2, 2.00, 22.00, 'Sold', 80),
-(10004, 1, 3.00, 30.00, 'Sold', 81),
-(10005, 2, 2.00, 20.00, 'Received', 90),
-(10001, 2, 1.00, 1000.00, 'Sold', 114),
-(10003, 1, 3.00, 10.00, 'Received', 115);
+(10001, 2, 1.00, 1000.00, 'Sold', 66);
 
 -- --------------------------------------------------------
 
@@ -818,12 +805,7 @@ CREATE TABLE `serial_number` (
 
 INSERT INTO `serial_number` (`serial_id`, `invoice_number_purchase`, `invoice_number_sell`, `product_id`, `serial_number`, `status`) VALUES
 (20, '10000', '10001', 2, 'fffffffffffg', 'Sold'),
-(21, '10000', '10002', 2, 'ffffffffffff', 'Sold'),
-(22, '10003', '10004', 1, 'fffffffffffl', 'Sold'),
-(23, '10003', '10004', 1, 'fffffffffffj', 'Sold'),
-(24, '10003', '10004', 1, 'fffffffffffh', 'Sold'),
-(25, '10005', '10004', 2, 'fffffffffffb', 'Sold'),
-(26, '10005', '10004', 2, 'fffffffffffq', 'Sold');
+(21, '10000', '', 2, 'ffffffffffff', 'Purchase');
 
 -- --------------------------------------------------------
 
@@ -874,55 +856,18 @@ CREATE TABLE `transactions` (
   `branch` varchar(100) DEFAULT NULL,
   `check_date` date DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
-  `timestamp` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `created_at` timestamp(6) NULL DEFAULT NULL,
-  `updated_at` timestamp(6) NULL DEFAULT NULL
+  `timestamp` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `transaction_id`, `invoice_number`, `seller_or_customer_id`, `reference_number`, `total_amount`, `check_or_cash`, `purchase_or_sell`, `paying_or_receiving`, `debit_or_credit`, `advance_or_final`, `bank`, `branch`, `check_date`, `date`, `timestamp`, `created_at`, `updated_at`) VALUES
-(62, '1000000', '10000', '24', 'Trans_purchase10000', 300.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.931694', NULL, NULL),
-(64, '1000001', '10001', '27', 'Trans_sell10001', 1000.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.096924', NULL, NULL),
-(73, '1000002', '10001', '27', 'aferfer', 200.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-11 00:00:00.000000', '2020-04-11 08:17:51.833599', NULL, NULL),
-(75, '1000003', '10002', '27', 'Trans_sell10002', 0.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 07:20:57.095008', NULL, NULL),
-(76, '1000004', '10003', '25', 'Trans_purchase10003', 0.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 08:02:44.816690', NULL, NULL),
-(80, '1000005', '10004', '27', 'Trans_sell10004', 0.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 12:51:57.727884', NULL, NULL),
-(81, '1000006', '10004', '27', 'Trans_sell10004', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 12:52:19.041859', NULL, NULL),
-(82, '1000007', '10004', '27', 'Trans_sell10004', 90.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 13:01:10.957636', NULL, NULL),
-(83, '1000008', '10004', '27', 'Trans_sell10004', 90.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 13:15:11.211382', NULL, NULL),
-(84, '1000009', '10004', '27', 'Trans_sell10004', 90.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 13:16:34.626400', NULL, NULL),
-(85, '1000010', '10004', '27', 'Trans_sell10004', 81.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:16:55.734225', NULL, NULL),
-(86, '1000011', '10002', '27', 'Trans_sell10002', 160.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:24:20.293290', NULL, NULL),
-(87, '1000012', '10002', '27', 'ferfer', 160.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:24:55.405036', NULL, NULL),
-(88, '1000013', '10005', '26', 'Trans_purchase10005', 200.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:35:36.456527', NULL, NULL),
-(89, '1000014', '10004', '27', 'Trans_sell10004', 120.60, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:36:55.312010', NULL, NULL),
-(90, '1000015', '10004', '27', 'areferf', 10.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-25 00:00:00.000000', '2020-04-25 14:45:04.495626', NULL, NULL),
-(92, '1000016', '10001', '27', 'Trans_sell10001', 970.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 16:59:34.513580', NULL, NULL),
-(93, '1000017', '10001', '27', 'Trans_sell10001', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:00:28.561630', NULL, NULL),
-(94, '1000018', '10001', '27', 'Trans_sell10001', 690.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:14:58.756156', NULL, NULL),
-(95, '1000019', '10001', '27', 'Trans_sell10001', 680.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:44:35.104859', NULL, NULL),
-(96, '1000020', '10001', '27', 'Trans_sell10001', 690.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:45:15.286759', NULL, NULL),
-(97, '1000021', '10001', '27', 'Trans_sell10001', 650.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:46:17.440214', NULL, NULL),
-(98, '1000022', '10001', '27', 'Trans_sell10001', 660.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:52:09.250486', NULL, NULL),
-(99, '1000023', '10001', '27', 'Trans_sell10001', 640.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 17:54:28.051337', NULL, NULL),
-(100, '1000024', '10001', '27', 'Trans_sell10001', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:07:26.243669', NULL, NULL),
-(101, '1000025', '10001', '27', 'Trans_sell10001', 580.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:07:49.018705', NULL, NULL),
-(102, '1000026', '10001', '27', 'Trans_sell10001', 550.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:08:58.795470', NULL, NULL),
-(103, '1000027', '10001', '27', 'Trans_sell10001', 610.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:09:47.741378', NULL, NULL),
-(104, '1000028', '10001', '27', 'Trans_sell10001', 590.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:12:43.917134', NULL, NULL),
-(105, '1000029', '10001', '27', 'Trans_sell10001', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:13:11.929314', NULL, NULL),
-(106, '1000030', '10001', '27', 'Trans_sell10001', 570.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:13:24.271600', NULL, NULL),
-(107, '1000031', '10001', '27', 'Trans_sell10001', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:15:42.036384', NULL, NULL),
-(108, '1000032', '10001', '27', 'Trans_sell10001', 560.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:16:17.532764', NULL, NULL),
-(109, '1000033', '10001', '27', 'Trans_sell10001', 600.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:18:10.136565', NULL, NULL),
-(110, '1000034', '10001', '27', 'Trans_sell10001', 590.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:21:47.912418', NULL, NULL),
-(111, '1000035', '10001', '27', 'Trans_sell10001', 580.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:27:40.511734', NULL, NULL),
-(112, '1000036', '10001', '27', 'Trans_sell10001', 560.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:28:18.235218', NULL, NULL),
-(113, '1000037', '10001', '27', 'Trans_sell10001', 530.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-28 19:28:28.209577', NULL, NULL),
-(114, '1000038', '10003', '25', '444', 20.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-05-21 00:00:00.000000', '2020-05-21 11:54:17.341348', NULL, NULL);
+INSERT INTO `transactions` (`id`, `transaction_id`, `invoice_number`, `seller_or_customer_id`, `reference_number`, `total_amount`, `check_or_cash`, `purchase_or_sell`, `paying_or_receiving`, `debit_or_credit`, `advance_or_final`, `bank`, `branch`, `check_date`, `date`, `timestamp`) VALUES
+(62, '1000000', '10000', '24', 'Trans_purchase10000', 300.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.931694'),
+(64, '1000001', '10001', '27', 'Trans_sell10001', 1000.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.096924'),
+(65, '1000002', '10001', '27', 'affre', 100.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:55:12.879565'),
+(66, '1000003', '10001', '27', 'refef', 900.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:56:34.277870');
 
 -- --------------------------------------------------------
 
@@ -1132,7 +1077,7 @@ INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
 --
 DROP TABLE IF EXISTS `all_info_together`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `all_info_together`  AS  select concat(`ur`.`first_name`,' ',`ur`.`last_name`) AS `full_name`,`ur`.`first_name` AS `first_name`,`ur`.`last_name` AS `last_name`,`ur`.`name_bangla` AS `name_bangla`,`ur`.`mobile` AS `mobile`,`ur`.`institution_id` AS `institution_id`,`ur`.`password` AS `password`,`ur`.`registration_date` AS `registration_date`,`ur`.`membership_number` AS `membership_number`,`ui`.`gender` AS `gender`,`ui`.`nid_or_passport` AS `nid_or_passport`,`ui`.`fathers_name` AS `fathers_name`,`ui`.`mother_name` AS `mother_name`,`ui`.`spouse_name` AS `spouse_name`,`ui`.`number_of_children` AS `number_of_children`,`ui`.`profession` AS `profession`,`ui`.`designation` AS `designation`,`ui`.`institution` AS `institution`,`ui`.`blood_group` AS `blood_group`,`ui`.`religion` AS `religion`,`ui`.`date_of_birth` AS `date_of_birth`,`vi`.`id_v_info` AS `id_v_info`,`vi`.`otp` AS `otp`,`vi`.`forgot_password_crypto` AS `forgot_password_crypto`,`vi`.`status` AS `status`,`vi`.`email_verification_status` AS `email_verification_status`,`vi`.`change_request` AS `change_request`,`vi`.`change_request_time` AS `change_request_time`,`vi`.`type` AS `type`,`vi`.`visibility` AS `visibility`,`vi`.`completeness` AS `completeness`,`vi`.`last_verified_info` AS `last_verified_info`,`ur`.`id` AS `id`,`uu`.`recent_photo` AS `recent_photo`,`uu`.`old_photo` AS `old_photo`,`ur`.`email` AS `ur_email`,`vi`.`email` AS `vi_email`,`uu`.`email` AS `uu_email`,`ui`.`email` AS `ui_email`,`ua`.`email` AS `email`,`ua`.`users_address_id` AS `users_address_id`,`ua`.`present_line1` AS `present_line1`,`ua`.`present_line2` AS `present_line2`,`ua`.`present_police_station` AS `present_police_station`,`ua`.`present_district` AS `present_district`,`ua`.`present_post_code` AS `present_post_code`,`ua`.`present_post_office_name` AS `present_post_office_name`,`ua`.`present_country` AS `present_country`,`ua`.`parmanent_line1` AS `parmanent_line1`,`ua`.`parmanent_line2` AS `parmanent_line2`,`ua`.`parmanent_police_station` AS `parmanent_police_station`,`ua`.`parmanent_district` AS `parmanent_district`,`ua`.`parmanent_post_code` AS `parmanent_post_code`,`ua`.`parmanent_post_office_name` AS `parmanent_post_office_name`,`ua`.`parmanent_country` AS `parmanent_country`,`ua`.`second_citizenship_country` AS `second_citizenship_country` from ((((`users_registration` `ur` join `users_info` `ui`) join `users_address` `ua`) join `verification_info` `vi`) join `user_uploads` `uu`) where `uu`.`email` = `ur`.`email` and `ui`.`email` = `ur`.`email` and `ua`.`email` = `ur`.`email` and `vi`.`email` = `ur`.`email` ;
+CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `all_info_together`  AS  select concat(`ur`.`first_name`,' ',`ur`.`last_name`) AS `full_name`,`ur`.`first_name` AS `first_name`,`ur`.`last_name` AS `last_name`,`ur`.`name_bangla` AS `name_bangla`,`ur`.`mobile` AS `mobile`,`ur`.`institution_id` AS `institution_id`,`ur`.`password` AS `password`,`ur`.`registration_date` AS `registration_date`,`ur`.`membership_number` AS `membership_number`,`ui`.`gender` AS `gender`,`ui`.`nid_or_passport` AS `nid_or_passport`,`ui`.`fathers_name` AS `fathers_name`,`ui`.`mother_name` AS `mother_name`,`ui`.`spouse_name` AS `spouse_name`,`ui`.`number_of_children` AS `number_of_children`,`ui`.`profession` AS `profession`,`ui`.`designation` AS `designation`,`ui`.`institution` AS `institution`,`ui`.`blood_group` AS `blood_group`,`ui`.`religion` AS `religion`,`ui`.`date_of_birth` AS `date_of_birth`,`vi`.`id_v_info` AS `id_v_info`,`vi`.`otp` AS `otp`,`vi`.`forgot_password_crypto` AS `forgot_password_crypto`,`vi`.`status` AS `status`,`vi`.`email_verification_status` AS `email_verification_status`,`vi`.`change_request` AS `change_request`,`vi`.`change_request_time` AS `change_request_time`,`vi`.`type` AS `type`,`vi`.`visibility` AS `visibility`,`vi`.`completeness` AS `completeness`,`vi`.`last_verified_info` AS `last_verified_info`,`ur`.`id` AS `id`,`uu`.`recent_photo` AS `recent_photo`,`uu`.`old_photo` AS `old_photo`,`ur`.`email` AS `ur_email`,`vi`.`email` AS `vi_email`,`uu`.`email` AS `uu_email`,`ui`.`email` AS `ui_email`,`ua`.`email` AS `email`,`ua`.`users_address_id` AS `users_address_id`,`ua`.`present_line1` AS `present_line1`,`ua`.`present_line2` AS `present_line2`,`ua`.`present_police_station` AS `present_police_station`,`ua`.`present_district` AS `present_district`,`ua`.`present_post_code` AS `present_post_code`,`ua`.`present_post_office_name` AS `present_post_office_name`,`ua`.`present_country` AS `present_country`,`ua`.`parmanent_line1` AS `parmanent_line1`,`ua`.`parmanent_line2` AS `parmanent_line2`,`ua`.`parmanent_police_station` AS `parmanent_police_station`,`ua`.`parmanent_district` AS `parmanent_district`,`ua`.`parmanent_post_code` AS `parmanent_post_code`,`ua`.`parmanent_post_office_name` AS `parmanent_post_office_name`,`ua`.`parmanent_country` AS `parmanent_country`,`ua`.`second_citizenship_country` AS `second_citizenship_country` from ((((`users_registration` `ur` join `users_info` `ui`) join `users_address` `ua`) join `verification_info` `vi`) join `user_uploads` `uu`) where `uu`.`email` = `ur`.`email` and `ui`.`email` = `ur`.`email` and `ua`.`email` = `ur`.`email` and `vi`.`email` = `ur`.`email` ;
 
 -- --------------------------------------------------------
 
@@ -1141,7 +1086,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `count_purchase_or_sell`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `count_purchase_or_sell`  AS  select `sell_or_purchase_details`.`product_id` AS `product_id`,`sell_or_purchase_details`.`status` AS `status`,sum(`sell_or_purchase_details`.`quantity`) AS `total` from `sell_or_purchase_details` group by `sell_or_purchase_details`.`product_id`,`sell_or_purchase_details`.`status` ;
+CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `count_purchase_or_sell`  AS  select `sell_or_purchase_details`.`product_id` AS `product_id`,`sell_or_purchase_details`.`status` AS `status`,sum(`sell_or_purchase_details`.`quantity`) AS `total` from `sell_or_purchase_details` group by `sell_or_purchase_details`.`product_id`,`sell_or_purchase_details`.`status` ;
 
 -- --------------------------------------------------------
 
@@ -1150,7 +1095,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `purchase_details_list`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_details_list`  AS  select `sp`.`invoice_number` AS `invoice_number`,`sp`.`date` AS `date`,`sp`.`insert_time_date` AS `insert_time_date`,`sp`.`reference_number` AS `reference_number`,`sp`.`warehouse_id` AS `warehouse_id`,`sp`.`cusotmer_id` AS `cusotmer_id`,`sp`.`supplier_id` AS `supplier_id`,`sp`.`type` AS `type`,`sp`.`status` AS `status`,`sp`.`correction_status` AS `correction_status`,`sp`.`biller_id` AS `biller_id`,`s`.`full_name` AS `full_name`,`w`.`name` AS `name`,`spd`.`unit_price` AS `unit_price`,`spd`.`quantity` AS `quantity`,`sn`.`serial_number` AS `serial_number`,`sn`.`product_id` AS `product_id`,`p`.`product_name` AS `product_name` from (((((`products` `p` join `purchase_or_sell` `sp`) join `warehouse` `w`) join `people` `s`) join `sell_or_purchase_details` `spd`) join `serial_number` `sn`) where `sp`.`invoice_number` = `spd`.`invoice_number` and `spd`.`invoice_number` = `sn`.`invoice_number` and `p`.`p_id` = `spd`.`product_id` and `w`.`id` = `sp`.`warehouse_id` and `s`.`people_id` = `sp`.`supplier_id` ;
+
 
 -- --------------------------------------------------------
 
@@ -1159,7 +1104,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `total_amount`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_amount`  AS  select `s`.`status` AS `status`,`s`.`invoice_number` AS `invoice_number`,`p`.`discount` AS `discount`,sum(`s`.`quantity` * `s`.`unit_price`) - sum(`s`.`quantity` * `s`.`unit_price`) * `p`.`discount` / 100 AS `total` from (`sell_or_purchase_details` `s` join `purchase_or_sell` `p`) where `s`.`invoice_number` = `p`.`invoice_number` group by `s`.`invoice_number`,`p`.`discount`,`s`.`status` ;
+CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `total_amount`  AS  select `s`.`status` AS `status`,`s`.`invoice_number` AS `invoice_number`,`p`.`discount` AS `discount`,sum(`s`.`quantity` * `s`.`unit_price`) - sum(`s`.`quantity` * `s`.`unit_price`) * `p`.`discount` / 100 AS `total` from (`sell_or_purchase_details` `s` join `purchase_or_sell` `p`) where `s`.`invoice_number` = `p`.`invoice_number` group by `s`.`invoice_number`,`p`.`discount`,`s`.`status` ;
 
 --
 -- Indexes for dumped tables
@@ -1335,19 +1280,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `social_network`
@@ -1359,7 +1304,7 @@ ALTER TABLE `social_network`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `users_address`
