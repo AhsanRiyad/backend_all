@@ -35,7 +35,7 @@ Route::post('/add_people', 'people@add_people');
 
 
 /******************** product *******************/
-Route::post('/get_product', 'product@get_product');
+Route::get('/get_product/{itemPerPage}/{orderBy}/{search}', 'product@get_product');
 Route::post('/get_category_brand_product_code', 'product@get_category_brand_product_code');
 Route::post('/add_product', 'product@add_product');
 

@@ -8,21 +8,25 @@ use DB;
 class product extends Controller
 {
 
+	function get_product($itemPerPage , $orderBy , $search ){
 
-	function get_product(Request $req){
+		// $orderBy = 'b.brand_name';
 
-		
 		$product = DB::table('products')->get();
 		$arrayData['product'] = $product; 
+
+		$search == 'none' ? $search = '': ''; 
 
 
 		// ->join('people as s' , 's.people_id' , '=' 'sp.supplier_id')
 
 		$products = DB::table('products as p')
 		->join('category as c', 'p.category_id', '=', 'c.category_id')
-		->join('brand as b', 'b.brand_id', '=', 'p.brand_id')
-		->select('p.*', 'b.brand_name as brand_name', 'c.category_name as category_name')
-		->get();
+		->join('brand as b', 'b.brand_id', '=', 'p.brand_id') 
+		->select('p.*', 'b.brand_name as b.brand_name', 'c.category_name as category_name')
+		->orderBy($orderBy)
+		->where( 'p.product_name' , 'like' , '%'.$search.'%' )
+		->paginate( $itemPerPage );
 
 		$arrayData['product'] = $products; 
 
@@ -58,14 +62,9 @@ class product extends Controller
 		DB::table('products')
 		->select(DB::raw('max(product_code)+1 as c'))
 		->get();
-
 		return $info;
-
 	}
 	function add_product(Request $request){
-
-
-
 		DB::table('products')
 		->insert($request->products_info);
 		return 'add_product';
