@@ -39,14 +39,12 @@ Route::get('/edit_brand', 'brand@test');
 Route::post('/add_people', 'people@add_people');
 
 
-
 /******************** product *******************/
 Route::get('/get_product/{itemPerPage}/{orderBy}/{search}', 'product@get_product');
+Route::get('/get_product_by_id/{id}', 'product@get_product_by_id');
 Route::post('/get_category_brand_product_code', 'product@get_category_brand_product_code');
 Route::post('/add_product', 'product@add_product');
-
-
-
+Route::put('/edit_product', 'product@edit_product');
 
 
 /************ purchase ***********/

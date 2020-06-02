@@ -48,7 +48,7 @@ class people extends Controller
 		->get()[0]->c;
 		
 
-		if($isUserExists > 0 ) return 'user_exists'; 
+		if($isUserExists > 1 ) return 'user_exists'; 
 
 		DB::table('people')
 		->insert( (array) $UserInfo );
@@ -56,12 +56,8 @@ class people extends Controller
 		return 'ok';
 
 	}
-	
-
-
 
 	function edit_people(Request $req){
-
 
 		$people_exists = DB::table('people')->where('mobile', $req->mobile)->count();
 
@@ -87,10 +83,6 @@ class people extends Controller
 			$arrayData['status'] = 'updated'; 
 
 			return $arrayData;
-
-
-
-
 
 		}
 

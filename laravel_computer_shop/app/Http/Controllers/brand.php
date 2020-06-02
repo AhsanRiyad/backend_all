@@ -11,11 +11,9 @@ class brand extends Controller
 {
     //
 	function edit_brand(Request $req){
-
-
 		$brand_exists = DB::table('brand')->where('brand_name', $req->brand_name)->count();
 
-		if($brand_exists > 0 ){
+		if($brand_exists > 1 ){
 			return 'brand_exists';
 		}else{
 

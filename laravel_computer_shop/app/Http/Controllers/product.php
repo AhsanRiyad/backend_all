@@ -8,29 +8,30 @@ use DB;
 class product extends Controller
 {
 
-	function get_product($itemPerPage , $orderBy , $search ){
+	function get_product($itemPerPage, $orderBy, $search)
+	{
 
 		// $orderBy = 'b.brand_name';
 
 		$product = DB::table('products')->get();
-		$arrayData['product'] = $product; 
+		$arrayData['product'] = $product;
 
-		$search == 'none' ? $search = '': ''; 
+		$search == 'none' ? $search = '' : '';
 
 
 		// ->join('people as s' , 's.people_id' , '=' 'sp.supplier_id')
 
 		$products = DB::table('products as p')
-		->join('category as c', 'p.category_id', '=', 'c.category_id')
-		->join('brand as b', 'b.brand_id', '=', 'p.brand_id') 
-		->select('p.*', 'b.brand_name as b.brand_name', 'c.category_name as category_name')
-		->orderBy($orderBy)
-		->where( 'p.product_name' , 'like' , '%'.$search.'%' )
-		->paginate( $itemPerPage );
+			->join('category as c', 'p.category_id', '=', 'c.category_id')
+			->join('brand as b', 'b.brand_id', '=', 'p.brand_id')
+			->select('p.*', 'b.brand_name as b.brand_name', 'c.category_name as category_name')
+			->orderBy($orderBy)
+			->where('p.product_name', 'like', '%' . $search . '%')
+			->paginate($itemPerPage);
 
-		$arrayData['product'] = $products; 
+		$arrayData['product'] = $products;
 
-		
+
 		return $arrayData;
 
 		// $users = DB::table('users')
@@ -44,44 +45,73 @@ class product extends Controller
 		// return '';
 
 	}
-	function get_category_brand_product_code(){
+	function get_category_brand_product_code()
+	{
 
-		$info['products'] = 
-		DB::table('products')
-		->get();
+		$info['products'] =
+			DB::table('products')
+			->get();
 
-		$info['brand'] = 
-		DB::table('brand')
-		->get();
+		$info['brand'] =
+			DB::table('brand')
+			->get();
 
-		$info['category'] = 
-		DB::table('category')
-		->get();
+		$info['category'] =
+			DB::table('category')
+			->get();
 
-		$info['product_code'] = 
-		DB::table('products')
-		->select(DB::raw('max(product_code)+1 as c'))
-		->get();
+		$info['product_code'] =
+			DB::table('products')
+			->select(DB::raw('max(product_code)+1 as c'))
+			->get();
 		return $info;
 	}
-	function add_product(Request $request){
+	function add_product(Request $request)
+	{
 		DB::table('products')
-		->insert($request->products_info);
+			->insert($request->products_info);
 		return 'add_product';
-
 	}
-	function test(Request $request){
+	function edit_product(Request $request)
+	{
+		$product_exists = DB::table('products')->where('product_name', $request->product_info['product_name'])->count();
+		
+		if($product_exists > 1) return 0;
+
+		$affected = DB::table('products')
+			->where('p_id', $request->p_id)
+			->update($request->product_info);
+		return $affected;
+	}
+	function get_product_by_id($id)
+	{
+		$product =  DB::table('products as p')
+			->select(
+				DB::raw('CAST( p.selling_price as char(10) ) as selling_price'),
+				DB::raw('CAST( p.selling_quantity as char(10)) as selling_quantity'),
+				DB::raw('CAST( p.purchase_cost as char(10)) as purchase_cost'),
+				'p.product_code',
+				'p.warranty_days',
+				'p.having_serial',
+				'p.p_id',
+				'p.brand_id',
+				'p.category_id',
+				'p.product_name',
+				'p.product_details',
+			)
+			->where('p_id', $id)
+			->get();
+
+		return json_encode($product);
+	}
+
+	function test(Request $request)
+	{
 
 
 		DB::table('products')
-		->insert();
+			->insert();
 
 		return 'echo';
-
-
 	}
-
-
-
-
 }
