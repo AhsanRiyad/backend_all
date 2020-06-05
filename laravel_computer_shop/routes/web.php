@@ -33,14 +33,16 @@ Route::post('/edit_category', 'category@edit_category');
 /*************** people **************/
 Route::post('/get_people', 'people@get_people');
 Route::post('/get_people_details', 'people@get_people_details');
-Route::post('/edit_people', 'people@edit_people');
+Route::put('/edit_people', 'people@edit_people');
 Route::get('/edit_brand', 'brand@test');
 //this function will register people
 Route::post('/add_people', 'people@add_people');
+Route::post('/get_all_people', 'people@get_all_people');
 
 
 /******************** product *******************/
 Route::get('/get_product/{itemPerPage}/{orderBy}/{search}', 'product@get_product');
+Route::post('/get_product', 'product@get_product_post');
 Route::get('/get_product_by_id/{id}', 'product@get_product_by_id');
 Route::post('/get_category_brand_product_code', 'product@get_category_brand_product_code');
 Route::post('/add_product', 'product@add_product');

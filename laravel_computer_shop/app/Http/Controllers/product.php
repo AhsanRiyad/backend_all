@@ -75,8 +75,8 @@ class product extends Controller
 	function edit_product(Request $request)
 	{
 		$product_exists = DB::table('products')->where('product_name', $request->product_info['product_name'])->count();
-		
-		if($product_exists > 1) return 0;
+
+		if ($product_exists > 1) return 0;
 
 		$affected = DB::table('products')
 			->where('p_id', $request->p_id)
@@ -104,6 +104,43 @@ class product extends Controller
 
 		return json_encode($product);
 	}
+
+	function get_product_post(Request $request)
+	{
+		// return $request;
+
+		// $orderBy = 'b.brand_name';
+		$product = DB::table('products')->get();
+		$arrayData['product'] = $product;
+
+		$request->search == 'none' ? $request->search = '' : '';
+
+		// ->join('people as s' , 's.people_id' , '=' 'sp.supplier_id')
+
+		$products = DB::table('products as p')
+			->join('category as c', 'p.category_id', '=', 'c.category_id')
+			->join('brand as b', 'b.brand_id', '=', 'p.brand_id')
+			->select('p.*', 'b.brand_name as b.brand_name', 'c.category_name as category_name')
+			->orderBy($request->orderBy)
+			->where('p.product_name', 'like', '%' . $request->search . '%')
+			->orWhere('b.brand_name', 'like', '%' . $request->search . '%')
+			->orWhere('c.category_name', 'like', '%' . $request->search . '%')
+			->orWhere('p.purchase_cost', 'like', '%' . $request->search . '%')
+			->orWhere('p.selling_price', 'like', '%' . $request->search . '%')
+			->orWhere('p.warranty_days', 'like', '%' . $request->search . '%')
+			->paginate($request->itemPerPage);
+
+		$arrayData['product'] = $products;
+
+		return $arrayData;
+		// $users = DB::table('users')
+		// ->join('contacts', 'users.id', '=', 'contacts.user_id')
+		// ->join('orders', 'users.id', '=', 'orders.user_id')
+		// ->select('users.*', 'contacts.phone', 'orders.price')
+		// ->get();
+		// return '';
+	}
+
 
 	function test(Request $request)
 	{

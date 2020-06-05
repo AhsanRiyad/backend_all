@@ -10,86 +10,79 @@ class people extends Controller
 {
 
 
-	function get_people(Request $req){
+	function get_people(Request $req)
+	{
 
 
 		$people = DB::table('people')->get();
-		$arrayData['people'] = $people; 
+		$arrayData['people'] = $people;
 
 		return $arrayData;
-
-
 	}
-	function get_people_details(Request $req){
+	function get_people_details(Request $req)
+	{
 
 
-		$people = DB::table('people')->where( 'people_id' , '=' , $req->people_id )->get();
-		
-		$arrayData['people'] = $people; 
+		$people = DB::table('people')->where('people_id', '=', $req->people_id)->get();
+
+		$arrayData['people'] = $people;
 
 		return $arrayData;
-
-
-
 	}
 
 	//this function will register user
-	function add_people(Request $req){
+	function add_people(Request $req)
+	{
 
 		$UserInfo = $req->UserInfo;
 
 		// return $UserInfo;
 
-		$isUserExists = 
-		DB::table('people')
-		->where('email' , $UserInfo['email'] )
-		->orWhere('mobile' , '=' ,$UserInfo['mobile'] )
-		->select(DB::raw('count(*) as c'))
-		->get()[0]->c;
-		
+		$isUserExists =
+			DB::table('people')
+				->where('email', $UserInfo['email'])
+				->orWhere('mobile', '=', $UserInfo['mobile'])
+				->select(DB::raw('count(*) as c'))
+				->get()[0]->c;
 
-		if($isUserExists > 1 ) return 'user_exists'; 
+
+		if ($isUserExists > 1) return 'user_exists';
 
 		DB::table('people')
-		->insert( (array) $UserInfo );
+			->insert((array) $UserInfo);
 
 		return 'ok';
-
 	}
 
-	function edit_people(Request $req){
+	function edit_people(Request $request)
+	{
+		$people_exists = DB::table('people')->where([['mobile', $request->UserInfo['mobile']],  ['full_name', $request->UserInfo['full_name']]])->count();
 
-		$people_exists = DB::table('people')->where('mobile', $req->mobile)->count();
+		if ($people_exists > 1) return 0;
 
-		if($people_exists > 1 ){
-			return 'people_exists';
-		}else{
+		$affected = DB::table('people')
+			->where('people_id', $request->id)
+			->update($request->UserInfo);
+		return $affected;
+	}
 
-			$affected = DB::table('people')
-			->where('people_id', $req->people_id)
-			->update([
-				'full_name' => $req->full_name , 
-				'company_name' => $req->company_name,
-				'post_code' => $req->post_code,
-				'email' => $req->email,
-				'mobile' => $req->mobile,
-				'address' => $req->address,
-				'type' => $req->type,
-			]);
+	function get_all_people(Request $request)
+	{
+		// return $request;
+		// $orderBy = 'b.brand_name';
+		$request->search == 'none' ? $request->search = '' : '';
+		// ->join('people as s' , 's.people_id' , '=' 'sp.supplier_id')
+		$people = DB::table('people')
+			->orderBy($request->orderBy)
+			->where('full_name', 'like', '%' . $request->search . '%')
+			->orWhere('mobile', 'like', '%' . $request->search . '%')
+			->orWhere('email', 'like', '%' . $request->search . '%')
+			->orWhere('company_name', 'like', '%' . $request->search . '%')
+			->orWhere('type', 'like', '%' . $request->search . '%')
+			->paginate($request->itemPerPage);
 
+		$arrayData['people'] = $people;
 
-			$people = DB::table('people')->get();
-			$arrayData['people'] = $people; 
-			$arrayData['status'] = 'updated'; 
-
-			return $arrayData;
-
-		}
-
-
-}
-
-
-
-
+		return $arrayData;
+	}
 }
