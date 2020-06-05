@@ -42,11 +42,12 @@ class people extends Controller
 			DB::table('people')
 				->where('email', $UserInfo['email'])
 				->orWhere('mobile', '=', $UserInfo['mobile'])
+				->orWhere('full_name', '=', $UserInfo['full_name'])
 				->select(DB::raw('count(*) as c'))
 				->get()[0]->c;
 
 
-		if ($isUserExists > 1) return 'user_exists';
+		if ($isUserExists > 0) return 'user_exists';
 
 		DB::table('people')
 			->insert((array) $UserInfo);

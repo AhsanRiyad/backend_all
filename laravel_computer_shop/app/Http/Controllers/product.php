@@ -64,6 +64,10 @@ class product extends Controller
 			DB::table('products')
 			->select(DB::raw('max(product_code)+1 as c'))
 			->get();
+		
+			if($info['product_code'][0]->c == ''){
+			$info['product_code'][0]->c = 10000;
+			}
 		return $info;
 	}
 	function add_product(Request $request)
