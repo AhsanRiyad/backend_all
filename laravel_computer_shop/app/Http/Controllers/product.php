@@ -64,17 +64,31 @@ class product extends Controller
 			DB::table('products')
 			->select(DB::raw('max(product_code)+1 as c'))
 			->get();
-		
-			if($info['product_code'][0]->c == ''){
+
+		if ($info['product_code'][0]->c == '') {
 			$info['product_code'][0]->c = 10000;
-			}
+		}
 		return $info;
 	}
 	function add_product(Request $request)
 	{
+		//find product code
+		$code['product_code'] =
+			DB::table('products')
+			->select(DB::raw('max(product_code)+1 as c'))
+			->get();
+		if ($code['product_code'][0]->c == '') {
+			$code['product_code'][0]->c = 10000;
+		}
+		$product_info = $request->products_info;
+		$product_info['product_code'] = $code['product_code'][0]->c;
+
+		//insert to db
 		DB::table('products')
-			->insert($request->products_info);
-		return 'add_product';
+			->insert($product_info);
+
+		
+		return $product_info;
 	}
 	function edit_product(Request $request)
 	{
