@@ -74,8 +74,6 @@ class purchase extends payment
 	//this function is used for finally sending data to database, both for add/edit purchase
 	function add_purchase(Request $req)
 	{
-
-
 		//delete all the existing data using the invoice number. this is specially needed for updating data
 		DB::table('purchase_or_sell')
 			->where('invoice_number', $req->invoice_number)
@@ -130,7 +128,6 @@ class purchase extends payment
 	function update_purchase(Request $req)
 	{
 
-
 		//delete all the existing data using the invoice number. this is specially needed for updating data
 		DB::table('purchase_or_sell')
 			->where('invoice_number', $req->invoice_number)
@@ -146,7 +143,7 @@ class purchase extends payment
 			->where(
 				[
 					[
-					'invoice_number_purchase', $req->invoice_number
+						'invoice_number_purchase', $req->invoice_number
 					],
 					[
 						'status', 'Purchase'
@@ -180,40 +177,72 @@ class purchase extends payment
 					(array) $value
 				);
 		}
+
+		parent::UpdateTransactions($req);
 	}
-
-
-
-
-
-
-
-
-
 
 	// this is used for showing purchase list, initial page
 	function purchase_list(Request $req)
 	{
-
-
-		$purchase_list = DB::table('people as p')
-			->select(
-				'p.full_name',
-				's.invoice_number',
-				's.supplier_id',
-				's.status',
-				's.correction_status',
-				's.discount',
-				//concating date and time from two different field as we did not take the time input from the form
-				DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
-
+		$isPaid =
+			DB::table('amount_paid')
+			->where(
+				'paying_or_receiving',
+				'Paying'
 			)
-			->where('status', 'Received')
-			->join('purchase_or_sell as s', 'p.people_id', '=', 's.supplier_id')
-			->get();
+			->count();
 
+		if ($isPaid > 0) {
+			$purchase_list = DB::table('people as p')
+				->select(
+					'p.full_name',
+					's.invoice_number',
+					's.supplier_id',
+					's.status',
+					's.date',
+					's.correction_status',
+					's.discount',
+					't.total',
+					'ap.paid_or_received as amount_paid',
+					't.total as balance',
+					//concating date and time from two different field as we did not take the time input from the form
+					DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
+
+				)
+				->where([
+					['s.status', 'Received'],
+					['paying_or_receiving', 'Paying'],
+					])
+				->join('purchase_or_sell as s', 'p.people_id', '=', 's.supplier_id')
+				->join('total_amount as t', 's.invoice_number', '=', 't.invoice_number')
+				->join('amount_paid as ap', 's.invoice_number', '=', 'ap.invoice_number')
+				->get();
+		} else {
+			$purchase_list = DB::table('people as p')
+				->select(
+					'p.full_name',
+					's.invoice_number',
+					's.supplier_id',
+					's.status',
+					's.date',
+					's.correction_status',
+					's.discount',
+					't.total',
+					DB::raw('concat( 0 ) as amount_paid'),
+					't.total as balance',
+					//concating date and time from two different field as we did not take the time input from the form
+					DB::raw("concat( date(s.date), ' ' , time(s.timestamp)  ) as date"),
+
+				)
+				->where('s.status', 'Received')
+				->join('purchase_or_sell as s', 'p.people_id', '=', 's.supplier_id')
+				->join('total_amount as t', 's.invoice_number', '=', 't.invoice_number')
+				->get();
+		}
+		// return $isPaid;
 
 		$total_amount = DB::table('total_amount')->get();
+
 		$amount_paid =
 			DB::table('transactions')
 			->select('invoice_number', DB::raw('sum(total_amount) as total_paid'))
@@ -233,12 +262,8 @@ class purchase extends payment
 	//inital funciton, this function is used for editing a purchase... this function will send the existing data according to the invoice number so that old data can be read and update if needed.
 	function edit_purchase(Request $req)
 	{
-
-
 		//this will get all the supplier list for the autocomplete
 		$supplier = DB::table('people')->where('type', '=', 'Supplier')->get();
-
-
 
 		//get the product list for autocomplete
 		$products = DB::table('products as p')
@@ -257,18 +282,13 @@ class purchase extends payment
 			->join('brand as b', 'b.brand_id', '=', 'p.brand_id')
 			->get();
 
-
-
-
 		//get all the serial for duplication serial verification
-
 		$serial = DB::table('serial_number')
 			->select('invoice_number_purchase', 'invoice_number_sell', 'product_id', 'serial_number', 'status')
 			->get();
 
 		//get warehouse list for autocomplete
 		$warehouse = DB::table('warehouse')->get();
-
 
 		$serial_cart = DB::table('serial_number')
 			->where('invoice_number_purchase', '=', $req->invoice_number)
