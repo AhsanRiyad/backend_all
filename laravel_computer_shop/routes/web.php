@@ -102,3 +102,9 @@ Route::get('/get_invoice_info/{invoice_number}', 'payment@get_invoice_info');
 //this route will send the invoice pdf file to download
 Route::get('/download_inovice_pdf/{invoice_number}', 'payment@download_inovice_pdf');
 
+
+
+
+
+//warehouse
+Route::get('/getWarehouse/dropDown', 'dropDown@getWarehouse');
