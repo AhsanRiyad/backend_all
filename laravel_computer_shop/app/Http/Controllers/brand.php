@@ -31,15 +31,12 @@ class brand extends Controller
 
 			return $arrayData;
 		}
-		
-
 	}
 
 	function test(Request $request){
 
-
-
-		return 'in the laravel';
+		return $request->header('name');
+		// return 'in the laravel';
 
 
 	}

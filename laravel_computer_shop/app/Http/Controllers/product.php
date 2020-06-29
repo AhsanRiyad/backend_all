@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use DateTime;
 
 class product extends Controller
 {
@@ -31,7 +32,6 @@ class product extends Controller
 
 		$arrayData['product'] = $products;
 
-
 		return $arrayData;
 
 		// $users = DB::table('users')
@@ -40,14 +40,11 @@ class product extends Controller
 		// ->select('users.*', 'contacts.phone', 'orders.price')
 		// ->get();
 
-
-
 		// return '';
 
 	}
 	function get_category_brand_product_code()
 	{
-
 		$info['products'] =
 			DB::table('products')
 			->get();
@@ -83,11 +80,13 @@ class product extends Controller
 		$product_info = $request->products_info;
 		$product_info['product_code'] = $code['product_code'][0]->c;
 
+		$product_info['createdBy'] = $request->header('employeeId');
+		$product_info['createdAt'] = new DateTime();
+
 		//insert to db
 		DB::table('products')
 			->insert($product_info);
 
-		
 		return $product_info;
 	}
 	function edit_product(Request $request)

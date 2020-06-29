@@ -14,8 +14,6 @@ class auth extends Controller
         DB::table('users_registration')
         ->where([ ['email' , '=' , $request->email] , ['password', '=',  md5($request->password) ]  ])
         ->count();
-        
-
 
         if($isUserExists == 1){
             return DB::table('users_registration')

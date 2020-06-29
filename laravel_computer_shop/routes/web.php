@@ -103,8 +103,17 @@ Route::get('/get_invoice_info/{invoice_number}', 'payment@get_invoice_info');
 Route::get('/download_inovice_pdf/{invoice_number}', 'payment@download_inovice_pdf');
 
 
+//otherApi
+//serials
+Route::get('/getAllSerials', 'otherApi@getAllSerials');
 
 
 
+//dropDown
 //warehouse
 Route::get('/getWarehouse/dropDown', 'dropDown@getWarehouse');
+//supplier
+Route::get('/getSupplier/dropDown', 'dropDown@getSupplier');
+//products
+Route::get('/getProducts/dropDown', 'dropDown@getProducts');
+
