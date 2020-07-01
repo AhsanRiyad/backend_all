@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class People extends Model
+class Transaction extends Model
 {
     //
-    protected $table = 'people';
-    protected $primaryKey = 'people_id';
-    public $timestamps = true;
-    public $incrementing = true;
+    // protected $table = 'purchase_or_sell';
+    protected $primaryKey = 'transaction_id';
+    // public $timestamps = true;
+    // public $incrementing = false;
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
@@ -30,10 +30,14 @@ class People extends Model
         return $this->belongsTo('App\People', 'updatedBy', 'people_id');
     }
 
-    public function transaction()
+    public function invoice()
     {
-        return $this->hasMany('App\transaction', 'invoice_number');
+        return $this->belongsTo('App\invoice', 'invoice_number', 'invoice_number');
     }
 
+    public function people()
+    {
+        return $this->belongsTo('App\people', 'seller_or_customer_id', 'people_id');
+    }
 
 }

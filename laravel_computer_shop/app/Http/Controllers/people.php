@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-
 class people extends Controller
 {
-
 
 	function get_people(Request $req)
 	{

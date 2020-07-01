@@ -117,3 +117,8 @@ Route::get('/getSupplier/dropDown', 'dropDown@getSupplier');
 //products
 Route::get('/getProducts/dropDown', 'dropDown@getProducts');
 
+
+
+
+// test
+Route::get('/testingModel', 'test@test');
