@@ -10,6 +10,7 @@ use App\purchase_or_sell;
 use App\sell_or_purchase_details;
 use App\serial_number;
 use App\invoice;
+use Carbon\Carbon;
 
 class test extends Controller
 {
@@ -71,5 +72,9 @@ class test extends Controller
         // return $t;
 
         // return $people;
+
+        // timeStamp
+        // return Carbon::now()->toDateTimeString();
+        // return \Carbon\Carbon::now()->toDateTimeString()
     }
 }
