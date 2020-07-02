@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Transaction extends Model
 {
@@ -14,6 +15,13 @@ class Transaction extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+
+    public function __construct(array $attributes = [], Request $request)
+    {
+        //parent::__construct($name, $color);
+        parent::__construct($attributes);
+        echo "in the constructor child";
+    }
 
     /* public function products()
     {
@@ -40,4 +48,17 @@ class Transaction extends Model
         return $this->belongsTo('App\people', 'seller_or_customer_id', 'people_id');
     }
 
+    public function created(Request $request)
+    {
+        $this->createdBy = $request->header('employeeId');
+        // parent::save();
+        $this->save();
+    }
+
+    public function updated(Request $request)
+    {
+        $this->updatedBy = $request->header('employeeId');
+        // parent::save();
+        $this->save();
+    }
 }

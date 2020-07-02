@@ -10,8 +10,6 @@ class people extends Controller
 
 	function get_people(Request $req)
 	{
-
-
 		$people = DB::table('people')->get();
 		$arrayData['people'] = $people;
 
