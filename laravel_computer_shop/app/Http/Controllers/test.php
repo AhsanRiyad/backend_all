@@ -17,7 +17,8 @@ class test extends Controller
     function test()
     {
         // to gell all results
-        $people = People::all();
+        /*   $people = People::find(3);
+        return $people->createdByM; */
 
         /* $people = People::where('name', 'riyad')
         ->take(10)
@@ -70,6 +71,28 @@ class test extends Controller
         $brand = Product::find(8)->brand_id;
         return $brand; */
         // return $t;
+
+
+        //array exmaple
+        /* 
+        $brand = Product::with(['brand', 'category'])->find(8);
+        return $brand; */
+
+        /* 
+        $brand = Product::with(['brand'])->get();
+        return $brand; */
+        /* 
+        $People = People::with('transaction')->find(3);
+        return $People->getRelations(); */
+
+        /* 
+        $People = People::with('transaction')->find(3);
+        return $People; */
+
+        /*         
+        $People = People::with('createdBy')->find(3);
+        return $People;
+        */
 
         // return $people;
 

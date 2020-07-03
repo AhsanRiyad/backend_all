@@ -32,7 +32,7 @@ class People extends Model
 
     public function transaction()
     {
-        return $this->hasMany('App\transaction', 'invoice_number');
+        return $this->hasMany('App\transaction', 'seller_or_customer_id');
     }
 
 

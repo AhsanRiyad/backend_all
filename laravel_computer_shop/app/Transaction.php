@@ -21,12 +21,12 @@ class Transaction extends Model
       'updatedAt' => 1   
     ]; */
 
-    public function __construct(array $attributes = [], Request $request)
+    /* public function __construct(array $attributes = [], Request $request)
     {
         //parent::__construct($name, $color);
         parent::__construct($attributes);
         echo "in the constructor child";
-    }
+    } */
 
     /* public function products()
     {
@@ -48,12 +48,12 @@ class Transaction extends Model
         return $this->belongsTo('App\invoice', 'invoice_number', 'invoice_number');
     }
 
-    public function people()
+    public  function people()
     {
         return $this->belongsTo('App\people', 'seller_or_customer_id', 'people_id');
     }
 
-    public function created(Request $request)
+   /*  public function created(Request $request)
     {
         $this->createdBy = $request->header('employeeId');
         // parent::save();
@@ -65,5 +65,5 @@ class Transaction extends Model
         $this->updatedBy = $request->header('employeeId');
         // parent::save();
         $this->save();
-    }
+    } */
 }

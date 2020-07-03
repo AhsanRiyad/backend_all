@@ -24,7 +24,7 @@ class Product extends FormRequest
     public function rules()
     {
         return [
-            //
+            //a
         ];
     }
 }
