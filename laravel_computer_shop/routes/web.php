@@ -116,6 +116,10 @@ Route::get('/getWarehouse/dropDown', 'dropDown@getWarehouse');
 Route::get('/getSupplier/dropDown', 'dropDown@getSupplier');
 //products
 Route::get('/getProducts/dropDown', 'dropDown@getProducts');
+//categories
+Route::get('/getCategories/dropDown', 'dropDown@getCategories');
+//brand
+Route::get('/getBrands/dropDown', 'dropDown@getBrands');
 
 
 

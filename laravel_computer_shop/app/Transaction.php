@@ -16,6 +16,11 @@ class Transaction extends Model
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
 
+    // default value
+    /* protected $attributes = [
+      'updatedAt' => 1   
+    ]; */
+
     public function __construct(array $attributes = [], Request $request)
     {
         //parent::__construct($name, $color);

@@ -4,23 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Category;
+use App\warehouse;
+use App\brand;
+use App\people;
 
 class dropDown extends Controller
 {
     //
     function getWarehouse(){
-        $wareHouse = 
-        DB::table('warehouse')
-        ->get();
-        return $wareHouse;
+       /*  $categories = 
+        DB::table('category')
+        ->get(); */
+        $warehouse = warehouse::all();
+        return $warehouse;
+    }
+
+    function getBrands(){
+       /*  $categories = 
+        DB::table('category')
+        ->get(); */
+        $Brand = Brand::all();
+        return $Brand;
+    }
+
+    function getCategories(){
+        $categories = category::all();
+        return $categories;
     }
 
     function getSupplier(){
         $suplier = 
-        DB::table('people')
-        ->where('type', 'supplier')
-        ->get();
-
+        people::where('type', 'supplier')->get();
         return $suplier;
     }
 

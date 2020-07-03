@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2020 at 09:43 PM
+-- Generation Time: Jul 03, 2020 at 11:09 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -530,6 +530,18 @@ CREATE TABLE `all_info_together` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `amount_paid`
+-- (See below for the actual view)
+--
+CREATE TABLE `amount_paid` (
+`invoice_number` varchar(200)
+,`paying_or_receiving` varchar(100)
+,`paid_or_received` double(19,2)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `brand`
 --
 
@@ -544,10 +556,7 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`brand_id`, `brand_name`, `brand_description`) VALUES
-(1, 'Lenovo2', 'test'),
-(2, 'HP', 'test'),
-(3, 'Computer Soruce2', 'test'),
-(4, 'com', '1236erf');
+(1, 'HP', '14 inch');
 
 -- --------------------------------------------------------
 
@@ -566,9 +575,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`category_id`, `category_name`, `category_description`) VALUES
-(1, 'Monitorte', 'arefreafreaf'),
-(2, 'Storagets f', 'computer storage'),
-(3, 'test', 'test');
+(1, 'Monitor', 'lcd');
 
 -- --------------------------------------------------------
 
@@ -653,29 +660,20 @@ CREATE TABLE `people` (
   `post_code` varchar(30) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `type` varchar(40) DEFAULT NULL,
-  `who_is_adding` varchar(100) DEFAULT NULL
+  `who_is_adding` varchar(100) DEFAULT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email`, `post_code`, `address`, `type`, `who_is_adding`) VALUES
-(24, 'Ahsan f', 'Riyad', '01818111458', 'riyad298@gmail.com', '1300', 'House: 156, Road: 4, Block:B, Bashundhara R/A ff ref', 'Supplier', NULL),
-(25, 'Zobaida', 'Taher Mahal', '01793138099', 'tz.maliha@gmail.com', '390022', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', NULL),
-(26, 'Tahera', 'arferfa', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Supplier', 'admin'),
-(27, 'Riyad', 'farefaerfearf', '01919448787', 'riyad298@gmail.com', '32004', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', 'admin'),
-(28, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(29, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(30, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(31, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(32, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(33, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(34, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(35, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(36, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(37, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL),
-(38, 'erafe', 'ferf', '01919448787', 'riyad298@gmail.com', '3200', 'House: 156, Road: 4, Block:B, Bashundhara R/A', 'Customer', NULL);
+INSERT INTO `people` (`people_id`, `full_name`, `company_name`, `mobile`, `email`, `post_code`, `address`, `type`, `who_is_adding`, `createdBy`, `updatedBy`, `createdAt`) VALUES
+(1, 'Walk In Customer', 'Walk In Customer', '01919448787', 'riyad298@gmail.com', '5600', 'Kurigram', 'Customer', NULL, NULL, NULL, NULL),
+(2, 'Walk In Supplier', 'Walk In Supplier', '01919448787', 'riyad298@gmail.com', '5600', 'Kurigram', 'Customer', NULL, NULL, NULL, NULL),
+(3, 'Riyad', 'Smart Sells', '01824886880', 'riyad298@yahoo.com', '56000', 'fff', 'Supplier', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -697,36 +695,28 @@ CREATE TABLE `products` (
   `product_details` varchar(500) DEFAULT NULL,
   `warranty_days` int(100) DEFAULT NULL,
   `having_serial` tinyint(1) DEFAULT NULL,
-  `who_is_adding` varchar(100) DEFAULT NULL
+  `who_is_adding` varchar(100) DEFAULT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `selling_quantity`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`) VALUES
-(1, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(2, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(3, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(4, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(5, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(6, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(7, 'Ram For computer 22ff', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset referf arfaerf', 400, 1, 'admin'),
-(8, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(9, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, 'admin'),
-(10, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(11, 'Ram For computer f frfaerferf', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset ferfe arfaerf', 400, 1, NULL),
-(12, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(13, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(14, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(15, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(16, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(17, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(18, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(19, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(20, 'Ram For computer yyyy', 100002, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'testttt arferf fearf', 400, 1, NULL),
-(21, 'Ram For computer f', 100001, 2, 2, 'Piece', 1, 0.00, 0.00, 10, 'tset', 400, 1, NULL),
-(22, 'Riyad', 100005, 1, 2, 'Piece', 1, 0.00, 20.00, 10, 'tesg', 365, 1, NULL);
+INSERT INTO `products` (`p_id`, `product_name`, `product_code`, `brand_id`, `category_id`, `product_unit`, `selling_quantity`, `purchase_cost`, `selling_price`, `alert_quantity`, `product_details`, `warranty_days`, `having_serial`, `who_is_adding`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(1, 'LCD Tv', 10000, 1, 1, 'Piece', 1, 100.00, 200.00, 10, '18 inch', 365, 1, NULL, 1, NULL, NULL, NULL),
+(2, 'test', 10001, 1, 1, 'Piece', 1, 44.00, 44.00, 44, '44', 44, 1, NULL, 1, NULL, NULL, NULL),
+(3, 'hard disk', 10002, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'test rfff', 365, 1, NULL, 1, NULL, NULL, NULL),
+(4, 'taaaf', 10003, 1, 1, 'Piece', 1, 200.00, 300.00, 10, 'test', 365, 1, NULL, 1, NULL, NULL, NULL),
+(5, 'jjkk grtsg', 10004, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'are arfref', 365, 1, NULL, 1, NULL, NULL, NULL),
+(6, 'arfa erf', 10005, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'farefref', 365, 1, NULL, 1, NULL, NULL, NULL),
+(7, 'faferf', 10006, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'aerferf arfaerf', 365, 1, NULL, 1, NULL, NULL, NULL),
+(8, 'faferf rferf', 10007, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'aerferf arfaerf', 365, 1, NULL, 1, NULL, NULL, NULL),
+(9, 'frare aererf aerferf', 10008, 1, 1, 'Piece', 1, 100.00, 200.00, 10, '2666 666', 365, 1, NULL, 1, NULL, NULL, NULL),
+(10, 'tar a rfe', 10009, 1, 1, 'Piece', 1, 100.00, 200.00, 10, 'a rfer', 365, 1, NULL, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -747,16 +737,19 @@ CREATE TABLE `purchase_or_sell` (
   `status` varchar(100) DEFAULT NULL,
   `correction_status` varchar(100) DEFAULT NULL,
   `discount` varchar(100) DEFAULT '0',
-  `biller_id` int(100) DEFAULT NULL
+  `biller_id` int(100) DEFAULT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `purchase_or_sell`
 --
 
-INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `discount`, `biller_id`) VALUES
-(49, '10000', '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.916451', 'arferf', 1, NULL, 24, NULL, 'Received', 'Final', '0', NULL),
-(51, '10001', '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.087148', 'fref', 1, 27, NULL, NULL, 'Sold', 'Final', '0', NULL);
+INSERT INTO `purchase_or_sell` (`id`, `invoice_number`, `date`, `timestamp`, `reference_number`, `warehouse_id`, `customer_id`, `supplier_id`, `type`, `status`, `correction_status`, `discount`, `biller_id`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(20, '10000', '2020-06-26 00:00:00.000000', '2020-06-27 05:54:30.196043', 'fff', 1, NULL, 3, NULL, 'Received', 'Final', '20', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -770,17 +763,19 @@ CREATE TABLE `sell_or_purchase_details` (
   `quantity` float(100,2) DEFAULT NULL,
   `unit_price` float(100,2) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `spd_id` int(100) NOT NULL
+  `spd_id` int(100) NOT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `sell_or_purchase_details`
 --
 
-INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`) VALUES
-(10000, 2, 2.00, 100.00, 'Received', 63),
-(10000, 3, 1.00, 100.00, 'Received', 64),
-(10001, 2, 1.00, 1000.00, 'Sold', 66);
+INSERT INTO `sell_or_purchase_details` (`invoice_number`, `product_id`, `quantity`, `unit_price`, `status`, `spd_id`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(10000, 1, 1.00, 60.00, 'Received', 20, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -794,16 +789,19 @@ CREATE TABLE `serial_number` (
   `invoice_number_sell` varchar(200) DEFAULT NULL,
   `product_id` int(100) DEFAULT NULL,
   `serial_number` varchar(100) DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL
+  `status` varchar(100) DEFAULT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `serial_number`
 --
 
-INSERT INTO `serial_number` (`serial_id`, `invoice_number_purchase`, `invoice_number_sell`, `product_id`, `serial_number`, `status`) VALUES
-(20, '10000', '10001', 2, 'fffffffffffg', 'Sold'),
-(21, '10000', '', 2, 'ffffffffffff', 'Purchase');
+INSERT INTO `serial_number` (`serial_id`, `invoice_number_purchase`, `invoice_number_sell`, `product_id`, `serial_number`, `status`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(20, '10000', NULL, 1, 'farf', 'Purchase', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -854,22 +852,21 @@ CREATE TABLE `transactions` (
   `branch` varchar(100) DEFAULT NULL,
   `check_date` date DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
-  `timestamp` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
+  `timestamp` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `transaction_id`, `invoice_number`, `seller_or_customer_id`, `reference_number`, `total_amount`, `check_or_cash`, `purchase_or_sell`, `paying_or_receiving`, `debit_or_credit`, `advance_or_final`, `bank`, `branch`, `check_date`, `date`, `timestamp`) VALUES
-(62, '1000000', '10000', '24', 'Trans_purchase10000', 300.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:34:05.931694'),
-(64, '1000001', '10001', '27', 'Trans_sell10001', 1000.00, NULL, 'Sell', NULL, 'debit', NULL, NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:54:36.096924'),
-(65, '1000002', '10001', '27', 'affre', 100.00, 'Cash', NULL, 'Receiving', 'credit', 'Final', NULL, NULL, NULL, '2020-04-07 00:00:00.000000', '2020-04-07 13:55:12.879565'),
-(68, '1000003', '10000', '24', '30', 30.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-05-29 00:00:00.000000', '2020-05-29 21:51:43.203599'),
-(69, '1000004', NULL, '25', '55', 100.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-05 00:00:00.000000', '2020-06-05 15:39:48.976489'),
-(70, '1000005', NULL, '25', '55', 55.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-05 00:00:00.000000', '2020-06-05 15:40:01.440514'),
-(71, '1000006', NULL, '25', '444', 444.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-05 00:00:00.000000', '2020-06-05 15:47:44.597764'),
-(72, '1000007', NULL, '24', '44', 100.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-05 00:00:00.000000', '2020-06-05 16:01:05.457489');
+INSERT INTO `transactions` (`id`, `transaction_id`, `invoice_number`, `seller_or_customer_id`, `reference_number`, `total_amount`, `check_or_cash`, `purchase_or_sell`, `paying_or_receiving`, `debit_or_credit`, `advance_or_final`, `bank`, `branch`, `check_date`, `date`, `timestamp`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(1, '1000000', '10000', '3', 'Trans_purchase10000', 48.00, NULL, 'Purchase', NULL, 'credit', NULL, NULL, NULL, NULL, '2020-06-26 00:00:00.000000', '2020-06-26 16:16:35.745645', NULL, NULL, NULL, NULL),
+(3, '1000002', '10000', '3', 'ff', 2.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-26 00:00:00.000000', '2020-06-26 19:45:06.407120', NULL, NULL, NULL, NULL),
+(4, '1000003', '10000', '3', 'ffffa', 2.00, 'Cash', NULL, 'Paying', 'debit', 'Final', NULL, NULL, NULL, '2020-06-27 00:00:00.000000', '2020-06-27 05:53:55.633977', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1062,15 +1059,19 @@ INSERT INTO `verification_info` (`id_v_info`, `email`, `otp`, `forgot_password_c
 CREATE TABLE `warehouse` (
   `id` int(200) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `details` varchar(100) DEFAULT NULL
+  `details` varchar(100) DEFAULT NULL,
+  `createdBy` int(20) DEFAULT NULL,
+  `updatedBy` int(20) DEFAULT NULL,
+  `createdAt` timestamp(6) NULL DEFAULT NULL,
+  `updatedAt` timestamp(6) NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `warehouse`
 --
 
-INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
-(1, 'Hasan Computer1', NULL);
+INSERT INTO `warehouse` (`id`, `name`, `details`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`) VALUES
+(1, 'Hasan Computer1', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1080,6 +1081,15 @@ INSERT INTO `warehouse` (`id`, `name`, `details`) VALUES
 DROP TABLE IF EXISTS `all_info_together`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `all_info_together`  AS  select concat(`ur`.`first_name`,' ',`ur`.`last_name`) AS `full_name`,`ur`.`first_name` AS `first_name`,`ur`.`last_name` AS `last_name`,`ur`.`name_bangla` AS `name_bangla`,`ur`.`mobile` AS `mobile`,`ur`.`institution_id` AS `institution_id`,`ur`.`password` AS `password`,`ur`.`registration_date` AS `registration_date`,`ur`.`membership_number` AS `membership_number`,`ui`.`gender` AS `gender`,`ui`.`nid_or_passport` AS `nid_or_passport`,`ui`.`fathers_name` AS `fathers_name`,`ui`.`mother_name` AS `mother_name`,`ui`.`spouse_name` AS `spouse_name`,`ui`.`number_of_children` AS `number_of_children`,`ui`.`profession` AS `profession`,`ui`.`designation` AS `designation`,`ui`.`institution` AS `institution`,`ui`.`blood_group` AS `blood_group`,`ui`.`religion` AS `religion`,`ui`.`date_of_birth` AS `date_of_birth`,`vi`.`id_v_info` AS `id_v_info`,`vi`.`otp` AS `otp`,`vi`.`forgot_password_crypto` AS `forgot_password_crypto`,`vi`.`status` AS `status`,`vi`.`email_verification_status` AS `email_verification_status`,`vi`.`change_request` AS `change_request`,`vi`.`change_request_time` AS `change_request_time`,`vi`.`type` AS `type`,`vi`.`visibility` AS `visibility`,`vi`.`completeness` AS `completeness`,`vi`.`last_verified_info` AS `last_verified_info`,`ur`.`id` AS `id`,`uu`.`recent_photo` AS `recent_photo`,`uu`.`old_photo` AS `old_photo`,`ur`.`email` AS `ur_email`,`vi`.`email` AS `vi_email`,`uu`.`email` AS `uu_email`,`ui`.`email` AS `ui_email`,`ua`.`email` AS `email`,`ua`.`users_address_id` AS `users_address_id`,`ua`.`present_line1` AS `present_line1`,`ua`.`present_line2` AS `present_line2`,`ua`.`present_police_station` AS `present_police_station`,`ua`.`present_district` AS `present_district`,`ua`.`present_post_code` AS `present_post_code`,`ua`.`present_post_office_name` AS `present_post_office_name`,`ua`.`present_country` AS `present_country`,`ua`.`parmanent_line1` AS `parmanent_line1`,`ua`.`parmanent_line2` AS `parmanent_line2`,`ua`.`parmanent_police_station` AS `parmanent_police_station`,`ua`.`parmanent_district` AS `parmanent_district`,`ua`.`parmanent_post_code` AS `parmanent_post_code`,`ua`.`parmanent_post_office_name` AS `parmanent_post_office_name`,`ua`.`parmanent_country` AS `parmanent_country`,`ua`.`second_citizenship_country` AS `second_citizenship_country` from ((((`users_registration` `ur` join `users_info` `ui`) join `users_address` `ua`) join `verification_info` `vi`) join `user_uploads` `uu`) where `uu`.`email` = `ur`.`email` and `ui`.`email` = `ur`.`email` and `ua`.`email` = `ur`.`email` and `vi`.`email` = `ur`.`email` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `amount_paid`
+--
+DROP TABLE IF EXISTS `amount_paid`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `amount_paid`  AS  select `transactions`.`invoice_number` AS `invoice_number`,`transactions`.`paying_or_receiving` AS `paying_or_receiving`,sum(`transactions`.`total_amount`) AS `paid_or_received` from `transactions` group by `transactions`.`invoice_number`,`transactions`.`paying_or_receiving` ;
 
 -- --------------------------------------------------------
 
@@ -1231,13 +1241,13 @@ ALTER TABLE `admin_options`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `brand_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `brand_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `category_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `childrens_info`
@@ -1261,31 +1271,31 @@ ALTER TABLE `log_table`
 -- AUTO_INCREMENT for table `people`
 --
 ALTER TABLE `people`
-  MODIFY `people_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `people_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `p_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `purchase_or_sell`
 --
 ALTER TABLE `purchase_or_sell`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sell_or_purchase_details`
 --
 ALTER TABLE `sell_or_purchase_details`
-  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `spd_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `serial_number`
 --
 ALTER TABLE `serial_number`
-  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `serial_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `social_network`
@@ -1297,7 +1307,7 @@ ALTER TABLE `social_network`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users_address`
